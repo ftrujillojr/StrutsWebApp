@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" 
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <!-- result-types, interceptors, default-interceptor-ref, default-action-ref, default-class-ref, global-results, global-exception-mappings, action*) -->
+        
+    <package name="my-common-default" extends="struts-default">
+<!--    
+        <interceptors>
+            <interceptor class="org.yourorg.yourapp.interceptors.NoCacheInterceptor" name="noCacheInterceptor"></interceptor>
+            <interceptor class="org.yourorg.yourapp.interceptors.LoginInterceptor" name="loginInterceptor"></interceptor>
+           
+            <interceptor-stack name="loginStack">
+                <interceptor-ref name="loginInterceptor" />
+                <interceptor-ref name="defaultStack" />
+                <interceptor-ref name="noCacheInterceptor" />
+            </interceptor-stack>
+            
+            <interceptor-stack name="myStack">
+                <interceptor-ref name="defaultStack" />
+                <interceptor-ref name="noCacheInterceptor" />
+            </interceptor-stack>
+        </interceptors>
+-->
+        
+
+        <default-interceptor-ref name="defaultStack"></default-interceptor-ref>
+<!--    
+        <default-interceptor-ref name="myStack"></default-interceptor-ref>
+        <default-interceptor-ref name="loginStack"></default-interceptor-ref>
+-->
+        
+        <default-action-ref name="noAction"/>
+        
+        <global-results>
+            <result name="exception">/error/exception.jsp</result>
+            <result name="runtime_exception">/error/runtime_exception.jsp</result>
+            <result name="error">/error/error.jsp</result>
+            <result name="login">/login.jsp</result>
+        </global-results>
+ 
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="exception"></exception-mapping>
+            <exception-mapping exception="java.lang.Error" result="error"></exception-mapping>
+            <exception-mapping exception="java.lang.RuntimeException" result="runtime_exception"></exception-mapping>
+        </global-exception-mappings>
+
+        <!--  See default-action-ref ABOVE -->
+        <action name="noAction">
+            <interceptor-ref name="defaultStack" />
+            <result name="success">/error/no_action.jsp</result>
+        </action>
+    </package>
+</struts>
+    
