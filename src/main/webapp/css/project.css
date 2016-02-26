@@ -8,6 +8,35 @@
     vertical-align: middle;
 }
 
+.bg-lightgrey {
+    background: #dbdfe5;
+}
+
+.bg-darkgrey {
+    background: #abb1b8;
+}
+
+.bg-babyblue {
+    background: #bee1f7;
+}
+
+.bg-lightorange {
+    background: #fac6a5;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #leftMenu .accordion-group {
     margin-bottom: 0px;
