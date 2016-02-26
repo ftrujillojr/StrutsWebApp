@@ -1,5 +1,4 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
-<%@taglib prefix="sb" uri="/struts-bootstrap-tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%-- This allows HTML5 --%>
@@ -13,8 +12,13 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <%--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>--%>
 
-<%-- This initializes bootstrap plugin. You MUST have jquery defined prior to this tag. --%>
-<sb:head />
+<%-- This initializes bootstrap plugin. You MUST have jquery defined prior. --%>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+<!-- Optional theme -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
 <%-- Load up your project css/js last.  Notice that I use the value stack to get the web context --%>
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
