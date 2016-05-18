@@ -27,7 +27,7 @@
                 </div>
                 <div id="rightLayout" class="col-xs-12 col-sm-10">
                     <%@include file="/partials/actionErrors.jsp" %>
-                
+
                     <h1>Horizontal Form layout</h1>
                     <!-- STEP1 form class form-horizontal -->
                     <form class="form-horizontal">
@@ -38,7 +38,21 @@
                             <div class="col-xs-4">
                                 <input type="email" class="form-control" id="email">
                             </div>
+                            <label for="select_lang" class="control-label col-xs-2 text-right">Software Language:</label>
+                            <div class="col-xs-4">
+                                <select id="select_lang" class="form-control">
+                                    <option value="">-- Choose Language --</option>
+                                    <option value="java">Java</option>
+                                    <option value="javascript">JavaScript</option>
+                                    <option value="jquery">jQuery</option>
+                                    <option value="cpp">C++</option>
+                                    <option value="perl">Perl</option>
+                                    <option value="ruby">Ruby</option>
+                                    <option value="python">Python</option>
+                                </select>
+                            </div>
                         </div>
+
                         <div class="form-group">
                             <label for="pwd" class="control-label col-xs-2 text-right">Password:</label>
                             <div class="col-xs-4">
