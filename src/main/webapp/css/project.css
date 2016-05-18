@@ -1,4 +1,35 @@
-/* project.css */
+/* project.css 
+    https://css-tricks.com/snippets/css/named-colors-and-hex-equivalents/
+
+*/
+
+#bottomLayout {
+    /*      Top Right Bottom Left */ 
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    background: #fac6a5;
+}
+
+#topLayout {
+    /*      Top Right Bottom Left */ 
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    background-color: #bee1f7;
+}
+
+#leftLayout {
+    /*      Top Right Bottom Left */ 
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    background: #dbdfe5;
+}
+
+#rightLayout {
+    /*      Top Right Bottom Left */ 
+    margin: 0px 0px 0px 0px;
+    padding: 10px 10px 10px 10px;
+    background: #abb1b8;
+}
 
 .form-inline .form-group input {
     width: auto; 
@@ -7,35 +38,6 @@
 .align-middle {
     vertical-align: middle;
 }
-
-.bg-lightgrey {
-    background: #dbdfe5;
-}
-
-.bg-darkgrey {
-    background: #abb1b8;
-}
-
-.bg-babyblue {
-    background: #bee1f7;
-}
-
-.bg-lightorange {
-    background: #fac6a5;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #leftMenu .accordion-group {
