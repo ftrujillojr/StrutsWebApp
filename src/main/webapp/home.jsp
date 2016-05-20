@@ -13,7 +13,9 @@
 
 <h1>Horizontal Form layout</h1>
 <!-- STEP1 form class form-horizontal -->
-<form class="form-horizontal" action="javascript:alert('Simulate for submission');">
+
+
+<form class="form-horizontal" method="POST" action="${pageContext.request.contextPath}/ns2/dude">
     <!-- STEP2 wrap labels and form controls in div with class form-group -->
 
     <div class="form-group">
@@ -65,7 +67,7 @@
     <div class="form-group">
         <label for="email" class="control-label col-xs-2 text-right">Email address:</label>
         <div class="col-xs-4">
-            <input type="email" class="form-control" id="email" required>
+            <input type="email" class="form-control" id="email">
         </div>
 
         <label for="select_lang" class="control-label col-xs-2 text-right">Software Language:</label>
@@ -86,7 +88,7 @@
     <div class="form-group">
         <label for="pwd" class="control-label col-xs-2 text-right">Password:</label>
         <div class="col-xs-4">
-            <input type="password" class="form-control" id="password" required>
+            <input type="password" class="form-control" id="password">
         </div>
     </div>
 
