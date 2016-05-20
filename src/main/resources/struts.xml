@@ -7,10 +7,19 @@
     <include file="my_common_default.xml"></include>
     
     <package name="my-top-pkg" namespace="/" extends="my-common-default">
+        
+        <result-types>
+            <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
+        </result-types>
+
+      <action name="*Menu" method="{1}" class="org.yourorg.yourapp.controllers.TilesExampleAction">
+         <result name="tiger" type="tiles">tiger</result>
+         <result name="lion" type="tiles">lion</result>
+      </action>
+        
+        
         <action name="">
-            <!-- 
                   <result name="success" type="redirect" >/login</result>
-            -->
             <result name="success" >/home.jsp</result>
         </action>
 <!--       
@@ -24,12 +33,12 @@
             <result name="input">/login.jsp</result>
         </action>
         
-        <action name="logout" class="org.yourorg.yourapp.controllers.LoginAction" method="logOut">
-            <interceptor-ref name="defaultStack" />
-            <result name="success">/login.jsp</result>
-            <result name="input">/login.jsp</result>
-        </action>        
--->
+                <action name="logout" class="org.yourorg.yourapp.controllers.LoginAction" method="logOut">
+                    <interceptor-ref name="defaultStack" />
+                    <result name="success">/login.jsp</result>
+                    <result name="input">/login.jsp</result>
+                </action>        
+        -->
     </package>
 </struts>        
     

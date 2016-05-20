@@ -24,7 +24,19 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.0</version>
-        </dependency>    
+        </dependency>
+        <!--Apache Tiles-->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+        <!--Apache Tiles-->
+        <dependency>
+            <groupId>commons-digester</groupId>
+            <artifactId>commons-digester</artifactId>
+            <version>2.1</version>
+        </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
@@ -34,6 +46,12 @@
         <dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts2-core</artifactId>
+            <version>2.3.24.1</version>
+        </dependency>
+        <!--Apache Tiles-->
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-tiles-plugin</artifactId>
             <version>2.3.24.1</version>
         </dependency>
         <dependency>
@@ -56,17 +74,18 @@
             <artifactId>struts2-json-plugin</artifactId>
             <version>2.3.24.1</version>
         </dependency>
+        <!-- Apache Tiles this will get ALL apache tiles jars. -->
+        <dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-extras</artifactId>
+            <version>3.0.5</version>
+        </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>1.4</version>
         </dependency>
-<!--        <dependency>
-            <groupId>com.jgeppert.struts2.bootstrap</groupId>
-            <artifactId>struts2-bootstrap-plugin</artifactId>
-            <version>2.0.4</version>
-        </dependency>-->
-     </dependencies>
+    </dependencies>
 
     <build>
         <plugins>
@@ -117,7 +136,7 @@
                     </execution>
                 </executions>
             </plugin>
-      </plugins>
+        </plugins>
     </build>
 
 </project>
