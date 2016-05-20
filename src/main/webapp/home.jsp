@@ -171,7 +171,7 @@
 <script type="text/javascript">
     $(document).ready(function ($) {
         // your code here.
-        alert("Woo Hoo Dude!!");
+        //alert("Woo Hoo Dude!!");
     });
 
     $(window).load(function () {
