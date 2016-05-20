@@ -5,28 +5,8 @@
    "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-
-    <definition name="baseLayout" template="/tiles_example/baseLayout.jsp">
-        <put-attribute name="title"  value="Template"/>
-        <put-attribute name="banner" value="/tiles_example/banner.jsp"/>
-        <put-attribute name="menu"   value="/tiles_example/menu.jsp"/>
-        <put-attribute name="body"   value="/tiles_example/body.jsp"/>
-        <put-attribute name="footer"   value="/tiles_example/footer.jsp"/>
-    </definition>
-   
-    <definition name="tiger" extends="baseLayout">
-        <put-attribute name="title"  value="Tiger"/>
-        <put-attribute name="body"   value="/tiles_example/tiger.jsp"/>      
-    </definition>
-
-    <definition name="lion" extends="baseLayout">
-        <put-attribute name="title"  value="Lion"/>
-        <put-attribute name="body"   value="/tiles_example/lion.jsp"/>      
-    </definition>
-    
-    
     <!-- 
-          Make sure template jsp file has SAME attribute names your put-attributes
+          Make sure template jsp file has SAME attribute names your put-attribute names.
           Also, from struts.xml namespace for action.  In this case namespace => /, so
           all template and values MUST be relative to namespace.  
     -->
@@ -38,10 +18,6 @@
         <put-attribute name="bottomLayout"   value="/tiles/bottomLayout.jsp"/>
     </definition>
    
-    <definition name="testLayout" extends="bootstrapLayout">
-        <put-attribute name="title"  value="Test Layout"/>
-    </definition>
-    
     <definition name="home" extends="bootstrapLayout">
         <put-attribute name="title"  value="Home (tiles)"/>
         <put-attribute name="leftLayout"   value="/partials/leftNav.jsp"/>

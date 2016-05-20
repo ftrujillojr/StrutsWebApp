@@ -15,7 +15,6 @@
 
         <h4>Exception Details: <s:property value="exceptionStack" /></h4> 
 
-        <%@include file="/partials/bodySection.jsp" %>
         <script type="text/javascript">
             $(document).ready(function ($) {
                 // your code here.

@@ -19,9 +19,6 @@
         <param-value>
             /WEB-INF/tiles.xml
         </param-value>
-<!--        <param-value>
-            /WEB-INF/tiles_example.xml
-        </param-value>-->
     </context-param>
 
     <listener>

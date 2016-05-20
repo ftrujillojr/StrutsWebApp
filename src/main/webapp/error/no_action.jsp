@@ -11,7 +11,6 @@
 
         <h1>No Action could be routed</h1>
 
-        <%@include file="/partials/bodySection.jsp" %>
         <script type="text/javascript">
             $(document).ready(function ($) {
                 // your code here.
