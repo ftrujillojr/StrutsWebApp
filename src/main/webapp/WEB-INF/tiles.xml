@@ -10,16 +10,16 @@
           Also, from struts.xml namespace for action.  In this case namespace => /, so
           all template and values MUST be relative to namespace.  
     -->
-    <definition name="bootstrapLayout" template="/tiles/bootstrapLayout.jsp">
-        <put-attribute name="title"  value="Template"/>
+    <definition name="classicLayout" template="/tiles/classicLayoutTemplate.jsp">
+        <put-attribute name="title" value="Template"/>
         <put-attribute name="topLayout" value="/tiles/topLayout.jsp"/>
-        <put-attribute name="leftLayout"   value="/tiles/leftLayout.jsp"/>
-        <put-attribute name="rightLayout"   value="/tiles/rightLayout.jsp"/>
-        <put-attribute name="bottomLayout"   value="/tiles/bottomLayout.jsp"/>
+        <put-attribute name="leftLayout" value="/tiles/leftLayout.jsp"/>
+        <put-attribute name="rightLayout" value="/tiles/rightLayout.jsp"/>
+        <put-attribute name="bottomLayout" value="/tiles/bottomLayout.jsp"/>
     </definition>
    
-    <definition name="home" extends="bootstrapLayout">
-        <put-attribute name="title"  value="Home (tiles)"/>
+    <definition name="home" extends="classicLayout">
+        <put-attribute name="title"  value="Home"/>
         <put-attribute name="leftLayout"   value="/partials/leftNav.jsp"/>
         <put-attribute name="rightLayout"   value="/home.jsp"/>
     </definition>
