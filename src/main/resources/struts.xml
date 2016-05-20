@@ -12,6 +12,11 @@
             <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
         </result-types>
 
+        <action name="test" class="org.yourorg.yourapp.controllers.TestBootstrapLayoutAction">
+             <result name="success" type="tiles">testLayout</result>
+        </action>
+        
+        
       <action name="*Menu" method="{1}" class="org.yourorg.yourapp.controllers.TilesExampleAction">
          <result name="tiger" type="tiles">tiger</result>
          <result name="lion" type="tiles">lion</result>
@@ -19,10 +24,10 @@
         
         
         <action name="">
-                  <result name="success" type="redirect" >/login</result>
-            <result name="success" >/home.jsp</result>
+            <result name="success" type="tiles">home</result>
         </action>
-<!--       
+
+        <!--       
         <action name="login_page" class="org.yourorg.yourapp.controllers.LoginAction" method="noAction">
             <result name="success">/login.jsp</result>
         </action>

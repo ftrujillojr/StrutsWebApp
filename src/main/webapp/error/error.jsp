@@ -10,7 +10,6 @@
         <%@include file="/partials/actionErrors.jsp" %>
 
         <p>You must provide your own ERROR content here</p>
-
         <%@include file="/partials/bodySection.jsp" %>
         <script type="text/javascript">
             $(document).ready(function ($) {
@@ -24,4 +23,3 @@
         </script>
     </body>
 </html>
-    

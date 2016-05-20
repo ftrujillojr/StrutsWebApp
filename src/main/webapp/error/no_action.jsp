@@ -9,7 +9,7 @@
     <body>
         <%@include file="/partials/actionErrors.jsp" %>
 
-        <p>You must provide your own ERROR content here</p>
+        <h1>No Action could be routed</h1>
 
         <%@include file="/partials/bodySection.jsp" %>
         <script type="text/javascript">
