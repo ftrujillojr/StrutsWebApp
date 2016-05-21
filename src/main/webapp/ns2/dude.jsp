@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <h1>DUDE!</h1>
 
-<form class="form-horizontal" method="POST" action="${pageContext.request.contextPath}/ns2/home">
+<form class="form-horizontal" method="POST" action="${pageContext.request.contextPath}/home">
     
     <div class="form-group">
         <div class="col-xs-2">

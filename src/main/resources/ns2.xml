@@ -2,23 +2,26 @@
 <!DOCTYPE struts PUBLIC
     "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
     "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<!--
+https://struts.apache.org/docs/result-types.html
+
+chain, freemarker, dispatcher, httpheader, redirect, redirectAction, stream, xslt, tiles, json    
+
+<action name="home" method="noAction" class="org.yourorg.yourapp.controllers.NoAction">
+-->
  
 <struts>
     <include file="my_common_default.xml"></include>
     
     <package name="sample-pkg" namespace="/ns2" extends="my-common-default">
         
-        <result-types>
-            <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
-        </result-types>
-        
-        <action name="home">
-            <result name="success" type="tiles">home</result>
-        </action>
-        
         <action name="dude">
             <result name="success" type="tiles">dude</result>
-<!--            <result name="success" type="redirect">/ns2/dude.jsp</result>-->
+        </action>
+        
+        <action name="home" method="noAction" class="org.yourorg.yourapp.controllers.NoAction">
+            <result name="success" type="tiles">ns2_home</result>
         </action>
         
     </package>

@@ -24,6 +24,12 @@
         <put-attribute name="rightLayout"   value="/home.jsp"/>
     </definition>
     
+    <definition name="ns2_home" extends="classicLayout">
+        <put-attribute name="title"  value="Home"/>
+        <put-attribute name="leftLayout"   value="/partials/leftNav.jsp"/>
+        <put-attribute name="rightLayout"   value="/ns2/home.jsp"/>
+    </definition>
+    
     <definition name="dude" extends="classicLayout">
         <put-attribute name="title"  value="Dude"/>
         <put-attribute name="leftLayout"   value="/partials/leftNav.jsp"/>

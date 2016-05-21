@@ -9,12 +9,12 @@
     
     <package name="my-top-pkg" namespace="/" extends="my-common-default">
         
-        <result-types>
-            <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
-        </result-types>
+        <action name="home" method="noAction" class="org.yourorg.yourapp.controllers.NoAction">
+            <result name="success" type="tiles">home</result>
+        </action>
         
         <action name="">
-            <result name="success" type="tiles">home</result>
+            <result name="success" type="redirect">/home</result>
         </action>
         
     </package>

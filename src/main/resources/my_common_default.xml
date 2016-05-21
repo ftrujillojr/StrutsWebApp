@@ -6,6 +6,10 @@
     <!-- result-types, interceptors, default-interceptor-ref, default-action-ref, default-class-ref, global-results, global-exception-mappings, action*) -->
         
     <package name="my-common-default" extends="struts-default">
+        <result-types>
+            <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
+        </result-types>
+
 <!--    
         <interceptors>
             <interceptor class="org.yourorg.yourapp.interceptors.NoCacheInterceptor" name="noCacheInterceptor"></interceptor>

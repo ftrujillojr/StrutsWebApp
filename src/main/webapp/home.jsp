@@ -18,8 +18,8 @@
 <form class="form-horizontal" method="POST" action="${pageContext.request.contextPath}/ns2/dude">
     <!-- STEP2 wrap labels and form controls in div with class form-group -->
 
-    <div class="form-group">
-        <!-- STEP3 use class control-label on label and  class form-control on form inputs -->
+<!--    <div class="form-group">
+         STEP3 use class control-label on label and  class form-control on form inputs 
         <label for="skill" class="control-label col-xs-2 text-right">Skill Level:</label>
         <div class="col-xs-4">
             <input type="range" class="form-control" id="skill" min="0" max="100" value="0">
@@ -29,12 +29,12 @@
     <div class="form-group">
         <label for="dt" class="control-label col-xs-2 text-right">Date:</label>
         <div class="col-xs-4">
-            <!--  date, time, month, week -->
+              date, time, month, week 
             <input type="date" class="form-control" id="dt">
         </div>
         <label for="tm" class="control-label col-xs-2 text-right">Time:</label>
         <div class="col-xs-4">
-            <!--  date, time, datetime, month, week -->
+              date, time, datetime, month, week 
             <input type="time" class="form-control" id="tm">
         </div>
     </div>
@@ -100,7 +100,7 @@
                 <label><input id="debug" type="checkbox">Debug?</label>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <div class="form-group">
         <div class="col-xs-2">
