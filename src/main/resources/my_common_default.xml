@@ -10,13 +10,13 @@
             <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
         </result-types>
 
-<!--    
+    
         <interceptors>
             <interceptor class="org.yourorg.yourapp.interceptors.NoCacheInterceptor" name="noCacheInterceptor"></interceptor>
-            <interceptor class="org.yourorg.yourapp.interceptors.LoginInterceptor" name="loginInterceptor"></interceptor>
+            <!--<interceptor class="org.yourorg.yourapp.interceptors.LoginInterceptor" name="loginInterceptor"></interceptor>-->
            
             <interceptor-stack name="loginStack">
-                <interceptor-ref name="loginInterceptor" />
+                <!--<interceptor-ref name="loginInterceptor" />-->
                 <interceptor-ref name="defaultStack" />
                 <interceptor-ref name="noCacheInterceptor" />
             </interceptor-stack>
@@ -26,9 +26,8 @@
                 <interceptor-ref name="noCacheInterceptor" />
             </interceptor-stack>
         </interceptors>
--->
-        
 
+        
         <default-interceptor-ref name="defaultStack"></default-interceptor-ref>
 <!--    
         <default-interceptor-ref name="myStack"></default-interceptor-ref>

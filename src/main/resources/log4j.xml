@@ -17,19 +17,19 @@
             <param name="ConversionPattern" value="%p %t %c - %m%n"/> 
         </layout> 
     </appender> 
-  
+<!-- ALL < DEBUG < INFO < WARN < ERROR < FATAL < OFF -->  
     <logger name="com.opensymphony">
-        <level value="DEBUG" />
+        <level value="OFF" />
         <appender-ref ref="consoleAppender" />
         <appender-ref ref="rollingFileAppender" />
     </logger>
     <logger name="org.apache.struts2">
-        <level value="DEBUG" />
+        <level value="OFF" />
         <appender-ref ref="consoleAppender" />
         <appender-ref ref="rollingFileAppender" />
     </logger>
     <root>
-        <priority value="DEBUG"/>
+        <priority value="WARN"/>
         <appender-ref ref="consoleAppender" />
         <appender-ref ref="rollingFileAppender" />
     </root>
