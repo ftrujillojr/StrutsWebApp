@@ -41,7 +41,7 @@
 //                    username: "",
 //                    password: ""
                 }).done(function (response) {                             // Pre jQuery 1.9, this was ,success()
-                    alert("SUCCESS: " + response);
+                    alert("SUCCESS: " + response.email);
                 }).fail(function (jqXHR, textStatus) {                    // Pre jQuery 1.9, this was ,error()
                     var errMsg = "ERROR: " + textStatus;
                     alert(errMsg);
