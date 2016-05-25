@@ -9,6 +9,16 @@
     
     <package name="my-top-pkg" namespace="/" extends="my-common-default">
         
+        <action name="homeJson" method="homeJson" class="org.yourorg.yourapp.controllers.NoAction">
+            <interceptor-ref name="myJsonStack"/>
+            <result name="json" type="json">
+                <!--<param name="enableSMD">true</param>-->
+                <param name="root">emailData</param>
+                <param name="excludeNullProperties">true</param>  
+                <param name="contentType">application/json</param> 
+            </result>
+        </action>
+        
         <action name="home" method="noAction" class="org.yourorg.yourapp.controllers.NoAction">
             <result name="success" type="tiles">home</result>
         </action>

@@ -1,0 +1,7 @@
+curl -ss -i -H "Accept: application/json" -H "Content-Type: application/json" \
+--data '{"emailData":{"email":"ftrujillojr@gmail.com","firstName":"Francis","lastName":"Trujillo"}}' \
+--request POST http://nsglnxdev1.micron.com:8080/StrutsWebApp/homeJson 
+
+
+{"emailData":{"email":"ftrujillojr@gmail.com","firstName":"Francis","lastName":"Trujillo"}}
+{"emailData":{"email":"ftrujillojr@gmail.com","firstName":"Francis","lastName":"Trujillo"}}

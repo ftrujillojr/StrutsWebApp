@@ -12,42 +12,45 @@
 
 <script type="text/javascript">
     $(document).ready(function ($) {
-
         PostExample = {
             jqxhr: null,
             payLoad: function () {
-                var emailData = {
-                    email: "ftrujillojr@gmail.com",
-                    firstName: "Francis",
-                    lastName: "Trujillo"
-                }
-                return "emailData:" + JSON.stringify(emailData);
+                var jsonDataObj = {
+                    emailData: {// This MUST be the same object name in the controller.
+                        email: "ftrujillojr@gmail.com",
+                        firstName: "Francis",
+                        lastName: "Trujillo"
+                    }
+                };
+                return JSON.stringify(jsonDataObj);
             },
             execAjax: function () {
                 PostExample.jqxhr = $.ajax({
-                    async: true, // defaults to true
-                    cache: false, //defaults to true
-                    method: "POST",
-                    url: "${pageContext.request.contextPath}/home",
-                    contentType: "application/json;charset=UTF-8",
-                    data: PostExample.payLoad(),
-                    dataType: 'json', // json, xml, script, jsonp, html, or text
-                    timeout: 5000 // in milliseconds
-//            username: "",
-//            password: ""
-                }).done(function(response) {  // SUCCESS
-                    alert(response);
-                }).fail(function(jqXHR, textStatus) { // ERROR
+                    async: true,                                          // defaults to true
+                    cache: false,                                         //defaults to true
+                    method: "POST",                                       // GET, POST, PUT, PATCH, DELETE
+                    url: "${pageContext.request.contextPath}/homeJson",   // Struts2 route
+                    contentType: "application/json",                      // payload type
+                    dataType: 'json',                                     // Accept <=  json, xml, script, jsonp, html, or text
+                    data: PostExample.payLoad(),                          // string version of Json object
+                    beforeSend: function (req) {
+                        req.setRequestHeader("X-HTTP-Method-Override", "PUT"); // Override method
+                    },
+                    global: false,                                        // Do not fire global handlers if false
+                    timeout: 5000                                         // in milliseconds
+//                    username: "",
+//                    password: ""
+                }).done(function (response) {                             // Pre jQuery 1.9, this was ,success()
+                    alert("SUCCESS: " + response);
+                }).fail(function (jqXHR, textStatus) {                    // Pre jQuery 1.9, this was ,error()
                     var errMsg = "ERROR: " + textStatus;
-                    alert(errMsg); // Do something with errMsg
-                }).always(function(jqXHR, textStatus) { // COMPLETE
+                    alert(errMsg);
+                }).always(function (jqXHR, textStatus) {                  // Pre jQuery 1.9, this was .complete()
                     // run after done() or fail()
                 });
             }
-        }
-
+        };
     });
-
     $(window).load(function () {
         // your code here.
     });

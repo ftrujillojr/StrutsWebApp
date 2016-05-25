@@ -1,5 +1,33 @@
 // generic.js
 
+
+function setAjaxGlobals() {
+    // jqXHR => readyState, status, statusText, responseHTML, responseXML, responseText, getResponseHeader(), statusCode()
+
+    $(document).ajaxComplete(function (event, jqXHR, settings) {
+        var msg = "ALWAYS/COMPLETE:      URL: " + settings.url + "\n";
+        msg += "          URL: " + settings.url + "\n";
+        msg += "       status: " + jqXHR.status + "\n";
+        msg += "   statusText: " + jqXHR.statusText + "\n";
+        console.log(msg);
+    });
+
+    $(document).ajaxError(function (event, jqXHR, settings, errorThrown) {
+        var msg = "FAIL/ERROR:\n";
+        msg += "          URL: " + settings.url + "\n";
+        msg += "  errorThrown: " + errorThrown + "\n";
+        msg += "       status: " + jqXHR.status + "\n";
+        msg += "   statusText: " + jqXHR.statusText + "\n";
+
+        var jsonObj = $.parseJSON(jqXHR.responseText);
+        msg += JSON.stringify(jsonObj, null, 2);
+        console.log(msg);
+        alert(msg);
+    });
+
+}
+
+
 (function ($) {
     $.fn.clearForm = function () {
         return this.each(function () {

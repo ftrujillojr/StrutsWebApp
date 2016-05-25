@@ -19,12 +19,12 @@
     </appender> 
 <!-- ALL < DEBUG < INFO < WARN < ERROR < FATAL < OFF -->  
     <logger name="com.opensymphony">
-        <level value="WARN" />
+        <level value="DEBUG" />
         <appender-ref ref="consoleAppender" />
         <appender-ref ref="rollingFileAppender" />
     </logger>
     <logger name="org.apache.struts2">
-        <level value="WARN" />
+        <level value="DEBUG" />
         <appender-ref ref="consoleAppender" />
         <appender-ref ref="rollingFileAppender" />
     </logger>

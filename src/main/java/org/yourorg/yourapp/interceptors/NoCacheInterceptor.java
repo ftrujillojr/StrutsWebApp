@@ -15,6 +15,36 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.apache.struts2.StrutsStatics;
 
+// http://stackoverflow.com/questions/21820741/jersey-rest-response-in-angular-js
+// http://www.codingpedia.org/ama/how-to-add-cors-support-on-the-server-side-in-java-with-jersey/
+//
+//      Access-Control-Allow-Origin: specifies the authorized domains to make cross-domain request (you should include the domains of your REST clients or * if you want the resource public and available to everyone  the latter is not an option if credentials are allowed during CORS requests)
+//    Access-Control-Expose-Headers: lets a server white list headers that browsers are allowed to access
+//           Access-Control-Max-Age: indicates how long the results of a preflight request can be cached.
+// Access-Control-Allow-Credentials: indicates if the server allows credentials during CORS requests
+//     Access-Control-Allow-Methods: indicates the methods allowed when accessing the resource
+//     Access-Control-Allow-Headers: used in response to a preflight request to indicate which HTTP headers can be used when making the actual request.
+//
+// https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol
+//
+// GET     The GET method requests a representation of the specified resource. Requests using GET should only retrieve data and should have no other effect. 
+// HEAD    The HEAD method asks for a response identical to that of a GET request, but without the response body. 
+// POST    The POST method requests that the server accept the entity enclosed in the request as a new web resource identified by the URI.
+// PUT     The PUT method requests that the enclosed entity be stored under the supplied URI. If the URI refers to an already existing resource, it is modified.
+// DELETE  The DELETE method deletes the specified resource.
+// OPTIONS The OPTIONS method returns the HTTP methods that the server supports for the specified URL.
+//
+// http://www.bennadel.com/blog/2568-preventing-cross-site-request-forgery-csrf-xsrf-with-angularjs-and-coldfusion.htm
+//        // https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
+//
+// Origin                 - Initiates a request for cross-origin resource sharing (asks server for an 'Access-Control-Allow-Origin' response field).
+// X-Requested-With       - mainly used to identify Ajax requests. Most JavaScript frameworks send this field with value of XMLHttpRequest.
+// X-HTTP-Method-Override - Requests a web application override the method specified in the request (typically POST) with the method given in the header field (typically PUT or DELETE).
+//
+// https://blogs.oracle.com/sandoz/entry/tracing_in_jersey (see MyApplication.java)
+//
+// X-Jersey-Tracing-Accept - set to true if this is enabled => property(ServerProperties.TRACING, TracingConfig.ON_DEMAND.name());
+//
 //  https://blog.httpwatch.com/2008/10/15/two-important-differences-between-firefox-and-ie-caching/
 //  http://www.codedisqus.com/CSVVUqUPVX/caching-headers-interceptor-does-nothing-struts2.html
 public class NoCacheInterceptor implements Interceptor {
@@ -38,44 +68,27 @@ public class NoCacheInterceptor implements Interceptor {
 
         ActionContext ac = ai.getInvocationContext();
         HttpServletRequest request = (HttpServletRequest) ac.get(StrutsStatics.HTTP_REQUEST);
-        this.displayRequestParams(request);
-
-        ServletInputStream sis = request.getInputStream();
-
-        if (sis != null) {
-            StringBuilder sb = new StringBuilder();
-            
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(sis, "UTF-8"))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line);
-                }
-            } catch (IOException ex) {
-                throw ex;
-            }
-
-            LOGGER.debug("\nREQUEST STREAM ENTITY: " + sb.toString());
-        }
-
-//        String className = ai.getAction().getClass().getName();
-//        long startTime = System.currentTimeMillis();
-//        LOGGER.debug("Before calling action: " + className);
-        // ****************************************************************************************
-        String result = ai.invoke(); // Invokes the next interceptor (if one exists) or the action
-        // ****************************************************************************************
-
-//        long endTime = System.currentTimeMillis();
-//        LOGGER.debug("After calling action: " + className + " Time taken: " + (endTime - startTime) + " ms");
         HttpServletResponse response = (HttpServletResponse) ac.get(StrutsStatics.HTTP_RESPONSE);
 
+        // You MUST modify request or response headers prior to invoke() or nothing will happen.
         if (response != null) {
             response.addHeader("Content-Style-Type", "text/css");
             response.addHeader("Cache-control", "no-cache, no-store, must-revalidate");
             response.addHeader("Pragma", "no-cache");
             response.addHeader("Expires", "-1"); // NEVER
-        }
 
+            response.addHeader("Access-Control-Allow-Origin", "*");
+            response.addHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS,HEAD");
+            response.addHeader("Access-Control-Allow-Headers",
+                    "Content-Type,Access-Control-Allow-Headers,Authorization,X-Requested-With,Cache-Control,Origin,Accept,X-Jersey-Tracing-Accept,X-HTTP-Method-Override");
+        }
+        
+        this.displayRequestParams(request);
+        // ****************************************************************************************
+        String result = ai.invoke(); // Invokes the next interceptor (if one exists) or the action
+        // ****************************************************************************************
         this.displayResponseParams(response);
+        
         return (result);
     }
 
