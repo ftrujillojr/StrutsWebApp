@@ -5,14 +5,18 @@
 <struts>
     <!-- result-types, interceptors, default-interceptor-ref, default-action-ref, default-class-ref, global-results, global-exception-mappings, action*) -->
         
-    <package name="my-common-default" extends="struts-default">
-<!--    
+    <package name="my-common-default" extends="struts-default,json-default">
+        <result-types>
+            <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
+        </result-types>
+
+    
         <interceptors>
             <interceptor class="org.yourorg.yourapp.interceptors.NoCacheInterceptor" name="noCacheInterceptor"></interceptor>
-            <interceptor class="org.yourorg.yourapp.interceptors.LoginInterceptor" name="loginInterceptor"></interceptor>
+            <!--<interceptor class="org.yourorg.yourapp.interceptors.LoginInterceptor" name="loginInterceptor"></interceptor>-->
            
             <interceptor-stack name="loginStack">
-                <interceptor-ref name="loginInterceptor" />
+                <!--<interceptor-ref name="loginInterceptor" />-->
                 <interceptor-ref name="defaultStack" />
                 <interceptor-ref name="noCacheInterceptor" />
             </interceptor-stack>
@@ -21,19 +25,27 @@
                 <interceptor-ref name="defaultStack" />
                 <interceptor-ref name="noCacheInterceptor" />
             </interceptor-stack>
+            
+            <interceptor-stack name="myJsonStack">
+                <interceptor-ref name="defaultStack" />
+                <interceptor-ref name="noCacheInterceptor" />
+                <interceptor-ref name="json" >
+                    <!--<param name="enableSMD">true</param>-->
+                </interceptor-ref>
+            </interceptor-stack>
         </interceptors>
--->
-        
 
-        <default-interceptor-ref name="defaultStack"></default-interceptor-ref>
-<!--    
+        
         <default-interceptor-ref name="myStack"></default-interceptor-ref>
-        <default-interceptor-ref name="loginStack"></default-interceptor-ref>
--->
+        <!--    
+                <default-interceptor-ref name="defaultStack"></default-interceptor-ref>
+                <default-interceptor-ref name="loginStack"></default-interceptor-ref>
+        -->
         
         <default-action-ref name="noAction"/>
         
         <global-results>
+            <result name="jsonException">/error/JSONException.jsp</result>
             <result name="exception">/error/exception.jsp</result>
             <result name="runtime_exception">/error/runtime_exception.jsp</result>
             <result name="error">/error/error.jsp</result>
@@ -41,6 +53,7 @@
         </global-results>
  
         <global-exception-mappings>
+            <exception-mapping exception="org.apache.struts2.json.JSONException" result="jsonException"></exception-mapping>
             <exception-mapping exception="java.lang.Exception" result="exception"></exception-mapping>
             <exception-mapping exception="java.lang.Error" result="error"></exception-mapping>
             <exception-mapping exception="java.lang.RuntimeException" result="runtime_exception"></exception-mapping>

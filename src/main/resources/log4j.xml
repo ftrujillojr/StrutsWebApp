@@ -17,7 +17,7 @@
             <param name="ConversionPattern" value="%p %t %c - %m%n"/> 
         </layout> 
     </appender> 
-  
+<!-- ALL < DEBUG < INFO < WARN < ERROR < FATAL < OFF -->  
     <logger name="com.opensymphony">
         <level value="DEBUG" />
         <appender-ref ref="consoleAppender" />

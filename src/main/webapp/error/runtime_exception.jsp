@@ -4,12 +4,16 @@
 <html>
     <head>
         <%@include file="/partials/headSection.jsp" %>
-        <title>no_action.jsp</title>
+        <title>exception.jsp</title>
     </head>
     <body>
         <%@include file="/partials/actionErrors.jsp" %>
 
-        <h1>No Action could be routed</h1>
+        <h1>Runtime Exception</h1>
+
+        <h4>Exception Name: <s:property value="exception" /> </h4>
+
+        <h4>Exception Details: <s:property value="exceptionStack" /></h4> 
 
         <script type="text/javascript">
             $(document).ready(function ($) {

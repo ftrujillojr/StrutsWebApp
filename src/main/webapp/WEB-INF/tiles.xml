@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+   "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+   "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+    <!-- 
+          Make sure template jsp file has SAME attribute names your put-attribute names.
+          All template and values MUST be relative to namespace '/'.  
+    -->
+    <definition name="classicLayout" template="/tiles/classicLayoutTemplate.jsp">
+        <put-attribute name="title" value="Template"/>
+        <put-attribute name="topLayout" value="/tiles/topLayout.jsp"/>
+        <put-attribute name="leftLayout" value="/tiles/leftLayout.jsp"/>
+        <put-attribute name="rightLayout" value="/tiles/rightLayout.jsp"/>
+        <put-attribute name="bottomLayout" value="/tiles/bottomLayout.jsp"/>
+    </definition>
+   
+    <definition name="home" extends="classicLayout">
+        <put-attribute name="title"  value="Home"/>
+        <put-attribute name="leftLayout"   value="/partials/leftNav.jsp"/>
+        <put-attribute name="rightLayout"   value="/home.jsp"/>
+    </definition>
+    
+    <definition name="/ns2/home" extends="classicLayout">
+        <put-attribute name="title"  value="Home (ns2)"/>
+        <put-attribute name="leftLayout"   value="/partials/leftNav.jsp"/>
+        <put-attribute name="rightLayout"   value="/ns2/home.jsp"/>
+    </definition>
+    
+    <definition name="/ns2/dude" extends="classicLayout">
+        <put-attribute name="title"  value="Dude (ns2)"/>
+        <put-attribute name="leftLayout"   value="/partials/leftNav.jsp"/>
+        <put-attribute name="rightLayout"   value="/ns2/dude.jsp"/>
+    </definition>
+    
+   
+</tiles-definitions>

@@ -8,10 +8,12 @@
     </head>
     <body>
         <%@include file="/partials/actionErrors.jsp" %>
+        <h1>404 Not found</h1>
 
-        <p>You must provide your own ERROR content here</p>
+        <h4>Exception Name: <s:property value="exception" /> </h4>
 
-        <%@include file="/partials/bodySection.jsp" %>
+        <h4>Exception Details: <s:property value="exceptionStack" /></h4> 
+
         <script type="text/javascript">
             $(document).ready(function ($) {
                 // your code here.
@@ -24,4 +26,3 @@
         </script>
     </body>
 </html>
-    

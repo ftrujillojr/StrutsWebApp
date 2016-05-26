@@ -24,5 +24,6 @@
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/struts/utils.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/global_error_handler.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/generic.js"></script>
     

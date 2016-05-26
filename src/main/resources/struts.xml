@@ -5,31 +5,28 @@
  
 <struts>
     <include file="my_common_default.xml"></include>
+    <include file="ns2.xml"></include>
     
     <package name="my-top-pkg" namespace="/" extends="my-common-default">
-        <action name="">
-            <!-- 
-                  <result name="success" type="redirect" >/login</result>
-            -->
-            <result name="success" >/home.jsp</result>
-        </action>
-<!--       
-        <action name="login_page" class="org.yourorg.yourapp.controllers.LoginAction" method="noAction">
-            <result name="success">/login.jsp</result>
-        </action>
-                                
-        <action name="login" class="org.yourorg.yourapp.controllers.LoginAction" method="logIn">
-            <interceptor-ref name="defaultStack" />
-            <result name="success" type="redirect" >/home.jsp</result>
-            <result name="input">/login.jsp</result>
+        
+        <action name="homeJson" method="homeJson" class="org.yourorg.yourapp.controllers.NoAction">
+            <interceptor-ref name="myJsonStack"/>
+            <result name="json" type="json">
+                <!--<param name="enableSMD">true</param>-->
+                <param name="root">emailData</param>
+                <param name="excludeNullProperties">true</param>  
+                <param name="contentType">application/json</param> 
+            </result>
         </action>
         
-        <action name="logout" class="org.yourorg.yourapp.controllers.LoginAction" method="logOut">
-            <interceptor-ref name="defaultStack" />
-            <result name="success">/login.jsp</result>
-            <result name="input">/login.jsp</result>
-        </action>        
--->
+        <action name="home" method="noAction" class="org.yourorg.yourapp.controllers.NoAction">
+            <result name="success" type="tiles">home</result>
+        </action>
+        
+        <action name="">
+            <result name="success" type="redirect">/home</result>
+        </action>
+        
     </package>
 </struts>        
     
