@@ -3,9 +3,11 @@ package org.yourorg.yourapp.interceptors;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
+import com.opensymphony.xwork2.util.ValueStack;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
@@ -43,6 +45,8 @@ import org.apache.struts2.StrutsStatics;
 //
 //  https://blog.httpwatch.com/2008/10/15/two-important-differences-between-firefox-and-ie-caching/
 //  http://www.codedisqus.com/CSVVUqUPVX/caching-headers-interceptor-does-nothing-struts2.html
+//  https://struts.apache.org/maven/struts2-core/apidocs/com/opensymphony/xwork2/util/ValueStack.html
+
 public class NoCacheInterceptor implements Interceptor {
 
     // Make sure you import => org.apache.log4j.Logger 
@@ -65,6 +69,7 @@ public class NoCacheInterceptor implements Interceptor {
         ActionContext ac = ai.getInvocationContext();
         HttpServletRequest request = (HttpServletRequest) ac.get(StrutsStatics.HTTP_REQUEST);
         HttpServletResponse response = (HttpServletResponse) ac.get(StrutsStatics.HTTP_RESPONSE);
+        ValueStack valueStack = ac.getValueStack();
 
         // You MUST modify request or response headers prior to invoke() or nothing will happen.
         if (response != null) {
@@ -78,6 +83,17 @@ public class NoCacheInterceptor implements Interceptor {
             response.addHeader("Access-Control-Allow-Headers",
                     "Content-Type,Access-Control-Allow-Headers,Authorization,X-Requested-With,Cache-Control,Origin,Accept,X-Jersey-Tracing-Accept,X-HTTP-Method-Override");
         }
+        
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("\n\n==== VALUE STACK ====\n\n");
+//        Map<String,Object> vsContext = valueStack.getContext();
+//        Iterator<String> itr = vsContext.keySet().iterator();
+//        while(itr.hasNext()) {
+//            String name = itr.next();
+//            sb.append("VS: ").append(name).append("\n");
+////            sb.append("VS: ").append(name).append(":\t\t").append(vsContext.get(name).toString()).append("\n");
+//        }
+//        LOGGER.debug(sb.toString());
         
         this.displayRequestParams(request);
         // ****************************************************************************************
