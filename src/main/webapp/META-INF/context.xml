@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
+<Context antiJARLocking="true" path="/StrutsWebApp"/>
+=======
 <Context path="/StrutsWebApp"/>
+>>>>>>> 211f8b6cfc45aaffeb94bfc711d33118f6246f86
