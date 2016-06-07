@@ -2,6 +2,14 @@
 <!DOCTYPE struts PUBLIC
     "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
     "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+ <!--
+https://struts.apache.org/docs/result-types.html
+
+chain, freemarker, dispatcher, httpheader, redirect, redirectAction, stream, xslt, tiles, json    
+
+<action name="home" method="noAction" class="org.yourorg.yourapp.controllers.NoAction">
+-->
  
 <struts>
     <include file="my_common_default.xml"></include>

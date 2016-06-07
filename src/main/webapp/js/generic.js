@@ -1,5 +1,8 @@
 // generic.js
-
+var webContext = "";
+function setWebContext(context) {
+    webContext = context;
+}
 
 function setAjaxGlobals() {
     // jqXHR => readyState, status, statusText, responseHTML, responseXML, responseText, getResponseHeader(), statusCode()

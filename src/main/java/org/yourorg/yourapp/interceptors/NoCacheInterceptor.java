@@ -69,7 +69,6 @@ public class NoCacheInterceptor implements Interceptor {
         ActionContext ac = ai.getInvocationContext();
         HttpServletRequest request = (HttpServletRequest) ac.get(StrutsStatics.HTTP_REQUEST);
         HttpServletResponse response = (HttpServletResponse) ac.get(StrutsStatics.HTTP_RESPONSE);
-        ValueStack valueStack = ac.getValueStack();
 
         // You MUST modify request or response headers prior to invoke() or nothing will happen.
         if (response != null) {
@@ -83,17 +82,6 @@ public class NoCacheInterceptor implements Interceptor {
             response.addHeader("Access-Control-Allow-Headers",
                     "Content-Type,Access-Control-Allow-Headers,Authorization,X-Requested-With,Cache-Control,Origin,Accept,X-Jersey-Tracing-Accept,X-HTTP-Method-Override");
         }
-        
-//        StringBuilder sb = new StringBuilder();
-//        sb.append("\n\n==== VALUE STACK ====\n\n");
-//        Map<String,Object> vsContext = valueStack.getContext();
-//        Iterator<String> itr = vsContext.keySet().iterator();
-//        while(itr.hasNext()) {
-//            String name = itr.next();
-//            sb.append("VS: ").append(name).append("\n");
-////            sb.append("VS: ").append(name).append(":\t\t").append(vsContext.get(name).toString()).append("\n");
-//        }
-//        LOGGER.debug(sb.toString());
         
         this.displayRequestParams(request);
         // ****************************************************************************************

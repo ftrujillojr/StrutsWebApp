@@ -11,7 +11,10 @@
 </form>
 
 <script type="text/javascript">
+
     $(document).ready(function ($) {
+//        setWebContext("${pageContext.request.contextPath}");
+        
         PostExample = {
             jqxhr: null,
             payLoad: function () {
@@ -26,31 +29,33 @@
             },
             execAjax: function () {
                 PostExample.jqxhr = $.ajax({
-                    async: true,                                          // defaults to true
-                    cache: false,                                         //defaults to true
-                    method: "POST",                                       // GET, POST, PUT, PATCH, DELETE
-                    url: "${pageContext.request.contextPath}/homeJson",   // Struts2 route
-                    contentType: "application/json",                      // payload type
-                    dataType: 'json',                                     // Accept <=  json, xml, script, jsonp, html, or text
-                    data: PostExample.payLoad(),                          // string version of Json object
+                    async: true, // defaults to true
+                    cache: false, //defaults to true
+                    method: "POST", // GET, POST, PUT, PATCH, DELETE
+                    url: "${pageContext.request.contextPath}/homeJson", // Struts2 route
+                    contentType: "application/json", // payload type
+                    dataType: 'json', // Accept <=  json, xml, script, jsonp, html, or text
+                    data: PostExample.payLoad(), // string version of Json object
                     beforeSend: function (req) {
                         req.setRequestHeader("X-HTTP-Method-Override", "PUT"); // Override method
                     },
-                    global: false,                                        // Do not fire global handlers if false
-                    timeout: 5000                                         // in milliseconds
-//                    username: "",
-//                    password: ""
-                }).done(function (response) {                             // Pre jQuery 1.9, this was ,success()
+                    global: false, // Do not fire global handlers if false
+                    timeout: 5000 // in milliseconds
+//            username: "",
+//            password: ""
+                }).done(function (response) {                 // Pre jQuery 1.9, this was ,success()
                     alert("SUCCESS: " + response.email);
-                }).fail(function (jqXHR, textStatus) {                    // Pre jQuery 1.9, this was ,error()
+                }).fail(function (jqXHR, textStatus) {        // Pre jQuery 1.9, this was ,error()
                     var errMsg = "ERROR: " + textStatus;
                     alert(errMsg);
-                }).always(function (jqXHR, textStatus) {                  // Pre jQuery 1.9, this was .complete()
+                }).always(function (jqXHR, textStatus) {      // Pre jQuery 1.9, this was .complete()
                     // run after done() or fail()
                 });
             }
         };
+
     });
+
     $(window).load(function () {
         // your code here.
     });
