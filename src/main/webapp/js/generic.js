@@ -1,5 +1,6 @@
 // generic.js
 var webContext = "";
+
 function setWebContext(context) {
     webContext = context;
 }
