@@ -7,6 +7,7 @@ public class EmailData implements Serializable {
     private String email;
     private String firstName;
     private String lastName;
+    private String phone;
 
     public EmailData() {}
     
@@ -17,6 +18,7 @@ public class EmailData implements Serializable {
         sb.append("       email:").append(this.email).append("\n");
         sb.append("   firstName:").append(this.firstName).append("\n");
         sb.append("    lastName:").append(this.lastName).append("\n");
+        sb.append("       phone:").append(this.phone).append("\n");
         return sb.toString();
     }
 
@@ -42,5 +44,13 @@ public class EmailData implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

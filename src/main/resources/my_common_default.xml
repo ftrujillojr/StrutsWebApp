@@ -4,8 +4,9 @@
     "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
     <!-- result-types, interceptors, default-interceptor-ref, default-action-ref, default-class-ref, global-results, global-exception-mappings, action*) -->
-        
-    <package name="my-common-default" extends="struts-default,json-default">
+    
+    <!-- json-default already extends struts-default    -->
+    <package name="my-common-default" extends="json-default">
         <result-types>
             <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
         </result-types>

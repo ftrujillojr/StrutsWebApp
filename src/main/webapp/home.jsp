@@ -36,8 +36,10 @@
                     contentType: "application/json", // payload type
                     dataType: 'json', // Accept <=  json, xml, script, jsonp, html, or text
                     data: PostExample.payLoad(), // string version of Json object
-                    beforeSend: function (req) {
-                        req.setRequestHeader("X-HTTP-Method-Override", "PUT"); // Override method
+                    beforeSend: function (jqXHR, settings) {
+                        //jqXHR.setRequestHeader("X-HTTP-Method-Override", "PUT"); // Override method
+                        jqXHR.url = settings.url; // SAVE URL for these methods => done,fail, always.
+                        jqXHR.method = settings.method; // same for method.
                     },
                     global: false, // Do not fire global handlers if false
                     timeout: 5000 // in milliseconds
@@ -46,7 +48,7 @@
                 }).done(function (response) {                 // Pre jQuery 1.9, this was ,success()
                     alert("SUCCESS: " + response.email);
                 }).fail(function (jqXHR, textStatus) {        // Pre jQuery 1.9, this was ,error()
-                    var errMsg = "ERROR: " + textStatus;
+                    var errMsg = "ERROR: " + textStatus + "\nURL: " + jqXHR.url + "\nMETHOD: " + jqXHR.method;
                     alert(errMsg);
                 }).always(function (jqXHR, textStatus) {      // Pre jQuery 1.9, this was .complete()
                     // run after done() or fail()
