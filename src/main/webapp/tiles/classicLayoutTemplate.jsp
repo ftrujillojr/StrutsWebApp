@@ -8,13 +8,13 @@
         <title><tiles:insertAttribute name="title" ignore="true" /></title>
     </head>
     <body>
-        <div class="container-fluid text-left">
-            <div class="row">
+        <div class="container-fluid text-left wrapper">
+            <div class="row topRow">
                 <div id="topLayout" class="col-xs-12">
                     <tiles:insertAttribute name="topLayout" />
                 </div>
             </div>
-            <div class="row">
+            <div class="row middleRow">
                 <div id="leftLayout" class="col-xs-12 hidden-sm hidden-md col-lg-2">
                     <tiles:insertAttribute name="leftLayout" />
                 </div>
@@ -23,7 +23,7 @@
                     <tiles:insertAttribute name="rightLayout" />
                 </div>
             </div>
-            <div class="row">
+            <div class="row bottomRow">
                 <div id="bottomLayout" class="col-xs-12">
                     <tiles:insertAttribute name="bottomLayout" />
                 </div>

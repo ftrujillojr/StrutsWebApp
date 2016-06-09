@@ -3,6 +3,9 @@
 */
 
 html,body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
     background-color: #eeeeee;
 }
 
@@ -15,29 +18,52 @@ thead.fjt-yellow th {
     width: 1.0em;
 }
 
+.wrapper {
+    height: 100%;
+}
+
+.topRow {
+    height: 50px;
+}
+
+.middleRow {
+    height: calc(100% - 100px);
+}
+
+.bottomRow {
+    height: 50px;
+}
+
 #bottomLayout {
     /*      Top Right Bottom Left */ 
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
+    height: 50px;
+    background: bisque;
 }
 
 #topLayout {
     /*      Top Right Bottom Left */ 
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
+    height: 50px;
+    background: pink;
 }
 
 #leftLayout {
     /*      Top Right Bottom Left */ 
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
-    background-color: #cccccc;
+    height: 100%;
+    background: yellow;
 }
 
 #rightLayout {
     /*      Top Right Bottom Left */ 
     margin: 0px 0px 0px 0px;
     padding: 10px 10px 10px 10px;
+    height: 100%;
+    background: white;
 }
 
 .form-inline .form-group input {
