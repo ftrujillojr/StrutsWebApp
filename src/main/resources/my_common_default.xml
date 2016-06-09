@@ -47,17 +47,17 @@
         
         <global-results>
             <result name="jsonException">/error/JSONException.jsp</result>
-            <result name="exception">/error/exception.jsp</result>
+<!--            <result name="exception">/error/exception.jsp</result>
             <result name="runtime_exception">/error/runtime_exception.jsp</result>
-            <result name="error">/error/error.jsp</result>
+            <result name="error">/error/error.jsp</result>-->
             <result name="login">/login.jsp</result>
         </global-results>
  
         <global-exception-mappings>
             <exception-mapping exception="org.apache.struts2.json.JSONException" result="jsonException"></exception-mapping>
-            <exception-mapping exception="java.lang.Exception" result="exception"></exception-mapping>
-            <exception-mapping exception="java.lang.Error" result="error"></exception-mapping>
-            <exception-mapping exception="java.lang.RuntimeException" result="runtime_exception"></exception-mapping>
+            <exception-mapping exception="java.lang.Exception" result="jsonException"></exception-mapping>
+            <exception-mapping exception="java.lang.Error" result="jsonException"></exception-mapping>
+            <exception-mapping exception="java.lang.RuntimeException" result="jsonException"></exception-mapping>
         </global-exception-mappings>
 
         <!--  See default-action-ref ABOVE -->

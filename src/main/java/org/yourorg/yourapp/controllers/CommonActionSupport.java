@@ -38,7 +38,6 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
      */
     @Override
     public void validate() {
-        LOGGER.debug("**** validate() ****");
         if (this.contextPath == null) {
             this.initVars();
         }
@@ -58,6 +57,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
             this.currentMethod = (methodOverride != null) ? this.methodOverride : this.method;
 
             StringBuilder sb = new StringBuilder();
+            sb.append("\n");
             sb.append("   contextPath: ").append(this.contextPath).append("\n");
             sb.append("        method: ").append(this.method).append("\n");
             sb.append("   queryString: ").append(this.queryString).append("\n");
@@ -75,8 +75,6 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         if (this.contextPath == null) {
             this.initVars();
         }
-        LOGGER.debug("**** restDispatch() ****");
-
         switch (this.currentMethod) {
             case ("GET"):
                 result = this.index();

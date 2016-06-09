@@ -14,7 +14,7 @@
 
     $(document).ready(function ($) {
 //        setWebContext("${pageContext.request.contextPath}");
-        
+
         PostExample = {
             jqxhr: null,
             payLoad: function () {
@@ -46,10 +46,29 @@
                     timeout: 5000 // in milliseconds
 //            username: "",
 //            password: ""
-                }).done(function (response) {                 // Pre jQuery 1.9, this was ,success()
-                    alert("SUCCESS: " + response.email);
-                }).fail(function (jqXHR, textStatus) {        // Pre jQuery 1.9, this was ,error()
-                    var errMsg = "ERROR: " + textStatus + "\nURL: " + jqXHR.url + "\nMETHOD: " + jqXHR.method;
+                }).done(function (data, textStatus, jqXHR) { // Pre jQuery 1.9, this was ,success()
+                    
+                    var jsonString = jqXHR.responseText.replace(/[\t\r\n]+/g, '').trim();
+                    var jsonObj = JSON.parse(jsonString); // If you need the object, then here you go.
+                    jsonString = JSON.stringify(jsonObj, null, 4);  // Format pretty print
+                    
+                    alert("SUCCESS: \n" + jsonString);
+                    
+                }).fail(function (jqXHR, textStatus, errorThrown) { // Pre jQuery 1.9, this was ,error()
+                    
+                    var jsonString = jqXHR.responseText.replace(/[\t\r\n]+/g, '').trim();
+                    var jsonObj = JSON.parse(jsonString);
+                    jsonString = JSON.stringify(jsonObj, null, 4);  // Format pretty print
+                    
+                    var errMsg =
+                            "      ERROR: " + errorThrown +
+                            "\n        URL: " + jqXHR.url +
+                            "\n     METHOD: " + jqXHR.method +
+                            "\n     STATUS: " + jqXHR.status +
+                            "\n   RESPONSE: " + jsonObj.message;
+
+                    console.log(errMsg);
+                    console.log(jsonString);
                     alert(errMsg);
                 }).always(function (jqXHR, textStatus) {      // Pre jQuery 1.9, this was .complete()
                     // run after done() or fail()
