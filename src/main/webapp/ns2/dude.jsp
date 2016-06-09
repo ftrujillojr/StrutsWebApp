@@ -7,21 +7,21 @@
     <div class="form-group">
         <label for="email" class="control-label col-xs-2 text-right">Email address:</label>
         <div class="col-xs-4">
-            <input type="email" class="form-control" id="email">
+            <input type="email" name="email" class="form-control" id="email">
         </div>
     </div>
     
     <div class="form-group">
         <label for="pwd" class="control-label col-xs-2 text-right">Password:</label>
         <div class="col-xs-4">
-            <input type="password" class="form-control" id="password">
+            <input type="password" name="password" class="form-control" id="password">
         </div>
     </div>
 
     <div class="form-group">
         <label for="select_lang" class="control-label col-xs-2 text-right">Software Language:</label>
         <div class="col-xs-4">
-            <select id="select_lang" class="form-control">
+            <select id="select_lang" name="progLang" class="form-control">
                 <option value="">-- Choose Language --</option>
                 <option value="java">Java</option>
                 <option value="javascript">JavaScript</option>

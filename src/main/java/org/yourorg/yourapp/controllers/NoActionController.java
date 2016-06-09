@@ -12,11 +12,27 @@ public class NoActionController extends CommonActionSupport {
 
     private EmailData emailData; // this object is marshalled from Json.
 
+    private String bestFriend;
+    private String progLang;
+    private String email;
+    private String password;
+
     public NoActionController() {
     }
 
-
     public String noAction() {
+        if (emailData == null) {
+            emailData = new EmailData();
+            emailData.setEmail("wilecoyote@warnerbros.com");
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("  progLang: ").append(this.progLang).append("\n");
+        sb.append("bestFriend: ").append(this.bestFriend).append("\n");
+        sb.append(" emailData: ").append(this.emailData.toString()).append("\n");
+
+        LOGGER.debug(sb.toString());
+
         return ActionSupport.SUCCESS;
     }
 
@@ -28,6 +44,47 @@ public class NoActionController extends CommonActionSupport {
         this.emailData = emailData;
     }
 
+    public String getBestFriend() {
+        return bestFriend;
+    }
+
+    public void setBestFriend(String bestFriend) {
+        this.bestFriend = bestFriend;
+    }
+
+    public String getProgLang() {
+        return progLang;
+    }
+
+    public void setProgLang(String progLang) {
+        this.progLang = progLang;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /*
+######   #######   #####   #######  
+#     #  #        #     #     #     
+#     #  #        #           #     
+######   #####     #####      #     
+#   #    #              #     #     
+#    #   #        #     #     #     
+#     #  #######   #####      #     
+     */
     @Override
     public String index() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -45,7 +102,7 @@ public class NoActionController extends CommonActionSupport {
     public String create() {
         System.out.println("\n******** create()");
 
-        if(emailData == null) {
+        if (emailData == null) {
             emailData = new EmailData();
             emailData.setEmail("wilecoyote@warnerbros.com");
         }
@@ -54,12 +111,11 @@ public class NoActionController extends CommonActionSupport {
 
 //        try {
 //            this.response.setContentType("application/json");
-            this.response.setStatus(HttpServletResponse.SC_OK);
+        this.response.setStatus(HttpServletResponse.SC_OK);
 //            this.response.getWriter().write(JsonUtils.objectToJsonPrettyNoNulls(this.emailData));
 //        } catch (IOException ex) {
 //            java.util.logging.Logger.getLogger(NoActionController.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
 
         return "json";
     }
