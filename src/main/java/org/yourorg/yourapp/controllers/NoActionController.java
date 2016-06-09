@@ -35,7 +35,7 @@ public class NoActionController extends CommonActionController {
         
         System.out.println("\n******** METHOD: " + method);
 
-        System.out.println("\n******** DATA: " + emailData.toString());
+        System.out.println("\n********   DATA: " + emailData.toString());
 
 //        try {
 //            this.response.setContentType("application/json");

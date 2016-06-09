@@ -22,7 +22,8 @@
                     emailData: {// This MUST be the same object name in the controller.
                         email: "ftrujillojr@gmail.com",
                         firstName: "Francis",
-                        lastName: "Trujillo"
+                        lastName: "Trujillo",
+                        dude: "Not funny!" // This is not an attr in Controller object emailData
                     }
                 };
                 return JSON.stringify(jsonDataObj);
