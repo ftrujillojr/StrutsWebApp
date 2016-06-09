@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.yourorg.yourapp.models.EmailData;
 
-public class NoActionController extends CommonActionController {
+public class NoActionController extends CommonActionSupport {
 
     private static final long serialVersionUID = 123L;
     private static final Logger LOGGER = Logger.getLogger(NoActionController.class.getName());
@@ -15,25 +15,40 @@ public class NoActionController extends CommonActionController {
     public NoActionController() {
     }
 
+
+    public String noAction() {
+        return ActionSupport.SUCCESS;
+    }
+
+    public EmailData getEmailData() {
+        return emailData;
+    }
+
+    public void setEmailData(EmailData emailData) {
+        this.emailData = emailData;
+    }
+
+    @Override
+    public String index() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String _new() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     // curl -ss -i -H "Accept: application/json" -H "Content-Type: application/json" \
     //       --data {"emailData":{"email":"ftrujillojr@gmail.com","firstName":"Francis","lastName":"Trujillo"}} \
     //       --request POST http://nsglnxdev1.micron.com:8080/StrutsWebApp/homeJson
-    public String homeJson() {
-        String contextPath = this.requestAttrs.getContextPath();  // /Struts2Demo
-        String method = this.requestAttrs.getMethod();            // GET
-        String queryString = this.requestAttrs.getQueryString();  // ?id=1&message=3
-        String uri = this.requestAttrs.getRequestURI();           // /Struts2Demo/query
-        StringBuffer urlBuf = this.requestAttrs.getRequestURL();  // http://localhost:8080/Struts2Demo/query?id=1&message=3'
-        if (this.requestAttrs.getHeader("X-HTTP-Method-Override") != null) {
-            System.out.println("\n ******** X-HTTP-Method-Override: " + this.requestAttrs.getHeader("X-HTTP-Method-Override"));
-        }
+    @Override
+    public String create() {
+        System.out.println("\n******** create()");
 
         if(emailData == null) {
             emailData = new EmailData();
             emailData.setEmail("wilecoyote@warnerbros.com");
         }
-        
-        System.out.println("\n******** METHOD: " + method);
 
         System.out.println("\n********   DATA: " + emailData.toString());
 
@@ -49,15 +64,23 @@ public class NoActionController extends CommonActionController {
         return "json";
     }
 
-    public String noAction() {
-        return ActionSupport.SUCCESS;
+    @Override
+    public String show() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public EmailData getEmailData() {
-        return emailData;
+    @Override
+    public String edit() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void setEmailData(EmailData emailData) {
-        this.emailData = emailData;
+    @Override
+    public String update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String delete() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -3,11 +3,9 @@ package org.yourorg.yourapp.interceptors;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
-import com.opensymphony.xwork2.util.ValueStack;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
@@ -38,10 +36,6 @@ import org.apache.struts2.StrutsStatics;
 // Origin                 - Initiates a request for cross-origin resource sharing (asks server for an 'Access-Control-Allow-Origin' response field).
 // X-Requested-With       - mainly used to identify Ajax requests. Most JavaScript frameworks send this field with value of XMLHttpRequest.
 // X-HTTP-Method-Override - Requests a web application override the method specified in the request (typically POST) with the method given in the header field (typically PUT or DELETE).
-//
-// https://blogs.oracle.com/sandoz/entry/tracing_in_jersey (see MyApplication.java)
-//
-// X-Jersey-Tracing-Accept - set to true if this is enabled => property(ServerProperties.TRACING, TracingConfig.ON_DEMAND.name());
 //
 //  https://blog.httpwatch.com/2008/10/15/two-important-differences-between-firefox-and-ie-caching/
 //  http://www.codedisqus.com/CSVVUqUPVX/caching-headers-interceptor-does-nothing-struts2.html
