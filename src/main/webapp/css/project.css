@@ -55,7 +55,7 @@ div {
 
 .header {
     display: table-row;
-    height: 75px;
+    height: 1px;
     background-color: #ffd34e;
 }
 
@@ -84,7 +84,7 @@ div {
 
 .footer {
     display: table-row;
-    height: 25px;
+    height: 1px;
     background-color: #b3ccff;
 }
 

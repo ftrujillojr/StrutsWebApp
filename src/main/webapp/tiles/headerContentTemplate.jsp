@@ -13,9 +13,6 @@
                 <tiles:insertAttribute name="header" />
             </div>
             <div class="main">
-                <div id="leftSidebar" class="box sidebar">
-                    <tiles:insertAttribute name="leftSidebar" />
-                </div>
                 <div id="content" class="box content">
                     <%@include file="/partials/actionErrors.jsp" %>
                     <tiles:insertAttribute name="content" />

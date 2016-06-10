@@ -10,24 +10,34 @@
           All template and values MUST be relative to namespace '/'.  
     -->
     <definition name="classicLayout" template="/tiles/classicLayoutTemplate.jsp">
-        <put-attribute name="title" value="Template"/>
-        <put-attribute name="header" value="/tiles/header.jsp"/>
-        <put-attribute name="leftSideBar" value="/tiles/leftSideBar.jsp"/>
-        <put-attribute name="content" value="/tiles/content.jsp"/>
-        <put-attribute name="footer" value="/tiles/footer.jsp"/>
-    </definition>
-   
-    <definition name="home" extends="classicLayout">
-        <put-attribute name="title"  value="Home"/>
-        <put-attribute name="leftSidebar"   value="/partials/leftNav.jsp"/>
-        <put-attribute name="content"   value="/home.jsp"/>
+        <put-attribute name="title"       value="Template"/>
+        <put-attribute name="header"      value="/tiles/empty.jsp"/>
+        <put-attribute name="leftSideBar" value="/tiles/empty.jsp"/>
+        <put-attribute name="content"     value="/tiles/empty.jsp"/>
+        <put-attribute name="footer"      value="/tiles/empty.jsp"/>
     </definition>
     
-    <definition name="/ns2/home" extends="classicLayout">
+    <definition name="headerContentLayout" template="/tiles/headerContentTemplate.jsp">
+        <put-attribute name="title"   value="Template"/>
+        <put-attribute name="header"  value="/tiles/empty.jsp"/>
+        <put-attribute name="content" value="/tiles/empty.jsp"/>
+        <put-attribute name="footer"      value="/tiles/empty.jsp"/>
+    </definition>
+   
+   
+   
+    <definition name="home" extends="classicLayout">
+        <put-attribute name="title"       value="Home"/>
+        <put-attribute name="leftSidebar" value="/partials/leftNav.jsp"/>
+        <put-attribute name="content"     value="/home.jsp"/>
+    </definition>
+   
+     
+    <definition name="/ns2/home" extends="headerContentLayout">
         <put-attribute name="title"  value="Home (ns2)"/>
-        <put-attribute name="leftSidebar"   value="/partials/leftNav.jsp"/>
         <put-attribute name="content"   value="/ns2/home.jsp"/>
     </definition>
+    
     
     <definition name="/ns2/dude" extends="classicLayout">
         <put-attribute name="title"  value="Dude (ns2)"/>
