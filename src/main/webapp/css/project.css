@@ -2,80 +2,116 @@
     https://css-tricks.com/snippets/css/named-colors-and-hex-equivalents/
 */
 
-html,body {
-    padding: 0;
+* {
     margin: 0;
+    padding: 0;
+}
+
+html,body {
     height: 100%;
     background-color: #eeeeee;
 }
 
-thead.fjt-yellow th {
-    background-color: #ffffaa
+div {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-.btn-1em {
-    height: 1.0em;
-    width: 1.0em;
-}
+/*
+ #####   #           #      #####    #####   ###   #####   
+#     #  #          # #    #     #  #     #   #   #     #  
+#        #         #   #   #        #         #   #        
+#        #        #     #   #####    #####    #   #        
+#        #        #######        #        #   #   #        
+#     #  #        #     #  #     #  #     #   #   #     #  
+ #####   #######  #     #   #####    #####   ###   #####   
+
+
+#           #     #     #  #######  #     #  #######  
+#          # #     #   #   #     #  #     #     #     
+#         #   #     # #    #     #  #     #     #     
+#        #     #     #     #     #  #     #     #     
+#        #######     #     #     #  #     #     #     
+#        #     #     #     #     #  #     #     #     
+#######  #     #     #     #######   #####      #     
+
+
+ #####    #####    #####   
+#     #  #     #  #     #  
+#        #        #        
+#         #####    #####   
+#              #        #  
+#     #  #     #  #     #  
+ #####    #####    #####   
+*/
 
 .wrapper {
     height: 100%;
+    display: table;
+    width: 100%;
+    text-align: left;
 }
 
-.topRow {
-    height: 50px;
+.header {
+    display: table-row;
+    height: 75px;
+    background-color: #ffd34e;
 }
 
-.middleRow {
-    height: calc(100% - 100px);
-}
-
-.bottomRow {
-    height: 50px;
-}
-
-#bottomLayout {
-    /*      Top Right Bottom Left */ 
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
-    height: 50px;
-    background: bisque;
-}
-
-#topLayout {
-    /*      Top Right Bottom Left */ 
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
-    height: 50px;
-    background: pink;
-}
-
-#leftLayout {
-    /*      Top Right Bottom Left */ 
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
+.main {
     height: 100%;
-    background: yellow;
+    display: table;
+    width: 100%;
 }
 
-#rightLayout {
-    /*      Top Right Bottom Left */ 
-    margin: 0px 0px 0px 0px;
-    padding: 10px 10px 10px 10px;
-    height: 100%;
-    background: white;
+.box {
+    padding-left: 10px;
+    display: table-cell;
+    border: 1px;
+    border-style: solid;
 }
 
-.form-inline .form-group input {
-    width: auto; 
+.sidebar {
+    width: 150px;
+    background-color: #cccccc;
 }
 
-.align-middle {
-    vertical-align: middle;
+.content {
+    padding-left: 10px;
+    background-color: #ffffff;
 }
+
+.footer {
+    display: table-row;
+    height: 25px;
+    background-color: #b3ccff;
+}
+
+/*
+#        #######  #######  #######  
+#        #        #           #     
+#        #        #           #     
+#        #####    #####       #     
+#        #        #           #     
+#        #        #           #     
+#######  #######  #           #     
+
+
+#     #     #     #     #  
+##    #    # #    #     #  
+# #   #   #   #   #     #  
+#  #  #  #     #  #     #  
+#   # #  #######   #   #   
+#    ##  #     #    # #    
+#     #  #     #     #     
+*/
 
 #leftMenu {
-    margin-top: 5px;
+    margin: 0px;
+/*    border: 2px;
+    border-style: solid;
+    background-color: #aaaaaa;*/
 }
 
 #leftMenu .accordion-group {
@@ -102,4 +138,24 @@ thead.fjt-yellow th {
 
 #leftMenu .accordion-heading .active {
     height: 24px;
+}
+
+/*
+#     #  ###   #####    #####   
+##   ##   #   #     #  #     #  
+# # # #   #   #        #        
+#  #  #   #    #####   #        
+#     #   #         #  #        
+#     #   #   #     #  #     #  
+#     #  ###   #####    #####   
+*/
+
+.form-inline .form-group input {
+    width: auto; 
+}
+
+
+.btn-1em {
+    height: 1.0em;
+    width: 1.0em;
 }

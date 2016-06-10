@@ -8,25 +8,21 @@
         <title><tiles:insertAttribute name="title" ignore="true" /></title>
     </head>
     <body>
-        <div class="container-fluid text-left wrapper">
-            <div class="row topRow">
-                <div id="topLayout" class="col-xs-12">
-                    <tiles:insertAttribute name="topLayout" />
-                </div>
+        <div class="wrapper">
+            <div id="header" class="header">
+                <tiles:insertAttribute name="header" />
             </div>
-            <div class="row middleRow">
-                <div id="leftLayout" class="col-xs-12 hidden-sm hidden-md col-lg-2">
-                    <tiles:insertAttribute name="leftLayout" />
+            <div class="main">
+                <div id="leftSidebar" class="box sidebar">
+                    <tiles:insertAttribute name="leftSidebar" />
                 </div>
-                <div id="rightLayout" class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+                <div id="content" class="box content">
                     <%@include file="/partials/actionErrors.jsp" %>
-                    <tiles:insertAttribute name="rightLayout" />
+                    <tiles:insertAttribute name="content" />
                 </div>
             </div>
-            <div class="row bottomRow">
-                <div id="bottomLayout" class="col-xs-12">
-                    <tiles:insertAttribute name="bottomLayout" />
-                </div>
+            <div class="footer">
+                <tiles:insertAttribute name="footer" />
             </div>
         </div>
     </body>
