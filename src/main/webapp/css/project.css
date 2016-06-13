@@ -3,13 +3,16 @@
 */
 
 * {
-    margin: 0;
-    padding: 0;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
 }
 
 html,body {
     height: 100%;
-    background-color: #eeeeee;
+    background-color: #aaccff;
+    font-family: Arial, "Times New Roman", Times, serif;
+    font-style: normal; 
+    font-size: 14pt;
 }
 
 div {
@@ -18,6 +21,9 @@ div {
     box-sizing: border-box;
 }
 
+h1 {
+    /*background-color: #ff0000;*/
+}
 /*
  #####   #           #      #####    #####   ###   #####   
 #     #  #          # #    #     #  #     #   #   #     #  
@@ -56,36 +62,45 @@ div {
 .header {
     display: table-row;
     height: 1px;
-    background-color: #ffd34e;
+    background-color: #aaaaaa;
+    height: 75px;
 }
 
 .main {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
     height: 100%;
     display: table;
     width: 100%;
 }
 
 .box {
-    padding-left: 10px;
+          /* top right bottom left*/
+    margin:  0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
     display: table-cell;
+    vertical-align: text-top;
     border: 1px;
     border-style: solid;
+    border-collapse: collapse;
 }
 
 .sidebar {
-    width: 150px;
+    width: 200px;
     background-color: #cccccc;
 }
 
 .content {
-    padding-left: 10px;
+           /* top right bottom left*/
+    margin:  0px 0px 0px 0px;      /* do not change */
+    padding: 10px 10px 10px 10px;  /* do not change */
     background-color: #ffffff;
 }
 
 .footer {
     display: table-row;
     height: 1px;
-    background-color: #b3ccff;
+    background-color: #ccaa00;
 }
 
 /*
@@ -108,14 +123,13 @@ div {
 */
 
 #leftMenu {
-    margin: 0px;
-/*    border: 2px;
-    border-style: solid;
-    background-color: #aaaaaa;*/
+    margin:  0px 0px 0px 0px;
+    padding: 0px 10px 0px 10px;
+    /*background-color: #999999;*/
 }
 
 #leftMenu .accordion-group {
-    margin-bottom: 0px;
+    margin: 10px 0px 10px 0px;
     border:0px;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -123,13 +137,21 @@ div {
 }    
 
 #leftMenu .accordion-heading {
-    height: 24px;
+    height: 1.0em;
     list-style-type:none;
+}  
+
+.accordion-inner ul {
+    list-style-type: none;
+}
+
+.accordion-inner li {
+    list-style-type: none;
 }  
 
 #leftMenu .accordion-heading  a{  
     text-decoration:none;
-    font-weight:bold;
+    /*font-weight:bold;*/
 }
 
 #leftMenu .accordion-heading  a:hover{  
@@ -137,7 +159,7 @@ div {
 }
 
 #leftMenu .accordion-heading .active {
-    height: 24px;
+    height: 1.0em;
 }
 
 /*

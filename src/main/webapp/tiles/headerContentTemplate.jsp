@@ -14,8 +14,11 @@
             </div>
             <div class="main">
                 <div id="content" class="box content">
-                    <%@include file="/partials/actionErrors.jsp" %>
-                    <tiles:insertAttribute name="content" />
+                    <div style="visibility: hidden; margin: 0px;">My Hidden Text to align table-cell</div>                    
+                    <div style="margin-top: -45px;">
+                        <%@include file="/partials/actionErrors.jsp" %>
+                        <tiles:insertAttribute name="content" />
+                    </div>                    
                 </div>
             </div>
             <div id="footer" class="footer">
