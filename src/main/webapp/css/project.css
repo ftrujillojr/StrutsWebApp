@@ -1,18 +1,17 @@
-/* project.css 
-    https://css-tricks.com/snippets/css/named-colors-and-hex-equivalents/
-*/
+/* project.css */
+
+html,body {
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff;
+    font-family: Arial, "Times New Roman", Times, serif;
+    font-style: normal; 
+    font-size: 14pt;
+}
 
 * {
     margin: 0px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
-}
-
-html,body {
-    height: 100%;
-    background-color: #aaccff;
-    font-family: Arial, "Times New Roman", Times, serif;
-    font-style: normal; 
-    font-size: 14pt;
 }
 
 div {
@@ -21,9 +20,6 @@ div {
     box-sizing: border-box;
 }
 
-h1 {
-    /*background-color: #ff0000;*/
-}
 /*
  #####   #           #      #####    #####   ###   #####   
 #     #  #          # #    #     #  #     #   #   #     #  
@@ -54,53 +50,54 @@ h1 {
 
 .wrapper {
     height: 100%;
-    display: table;
     width: 100%;
+    display: table;
     text-align: left;
 }
 
 .header {
-    display: table-row;
-    height: 1px;
-    background-color: #aaaaaa;
+    width: 100%;
     height: 75px;
+    display: table-row;
+    background-color: #aaaaaa;
 }
 
 .main {
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
     height: 100%;
-    display: table;
     width: 100%;
+    display: table;
 }
 
 .box {
-          /* top right bottom left*/
-    margin:  0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
     display: table-cell;
     vertical-align: text-top;
-    border: 1px;
-    border-style: solid;
-    border-collapse: collapse;
 }
 
 .sidebar {
-    width: 200px;
+    width: 225px;
     background-color: #cccccc;
+    border: 1px;
+    border-top-style: solid;
+    border-right-style: none;
+    border-bottom-style: solid;
+    border-left-style: solid;
 }
 
 .content {
            /* top right bottom left*/
-    margin:  0px 0px 0px 0px;      /* do not change */
     padding: 10px 10px 10px 10px;  /* do not change */
     background-color: #ffffff;
+    border: 1px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
 }
 
 .footer {
     display: table-row;
     height: 1px;
-    background-color: #ccaa00;
+    background-color: #aaaaaa;
 }
 
 /*
@@ -123,13 +120,11 @@ h1 {
 */
 
 #leftMenu {
-    margin:  0px 0px 0px 0px;
-    padding: 0px 10px 0px 10px;
+    padding: 0px 10px 10px 10px;
     /*background-color: #999999;*/
 }
 
 #leftMenu .accordion-group {
-    margin: 10px 0px 10px 0px;
     border:0px;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -137,6 +132,7 @@ h1 {
 }    
 
 #leftMenu .accordion-heading {
+    margin: 0px 0px 5px 0px;
     height: 1.0em;
     list-style-type:none;
 }  
@@ -146,12 +142,14 @@ h1 {
 }
 
 .accordion-inner li {
+    margin: 0px 0px 5px 15px;
     list-style-type: none;
+    height: 1.0em;
 }  
 
 #leftMenu .accordion-heading  a{  
+    color: #000000;
     text-decoration:none;
-    /*font-weight:bold;*/
 }
 
 #leftMenu .accordion-heading  a:hover{  
@@ -159,7 +157,6 @@ h1 {
 }
 
 #leftMenu .accordion-heading .active {
-    height: 1.0em;
 }
 
 /*

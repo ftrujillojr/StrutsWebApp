@@ -6,8 +6,6 @@
     <div class="form-group">
         <div class="col-xs-4 col-xs-offset-1">
         <!--<button id="testJqueryAjax" type="button" class="btn btn-secondary" onclick="javascript:homeJson_POST_EXAMPLE('${pageContext.request.contextPath}');">Test jQuery Ajax</button>-->
-            <a id="cssAnchor" href="${pageContext.request.contextPath}/css/project.css" target="_new">CSS</a>
-            <br/>
             <button id="testJqueryAjax" type="button" class="btn btn-secondary">Test jQuery Ajax</button>
             <button id="reset" type="reset" class="btn btn-secondary">Reset</button>
             <button id="submit" type="submit" class="btn btn-primary">Submit</button>
