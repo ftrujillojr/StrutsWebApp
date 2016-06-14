@@ -5,7 +5,7 @@
    "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-    <!-- 
+<!--    
           Make sure template jsp file has SAME attribute names your put-attribute names.
           All template and values MUST be relative to namespace '/'.  
 
@@ -16,7 +16,9 @@
    #     #        #     #  #        #        #######     #     #              #  
    #     #        #     #  #        #        #     #     #     #        #     #  
    #     #######  #     #  #        #######  #     #     #     #######   #####   
-    -->
+
+-->
+
     <definition name="classicLayout" template="/tiles/classicLayoutTemplate.jsp">
         <put-attribute name="title"       value="Template"/>
         <put-attribute name="header"      value="/tiles/empty.jsp"/>
@@ -45,7 +47,7 @@
     <definition name="home" extends="classicLayout">
         <put-attribute name="title"       value="Home"/>
         <put-attribute name="header"      value="/tiles/sampleContent.jsp"/>
-        <put-attribute name="leftSidebar" value="/partials/leftNav.jsp"/>
+        <put-attribute name="leftSidebar" value="/partials/leftSideBar.jsp"/>
         <put-attribute name="content"     value="/home.jsp"/>
         <!--<put-attribute name="footer"      value="/tiles/sampleContent.jsp"/>-->
     </definition>
@@ -61,7 +63,7 @@
     <definition name="/ns2/dude" extends="classicLayout">
         <put-attribute name="title"  value="Dude (ns2)"/>
         <put-attribute name="header"      value="/tiles/sampleContent.jsp"/>
-        <put-attribute name="leftSidebar"   value="/partials/leftNav.jsp"/>
+        <put-attribute name="leftSidebar"   value="/partials/leftSideBar.jsp"/>
         <put-attribute name="content"   value="/ns2/dude.jsp"/>
         <!--<put-attribute name="footer"      value="/tiles/sampleContent.jsp"/>-->
     </definition>
