@@ -11,6 +11,18 @@
         return $(location).attr('href');
     };
 
+    // If a SP page, then lop off /SitePages/.+ to find HOME
+    $.fn.getHomePageUrl = function () {
+        var url = $().getCurrentUrl();
+
+        var results = new RegExp('(.+)/SitePages/.+').exec(url);
+        if (results === null) { // Uses === and not ==
+            return null;
+        } else {
+            return results[1] || 0;
+        }
+    };
+
     // var url = "http://www.sitepoint.com/url-parameters-jquery/?city=BOISE";
     //
     // var city = decodeURIComponent($().getParamForUrl('city', url));  
@@ -56,6 +68,26 @@
     $.fn.getSPAbsBaseUrl = function () {
         var siteUrl = window.location.protocol + "//" + window.location.host + $().getSPRelBaseUrl();
         return siteUrl;
+    };
+
+    $.fn.addHomeButtonBeforeContentRow = function () {
+        if ($("#contentRow").exists() == true && $("#homeBtn").exists() == false) {
+            var url = $().getHomePageUrl();
+
+            if (url != null) {
+                var homeBtn = $("<button>").attr({
+                    "id": "homeBtn"
+                }).html("Home");
+
+                $("#contentRow").before(homeBtn);
+
+                $('#homeBtn').on('click', function (event) {
+                    event.preventDefault();
+                    //alert("URL: " + url);
+                    window.location = url;
+                });
+            }
+        }
     };
 
     // Returns true/false if a SharePoint form.
