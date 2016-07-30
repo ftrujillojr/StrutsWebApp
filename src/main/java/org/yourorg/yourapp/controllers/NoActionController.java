@@ -122,21 +122,21 @@ public class NoActionController extends CommonActionSupport {
 
     @Override
     public String show() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.  Please override"); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public String edit() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.  Please override"); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public String update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.  Please override"); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public String delete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.  Please override"); //To change body of generated methods, choose Tools | Templates.
     }
 }
