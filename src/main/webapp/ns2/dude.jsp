@@ -27,6 +27,8 @@
                 <option value="javascript">JavaScript</option>
                 <option value="jquery">jQuery</option>
                 <option value="cpp">C++</option>
+                <option value="cpp">C#</option>
+                <option value="cpp">Sharepoint 2013 REST api</option>
                 <option value="perl">Perl</option>
                 <option value="ruby">Ruby</option>
                 <option value="python">Python</option>
