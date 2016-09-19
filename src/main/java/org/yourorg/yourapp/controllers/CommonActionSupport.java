@@ -77,7 +77,17 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         }
         switch (this.currentMethod) {
             case ("GET"):
-                result = this.index();
+                if(this.uri.matches(".+/new$")) {
+                    result = this._new();
+                } 
+                else if(this.uri.matches(".+/[0-9]+$")) {
+                    result = this.show();
+                }
+                else if(this.uri.matches(".+/[0-9]+/edit$")) {
+                    result = this.edit();
+                } else {
+                    result = this.index();
+                }
                 break;
             case ("POST"):
                 result = this.create();

@@ -8,6 +8,7 @@ public class EmailData implements Serializable {
     private String firstName;
     private String lastName;
     private String phone;
+    private Integer age;
 
     public EmailData() {}
     
@@ -53,4 +54,13 @@ public class EmailData implements Serializable {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+    
 }

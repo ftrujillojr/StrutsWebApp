@@ -17,10 +17,10 @@ chain, freemarker, dispatcher, httpheader, redirect, redirectAction, stream, xsl
     
     <package name="my-top-pkg" namespace="/" extends="my-common-default">
         
-        <action name="homeJson" method="restDispatch" class="org.yourorg.yourapp.controllers.NoActionController">
+        <action name="homeJson**" method="restDispatch" class="org.yourorg.yourapp.controllers.NoActionController">
             <interceptor-ref name="myJsonStack"/>
             <result name="json" type="json">
-                <param name="root">emailData</param>
+                <param name="root">jsonResponse</param>
                 <param name="excludeNullProperties">true</param>  
                 <param name="contentType">application/json</param> 
             </result>
