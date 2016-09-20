@@ -7,10 +7,27 @@ public class JsonResponse {
     private int status;
     private String message;
     private Object data;
+    private String method;
+    private String uri;
     private List<Object> dataList;
 
     public JsonResponse() { }
-    
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
 
     public int getStatus() {
         return status;

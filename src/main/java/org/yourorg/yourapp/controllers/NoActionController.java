@@ -13,8 +13,7 @@ public class NoActionController extends CommonActionSupport {
     private static final long serialVersionUID = 123L;
     private static final Logger LOGGER = Logger.getLogger(NoActionController.class.getName());
 
-    private JsonResponse jsonResponse; // this object is marshalled from Json.
-    
+    // These variables are automatically filled in from web request jsp page.
     private EmailData emailData;
     private String bestFriend;
     private String progLang;
@@ -22,8 +21,7 @@ public class NoActionController extends CommonActionSupport {
     private String password;
 
     public NoActionController() {
-        System.out.println("JsonResponse initialized.");
-        this.jsonResponse = new JsonResponse();
+        super();
     }
 
     public String noAction() {
@@ -101,18 +99,15 @@ public class NoActionController extends CommonActionSupport {
      */
     @Override
     public String index() {
-        this.response.setStatus(HttpServletResponse.SC_OK);
-        this.jsonResponse.setStatus(HttpServletResponse.SC_OK);
-        
         List<Object> emailDataList = new ArrayList<>();
-        
+
         EmailData obj = new EmailData();
         obj.setEmail("ftrujillo@micron.com");
         obj.setFirstName("Francis");
         obj.setLastName("Trujillo");
         obj.setPhone("208-555-5555");
         obj.setAge(51);
-        
+
         //this.jsonResponse.addToDataList(obj);
         emailDataList.add(obj);
 
@@ -122,12 +117,12 @@ public class NoActionController extends CommonActionSupport {
         obj2.setLastName("Trujillo");
         obj2.setPhone("208-555-4321");
         obj2.setAge(52);
-        
+
         //this.jsonResponse.addToDataList(obj2);
         emailDataList.add(obj2);
-        
-        this.jsonResponse.setDataList(emailDataList);
 
+        this.successResponse(emailDataList, HttpServletResponse.SC_OK);
+        
         return "json";
     }
 
@@ -141,26 +136,17 @@ public class NoActionController extends CommonActionSupport {
     //       --request POST http://nsglnxdev1.micron.com:8080/StrutsWebApp/homeJson
     @Override
     public String create() {
-        System.out.println("\n******** create()");
-
         if (emailData == null) {
-            emailData = new EmailData();
-            emailData.setEmail("wilecoyote@warnerbros.com");
+            String errMsg = "Did you forget to POST a json payload?  emailData.";
+            this.errorResponse(errMsg, HttpServletResponse.SC_BAD_REQUEST);
+        } else {
+            // Showing emailData was populated from POST payload.
+            LOGGER.debug("\n********   DATA: \n" + emailData.toString());
+
+            // Just sending back data inside jsonResponse object.
+            // The jsonResponse object will be serialized to json by struts2. (see struts.xml)
+            this.successResponse(this.emailData, HttpServletResponse.SC_CREATED);
         }
-
-        System.out.println("\n********   DATA: " + emailData.toString());
-
-//        try {
-//            this.response.setContentType("application/json");
-        this.response.setStatus(HttpServletResponse.SC_OK);
-        this.jsonResponse.setStatus(HttpServletResponse.SC_OK);
-        this.jsonResponse.setData(this.emailData);
-        
-//            this.response.getWriter().write(JsonUtils.objectToJsonPrettyNoNulls(this.emailData));
-//        } catch (IOException ex) {
-//            java.util.logging.Logger.getLogger(NoActionController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
         return "json";
     }
 
