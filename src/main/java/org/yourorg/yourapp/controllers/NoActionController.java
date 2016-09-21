@@ -54,7 +54,6 @@ public class NoActionController extends CommonActionSupport {
             response = "xml";
         }
         if (this.getAccept().matches(".*application/json.*")) {
-            this.marshallResponseObject2InputStream();
             response = "json";
         }
 
