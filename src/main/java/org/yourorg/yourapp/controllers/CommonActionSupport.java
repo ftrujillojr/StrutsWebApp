@@ -1,22 +1,32 @@
 package org.yourorg.yourapp.controllers;
 
 import com.opensymphony.xwork2.ActionSupport;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.yourorg.yourapp.interfaces.RestConvention; // This is my Rest Convention
 import org.yourorg.yourapp.models.ResponseObject;
+import org.yourorg.yourapp.support.RegExp;
 
 public abstract class CommonActionSupport extends ActionSupport implements SessionAware, ServletRequestAware, ServletResponseAware, RestConvention {
 
     private static final Logger LOGGER = Logger.getLogger(CommonActionSupport.class.getName());
     private static final long serialVersionUID = 123L;
     protected ResponseObject responseObject;
+    protected InputStream inputStream;
 
     // Variables for request/response/session.
     private HttpServletRequest httpServletRequest = null;
@@ -51,8 +61,27 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
 
     protected final void initVars() {
         if (this.contextPath == null && this.httpServletRequest != null && this.httpServletResponse != null) {
-            
+
             this.accept = this.httpServletRequest.getHeader("Accept");
+
+            List<String> acceptList = RegExp.split(",", this.accept);
+
+            for (String item : acceptList) {
+                item = item.trim();
+                if(item.matches("text/html")) {
+                    this.accept = "text/html";
+                    break;
+                }
+                if(item.matches("application/xml")) {
+                    this.accept = "application/xml";
+                    break;
+                }
+                if(item.matches("application/json")) {
+                    this.accept = "application/json";
+                    break;
+                }
+            }
+
             this.contextPath = this.httpServletRequest.getContextPath();            // /Struts2Demo
             this.method = this.httpServletRequest.getMethod().trim().toUpperCase(); // GET
             this.queryString = this.httpServletRequest.getQueryString();            // ?id=1&message=3
@@ -87,13 +116,11 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         }
         switch (this.currentMethod) {
             case ("GET"):
-                if(this.uri.matches(".+/new$")) {
+                if (this.uri.matches(".+/new$")) {
                     result = this._new();
-                } 
-                else if(this.uri.matches(".+/[0-9]+$")) {
+                } else if (this.uri.matches(".+/[0-9]+$")) {
                     result = this.show();
-                }
-                else if(this.uri.matches(".+/[0-9]+/edit$")) {
+                } else if (this.uri.matches(".+/[0-9]+/edit$")) {
                     result = this.edit();
                 } else {
                     result = this.index();
@@ -118,6 +145,22 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         return result;
     }
 
+    public void marshallResponseObject2InputStream() {
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            JAXBContext jaxbContext = JAXBContext.newInstance(ResponseObject.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.marshal(this.responseObject, outputStream);
+            outputStream.flush();
+            this.inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+        } catch (JAXBException ex) {
+            java.util.logging.Logger.getLogger(NoActionController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(CommonActionSupport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     @Override
     public void setSession(Map<String, Object> map) {
         this.sessionAttrs = map;
@@ -133,19 +176,25 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         this.httpServletResponse = httpServletResponse;
     }
 
+    public InputStream getInputStream() {
+        return inputStream;
+    }
+
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
 
     // Getters ONLY
-    
     public String getCurrentMethod() {
         return this.currentMethod;
     }
-    
+
     public String getMethodOverride() {
         return this.methodOverride;
     }
-    
+
     public String getMethod() {
-        return  this.method;
+        return this.method;
     }
 
     public String getContextPath() {
@@ -163,12 +212,12 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
     public String getUrl() {
         return this.url;
     }
-    
+
     public String getAccept() {
         return this.accept;
     }
 
-/*
+    /*
 ######   #######   #####   ######   #######  #     #   #####   #######  
 #     #  #        #     #  #     #  #     #  ##    #  #     #  #        
 #     #  #        #        #     #  #     #  # #   #  #        #        
@@ -176,11 +225,11 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
 #   #    #              #  #        #     #  #   # #        #  #        
 #    #   #        #     #  #        #     #  #    ##  #     #  #        
 #     #  #######   #####   #        #######  #     #   #####   #######  
-*/    
+     */
     protected void errorResponse(String message) {
         this.errorResponse(message, HttpServletResponse.SC_BAD_REQUEST);
     }
-    
+
     protected void errorResponse(String message, int status) {
         this.httpServletResponse.setStatus(status);
         this.responseObject.setStatus(status);
@@ -192,7 +241,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
     protected void successResponse(Object obj) {
         this.successResponse(obj, HttpServletResponse.SC_OK);
     }
-    
+
     protected void successResponse(Object obj, int status) {
         this.httpServletResponse.setStatus(status);
         this.responseObject.setStatus(status);
@@ -201,10 +250,18 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         this.responseObject.setUri(this.uri);
     }
     
+    protected void successResponse(String message) {
+        this.httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+        this.responseObject.setStatus(HttpServletResponse.SC_OK);
+        this.responseObject.setMessage(message);
+        this.responseObject.setMethod(this.currentMethod);
+        this.responseObject.setUri(this.uri);
+    }
+
     protected void successResponse(List<Object> objList) {
         this.successResponse(objList, HttpServletResponse.SC_OK);
     }
-    
+
     protected void successResponse(List<Object> objList, int status) {
         this.httpServletResponse.setStatus(status);
         this.responseObject.setStatus(status);
@@ -212,5 +269,4 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         this.responseObject.setMethod(this.currentMethod);
         this.responseObject.setUri(this.uri);
     }
-    
 }

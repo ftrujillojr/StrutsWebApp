@@ -29,9 +29,13 @@ chain, freemarker, dispatcher, httpheader, redirect, redirectAction, stream, xsl
         <action name="home" method="noAction" class="org.yourorg.yourapp.controllers.NoActionController">
             <result name="success" type="tiles">home</result>
             <result name="xml" type="stream">
-                <param name="root">responseObject</param>
-                <param name="inputName">xmlInputStream</param>  
+                <param name="inputName">inputStream</param>  
                 <param name="contentType">application/xml</param> 
+            </result>
+            <result name="json" type="json">
+                <param name="root">responseObject</param>
+                <param name="excludeNullProperties">true</param>  
+                <param name="contentType">application/json</param> 
             </result>
         </action>
         

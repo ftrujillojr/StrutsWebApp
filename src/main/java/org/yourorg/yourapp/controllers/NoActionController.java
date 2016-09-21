@@ -1,9 +1,16 @@
 package org.yourorg.yourapp.controllers;
 
 import com.opensymphony.xwork2.ActionSupport;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import org.apache.log4j.Logger;
 import org.yourorg.yourapp.models.EmailData;
 import org.yourorg.yourapp.models.ResponseObject;
@@ -23,7 +30,7 @@ public class NoActionController extends CommonActionSupport {
     public NoActionController() {
         super();
     }
-    
+
 //    @Override
 //    public void validate() {
 //        if (this.getContextPath() == null) {
@@ -31,22 +38,27 @@ public class NoActionController extends CommonActionSupport {
 //            this.initVars();
 //        }
 //    }
-
     public String noAction() {
-        if (emailData == null) {
-            emailData = new EmailData();
-            emailData.setEmail("wilecoyote@warnerbros.com");
-        }
-
         StringBuilder sb = new StringBuilder();
         sb.append("  progLang: ").append(this.progLang).append("\n");
         sb.append("bestFriend: ").append(this.bestFriend).append("\n");
-        sb.append(" emailData: ").append(this.emailData.toString()).append("\n");
 
         LOGGER.debug(sb.toString());
 
-        return ActionSupport.SUCCESS;
-//        return "xml";
+        String response = ActionSupport.SUCCESS;
+        
+        this.successResponse("Just testing noAction() method.");
+        
+        if (this.getAccept().matches(".*application/xml.*")) {
+            this.marshallResponseObject2InputStream();
+            response = "xml";
+        }
+        if (this.getAccept().matches(".*application/json.*")) {
+            this.marshallResponseObject2InputStream();
+            response = "json";
+        }
+
+        return response;
     }
 
 
@@ -83,7 +95,7 @@ public class NoActionController extends CommonActionSupport {
         emailDataList.add(obj2);
 
         this.successResponse(emailDataList, HttpServletResponse.SC_OK);
-        
+
         return "json";
     }
 
@@ -130,8 +142,8 @@ public class NoActionController extends CommonActionSupport {
     public String delete() {
         throw new UnsupportedOperationException("delete() Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-/*    
+
+    /*    
  #####   #######  #######  #######  #######  ######   
 #     #  #           #        #     #        #     #  
 #        #           #        #     #        #     #  
@@ -148,8 +160,7 @@ public class NoActionController extends CommonActionSupport {
 #     #  #           #        #     #        #   #    
 #     #  #           #        #     #        #    #   
  #####   #######     #        #     #######  #     #  
-*/  
-    
+     */
     public EmailData getEmailData() {
         return emailData;
     }

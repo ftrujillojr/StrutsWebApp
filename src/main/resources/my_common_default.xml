@@ -47,9 +47,9 @@
         
         <global-results>
             <result name="jsonException">/error/JSONException.jsp</result>
-<!--            <result name="exception">/error/exception.jsp</result>
+            <result name="exception">/error/exception.jsp</result>
             <result name="runtime_exception">/error/runtime_exception.jsp</result>
-            <result name="error">/error/error.jsp</result>-->
+            <result name="error">/error/error.jsp</result>
             <result name="login">/login.jsp</result>
         </global-results>
  
