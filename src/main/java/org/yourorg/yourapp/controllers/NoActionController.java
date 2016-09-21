@@ -23,6 +23,14 @@ public class NoActionController extends CommonActionSupport {
     public NoActionController() {
         super();
     }
+    
+//    @Override
+//    public void validate() {
+//        if (this.getContextPath() == null) {
+//            LOGGER.debug("initVars() called from validate() in NoActionController");
+//            this.initVars();
+//        }
+//    }
 
     public String noAction() {
         if (emailData == null) {
@@ -38,55 +46,9 @@ public class NoActionController extends CommonActionSupport {
         LOGGER.debug(sb.toString());
 
         return ActionSupport.SUCCESS;
+//        return "xml";
     }
 
-    public EmailData getEmailData() {
-        return emailData;
-    }
-
-    public void setEmailData(EmailData emailData) {
-        this.emailData = emailData;
-    }
-
-    public JsonResponse getJsonResponse() {
-        return jsonResponse;
-    }
-
-    public void setJsonResponse(JsonResponse jsonResponse) {
-        this.jsonResponse = jsonResponse;
-    }
-
-    public String getBestFriend() {
-        return bestFriend;
-    }
-
-    public void setBestFriend(String bestFriend) {
-        this.bestFriend = bestFriend;
-    }
-
-    public String getProgLang() {
-        return progLang;
-    }
-
-    public void setProgLang(String progLang) {
-        this.progLang = progLang;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     /*
 ######   #######   #####   #######  
@@ -108,7 +70,6 @@ public class NoActionController extends CommonActionSupport {
         obj.setPhone("208-555-5555");
         obj.setAge(51);
 
-        //this.jsonResponse.addToDataList(obj);
         emailDataList.add(obj);
 
         EmailData obj2 = new EmailData();
@@ -168,5 +129,72 @@ public class NoActionController extends CommonActionSupport {
     @Override
     public String delete() {
         throw new UnsupportedOperationException("delete() Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+/*    
+ #####   #######  #######  #######  #######  ######   
+#     #  #           #        #     #        #     #  
+#        #           #        #     #        #     #  
+ #####   #####       #        #     #####    ######   
+      #  #           #        #     #        #   #    
+#     #  #           #        #     #        #    #   
+ #####   #######     #        #     #######  #     #  
+
+
+ #####   #######  #######  #######  #######  ######   
+#     #  #           #        #     #        #     #  
+#        #           #        #     #        #     #  
+#  ####  #####       #        #     #####    ######   
+#     #  #           #        #     #        #   #    
+#     #  #           #        #     #        #    #   
+ #####   #######     #        #     #######  #     #  
+*/  
+    
+    public EmailData getEmailData() {
+        return emailData;
+    }
+
+    public void setEmailData(EmailData emailData) {
+        this.emailData = emailData;
+    }
+
+    public JsonResponse getJsonResponse() {
+        return jsonResponse;
+    }
+
+    public void setJsonResponse(JsonResponse jsonResponse) {
+        this.jsonResponse = jsonResponse;
+    }
+
+    public String getBestFriend() {
+        return bestFriend;
+    }
+
+    public void setBestFriend(String bestFriend) {
+        this.bestFriend = bestFriend;
+    }
+
+    public String getProgLang() {
+        return progLang;
+    }
+
+    public void setProgLang(String progLang) {
+        this.progLang = progLang;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

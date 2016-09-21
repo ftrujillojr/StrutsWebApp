@@ -18,12 +18,13 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
     private static final long serialVersionUID = 123L;
     protected JsonResponse jsonResponse; // this object is marshalled from Json.
 
-    // Allow these to become private after sub class extends this abstract class.
-    protected HttpServletRequest httpServletRequest = null;
-    protected HttpServletResponse httpServletResponse = null;
-    protected Map<String, Object> sessionAttrs = null;
+    // Variables for request/response/session.
+    private HttpServletRequest httpServletRequest = null;
+    private HttpServletResponse httpServletResponse = null;
+    private Map<String, Object> sessionAttrs = null;
 
     // Variables for business logic.
+    private String accept = null;
     private String contextPath = null;
     private String method = null;         // Original method, e.g.  POST
     private String methodOverride = null; // X-HTTP-Method-Override  e.g. PUT
@@ -36,30 +37,6 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         System.out.println("JsonResponse initialized.");
         this.jsonResponse = new JsonResponse();
     }
-    
-    protected void errorResponse(String message, int status) {
-        this.httpServletResponse.setStatus(status);
-        this.jsonResponse.setStatus(status);
-        this.jsonResponse.setMessage(message);
-        this.jsonResponse.setMethod(this.currentMethod);
-        this.jsonResponse.setUri(this.uri);
-    }
-    
-    protected void successResponse(Object obj, int status) {
-        this.httpServletResponse.setStatus(status);
-        this.jsonResponse.setStatus(status);
-        this.jsonResponse.setData(obj);
-        this.jsonResponse.setMethod(this.currentMethod);
-        this.jsonResponse.setUri(this.uri);
-    }
-    
-    protected void successResponse(List<Object> objList, int status) {
-        this.httpServletResponse.setStatus(status);
-        this.jsonResponse.setStatus(status);
-        this.jsonResponse.setDataList(objList);
-        this.jsonResponse.setMethod(this.currentMethod);
-        this.jsonResponse.setUri(this.uri);
-    }
 
     /**
      * This method can be overridden in sub class.
@@ -67,18 +44,20 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
     @Override
     public void validate() {
         if (this.contextPath == null) {
-            LOGGER.debug("initVars() called from validate()");
+            LOGGER.debug("initVars() called from validate() in CommonActionSupport");
             this.initVars();
         }
     }
 
-    public final void initVars() {
-        if (this.contextPath == null) {
-            this.contextPath = this.httpServletRequest.getContextPath();  // /Struts2Demo
-            this.method = this.httpServletRequest.getMethod().trim().toUpperCase();            // GET
-            this.queryString = this.httpServletRequest.getQueryString();  // ?id=1&message=3
-            this.uri = this.httpServletRequest.getRequestURI();           // /Struts2Demo/query
-            StringBuffer urlBuf = this.httpServletRequest.getRequestURL();  // http://localhost:8080/Struts2Demo/query?id=1&message=3'
+    protected final void initVars() {
+        if (this.contextPath == null && this.httpServletRequest != null && this.httpServletResponse != null) {
+            
+            this.accept = this.httpServletRequest.getHeader("Accept");
+            this.contextPath = this.httpServletRequest.getContextPath();            // /Struts2Demo
+            this.method = this.httpServletRequest.getMethod().trim().toUpperCase(); // GET
+            this.queryString = this.httpServletRequest.getQueryString();            // ?id=1&message=3
+            this.uri = this.httpServletRequest.getRequestURI();                     // /Struts2Demo/query
+            StringBuffer urlBuf = this.httpServletRequest.getRequestURL();          // http://localhost:8080/Struts2Demo/query?id=1&message=3'
             this.url = urlBuf.toString();
             if (this.httpServletRequest.getHeader("X-HTTP-Method-Override") != null) {
                 this.methodOverride = this.httpServletRequest.getHeader("X-HTTP-Method-Override").trim().toUpperCase();
@@ -87,6 +66,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
 
             StringBuilder sb = new StringBuilder();
             sb.append("\n");
+            sb.append("        accept: ").append(this.accept).append("\n");
             sb.append("   contextPath: ").append(this.contextPath).append("\n");
             sb.append("        method: ").append(this.method).append("\n");
             sb.append("   queryString: ").append(this.queryString).append("\n");
@@ -183,4 +163,54 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
     public String getUrl() {
         return this.url;
     }
+    
+    public String getAccept() {
+        return this.accept;
+    }
+
+/*
+######   #######   #####   ######   #######  #     #   #####   #######  
+#     #  #        #     #  #     #  #     #  ##    #  #     #  #        
+#     #  #        #        #     #  #     #  # #   #  #        #        
+######   #####     #####   ######   #     #  #  #  #   #####   #####    
+#   #    #              #  #        #     #  #   # #        #  #        
+#    #   #        #     #  #        #     #  #    ##  #     #  #        
+#     #  #######   #####   #        #######  #     #   #####   #######  
+*/    
+    protected void errorResponse(String message) {
+        this.errorResponse(message, HttpServletResponse.SC_BAD_REQUEST);
+    }
+    
+    protected void errorResponse(String message, int status) {
+        this.httpServletResponse.setStatus(status);
+        this.jsonResponse.setStatus(status);
+        this.jsonResponse.setMessage(message);
+        this.jsonResponse.setMethod(this.currentMethod);
+        this.jsonResponse.setUri(this.uri);
+    }
+
+    protected void successResponse(Object obj) {
+        this.successResponse(obj, HttpServletResponse.SC_OK);
+    }
+    
+    protected void successResponse(Object obj, int status) {
+        this.httpServletResponse.setStatus(status);
+        this.jsonResponse.setStatus(status);
+        this.jsonResponse.setData(obj);
+        this.jsonResponse.setMethod(this.currentMethod);
+        this.jsonResponse.setUri(this.uri);
+    }
+    
+    protected void successResponse(List<Object> objList) {
+        this.successResponse(objList, HttpServletResponse.SC_OK);
+    }
+    
+    protected void successResponse(List<Object> objList, int status) {
+        this.httpServletResponse.setStatus(status);
+        this.jsonResponse.setStatus(status);
+        this.jsonResponse.setDataList(objList);
+        this.jsonResponse.setMethod(this.currentMethod);
+        this.jsonResponse.setUri(this.uri);
+    }
+    
 }

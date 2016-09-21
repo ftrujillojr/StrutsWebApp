@@ -2,7 +2,9 @@ package org.yourorg.yourapp.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class JsonResponse {
     private int status;
     private String message;
