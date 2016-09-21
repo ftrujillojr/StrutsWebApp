@@ -6,7 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.yourorg.yourapp.models.EmailData;
-import org.yourorg.yourapp.models.JsonResponse;
+import org.yourorg.yourapp.models.ResponseObject;
 
 public class NoActionController extends CommonActionSupport {
 
@@ -158,12 +158,12 @@ public class NoActionController extends CommonActionSupport {
         this.emailData = emailData;
     }
 
-    public JsonResponse getJsonResponse() {
-        return jsonResponse;
+    public ResponseObject getResponseObject() {
+        return responseObject;
     }
 
-    public void setJsonResponse(JsonResponse jsonResponse) {
-        this.jsonResponse = jsonResponse;
+    public void setJsonResponse(ResponseObject responseObject) {
+        this.responseObject = responseObject;
     }
 
     public String getBestFriend() {

@@ -10,13 +10,13 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.yourorg.yourapp.interfaces.RestConvention; // This is my Rest Convention
-import org.yourorg.yourapp.models.JsonResponse;
+import org.yourorg.yourapp.models.ResponseObject;
 
 public abstract class CommonActionSupport extends ActionSupport implements SessionAware, ServletRequestAware, ServletResponseAware, RestConvention {
 
     private static final Logger LOGGER = Logger.getLogger(CommonActionSupport.class.getName());
     private static final long serialVersionUID = 123L;
-    protected JsonResponse jsonResponse; // this object is marshalled from Json.
+    protected ResponseObject responseObject;
 
     // Variables for request/response/session.
     private HttpServletRequest httpServletRequest = null;
@@ -35,7 +35,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
 
     public CommonActionSupport() {
         System.out.println("JsonResponse initialized.");
-        this.jsonResponse = new JsonResponse();
+        this.responseObject = new ResponseObject();
     }
 
     /**
@@ -183,10 +183,10 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
     
     protected void errorResponse(String message, int status) {
         this.httpServletResponse.setStatus(status);
-        this.jsonResponse.setStatus(status);
-        this.jsonResponse.setMessage(message);
-        this.jsonResponse.setMethod(this.currentMethod);
-        this.jsonResponse.setUri(this.uri);
+        this.responseObject.setStatus(status);
+        this.responseObject.setMessage(message);
+        this.responseObject.setMethod(this.currentMethod);
+        this.responseObject.setUri(this.uri);
     }
 
     protected void successResponse(Object obj) {
@@ -195,10 +195,10 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
     
     protected void successResponse(Object obj, int status) {
         this.httpServletResponse.setStatus(status);
-        this.jsonResponse.setStatus(status);
-        this.jsonResponse.setData(obj);
-        this.jsonResponse.setMethod(this.currentMethod);
-        this.jsonResponse.setUri(this.uri);
+        this.responseObject.setStatus(status);
+        this.responseObject.setData(obj);
+        this.responseObject.setMethod(this.currentMethod);
+        this.responseObject.setUri(this.uri);
     }
     
     protected void successResponse(List<Object> objList) {
@@ -207,10 +207,10 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
     
     protected void successResponse(List<Object> objList, int status) {
         this.httpServletResponse.setStatus(status);
-        this.jsonResponse.setStatus(status);
-        this.jsonResponse.setDataList(objList);
-        this.jsonResponse.setMethod(this.currentMethod);
-        this.jsonResponse.setUri(this.uri);
+        this.responseObject.setStatus(status);
+        this.responseObject.setDataList(objList);
+        this.responseObject.setMethod(this.currentMethod);
+        this.responseObject.setUri(this.uri);
     }
     
 }
