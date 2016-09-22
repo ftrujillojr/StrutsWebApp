@@ -9,6 +9,8 @@ https://struts.apache.org/docs/result-types.html
 chain, freemarker, dispatcher, httpheader, redirect, redirectAction, stream, xslt, tiles, json    
 
 <action name="home" method="noAction" class="org.yourorg.yourapp.controllers.NoAction">
+
+SUCCESS   NONE  ERROR  INPUT  LOGIN
 -->
  
 <struts>

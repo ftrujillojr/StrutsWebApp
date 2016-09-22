@@ -45,18 +45,9 @@ public class NoActionController extends CommonActionSupport {
 
         LOGGER.debug(sb.toString());
 
-        String response = ActionSupport.SUCCESS;
         
-        this.successResponse("Just testing noAction() method.");
+        String response = this.successResponse("Just testing noAction() method.");
         
-        if (this.getAccept().matches(".*application/xml.*")) {
-            this.marshallResponseObject2InputStream();
-            response = "xml";
-        }
-        if (this.getAccept().matches(".*application/json.*")) {
-            response = "json";
-        }
-
         return response;
     }
 
@@ -93,9 +84,9 @@ public class NoActionController extends CommonActionSupport {
         //this.jsonResponse.addToDataList(obj2);
         emailDataList.add(obj2);
 
-        this.successResponse(emailDataList, HttpServletResponse.SC_OK);
+        String response = this.successResponse(emailDataList);
 
-        return "json";
+        return response;
     }
 
     @Override
@@ -108,18 +99,19 @@ public class NoActionController extends CommonActionSupport {
     //       --request POST http://nsglnxdev1.micron.com:8080/StrutsWebApp/homeJson
     @Override
     public String create() {
+        String response;
+        
         if (emailData == null) {
-            String errMsg = "Did you forget to POST a json payload?  emailData.";
-            this.errorResponse(errMsg, HttpServletResponse.SC_BAD_REQUEST);
+            response = this.errorResponse("Did you forget to POST a json payload?  emailData was null.");
         } else {
             // Showing emailData was populated from POST payload.
             LOGGER.debug("\n********   DATA: \n" + emailData.toString());
 
             // Just sending back data inside jsonResponse object.
             // The jsonResponse object will be serialized to json by struts2. (see struts.xml)
-            this.successResponse(this.emailData, HttpServletResponse.SC_CREATED);
+            response = this.successResponse(this.emailData);
         }
-        return "json";
+        return response;
     }
 
     @Override

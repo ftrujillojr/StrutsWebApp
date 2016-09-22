@@ -68,16 +68,16 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
 
             for (String item : acceptList) {
                 item = item.trim();
-                if(item.matches("text/html")) {
+                if (item.matches("text/html")) {
                     this.accept = "text/html";
                     break;
                 }
-                if(item.matches("application/xml")) {
-                    this.accept = "application/xml";
+                if (item.matches("application/json")) {
+                    this.accept = "application/json";
                     break;
                 }
-                if(item.matches("application/json")) {
-                    this.accept = "application/json";
+                if (item.matches("application/xml")) {
+                    this.accept = "application/xml";
                     break;
                 }
             }
@@ -145,22 +145,6 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         return result;
     }
 
-    public void marshallResponseObject2InputStream() {
-        try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            JAXBContext jaxbContext = JAXBContext.newInstance(ResponseObject.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbMarshaller.marshal(this.responseObject, outputStream);
-            outputStream.flush();
-            this.inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-        } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(NoActionController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(CommonActionSupport.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     @Override
     public void setSession(Map<String, Object> map) {
         this.sessionAttrs = map;
@@ -226,47 +210,104 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
 #    #   #        #     #  #        #     #  #    ##  #     #  #        
 #     #  #######   #####   #        #######  #     #   #####   #######  
      */
-    protected void errorResponse(String message) {
-        this.errorResponse(message, HttpServletResponse.SC_BAD_REQUEST);
-    }
+    private void initSuccess() {
+        if (this.currentMethod.equals("POST")) {
+            this.httpServletResponse.setStatus(HttpServletResponse.SC_CREATED);
+            this.responseObject.setStatus(HttpServletResponse.SC_CREATED);
 
-    protected void errorResponse(String message, int status) {
-        this.httpServletResponse.setStatus(status);
-        this.responseObject.setStatus(status);
-        this.responseObject.setMessage(message);
+        } else {
+            this.httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+            this.responseObject.setStatus(HttpServletResponse.SC_OK);
+        }
+
         this.responseObject.setMethod(this.currentMethod);
         this.responseObject.setUri(this.uri);
     }
 
-    protected void successResponse(Object obj) {
-        this.successResponse(obj, HttpServletResponse.SC_OK);
+    private void initError() {
+        this.httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        this.responseObject.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        this.responseObject.setMethod(this.currentMethod);
+        this.responseObject.setUri(this.uri);
     }
 
-    protected void successResponse(Object obj, int status) {
-        this.httpServletResponse.setStatus(status);
-        this.responseObject.setStatus(status);
+    private void marshallResponseObject2InputStream() {
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            JAXBContext jaxbContext = JAXBContext.newInstance(ResponseObject.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.marshal(this.responseObject, outputStream);
+            outputStream.flush();
+            this.inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+        } catch (JAXBException ex) {
+            java.util.logging.Logger.getLogger(NoActionController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(CommonActionSupport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private String getResponseType() {
+        String responseType = null;
+        String accept = this.getAccept();
+
+        if (accept.matches(".*text/html.*")) {
+            responseType = "html";
+        } else if (accept.matches(".*application/xml.*")) {
+            this.marshallResponseObject2InputStream();
+            responseType = "xml";
+        } else if (accept.matches(".*application/json.*")) {
+            responseType = "json";
+        } else {
+            responseType = "html";
+        }
+
+        if (responseType.equals("html")) {
+            int status = this.httpServletResponse.getStatus();
+
+            if (status >= 200 && status < 300) {
+                responseType = ActionSupport.SUCCESS;
+            } else {
+                responseType = ActionSupport.ERROR;
+            }
+        }
+
+        return responseType;
+    }
+
+    protected String errorResponse(String message) {
+        this.responseObject.setMessage(message);
+        this.initError();
+        return this.getResponseType();
+    }
+
+    protected String errorResponse(Object obj) {
         this.responseObject.setData(obj);
-        this.responseObject.setMethod(this.currentMethod);
-        this.responseObject.setUri(this.uri);
-    }
-    
-    protected void successResponse(String message) {
-        this.httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-        this.responseObject.setStatus(HttpServletResponse.SC_OK);
-        this.responseObject.setMessage(message);
-        this.responseObject.setMethod(this.currentMethod);
-        this.responseObject.setUri(this.uri);
+        this.initError();
+        return this.getResponseType();
     }
 
-    protected void successResponse(List<Object> objList) {
-        this.successResponse(objList, HttpServletResponse.SC_OK);
-    }
-
-    protected void successResponse(List<Object> objList, int status) {
-        this.httpServletResponse.setStatus(status);
-        this.responseObject.setStatus(status);
+    protected String errorResponse(List<Object> objList) {
         this.responseObject.setDataList(objList);
-        this.responseObject.setMethod(this.currentMethod);
-        this.responseObject.setUri(this.uri);
+        this.initError();
+        return this.getResponseType();
+    }
+
+    protected String successResponse(String message) {
+        this.responseObject.setMessage(message);
+        this.initSuccess();
+        return this.getResponseType();
+    }
+
+    protected String successResponse(Object obj) {
+        this.responseObject.setData(obj);
+        this.initSuccess();
+        return this.getResponseType();
+    }
+
+    protected String successResponse(List<Object> objList) {
+        this.responseObject.setDataList(objList);
+        this.initSuccess();
+        return this.getResponseType();
     }
 }
