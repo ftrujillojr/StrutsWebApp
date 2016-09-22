@@ -1,16 +1,7 @@
 package org.yourorg.yourapp.controllers;
 
-import com.opensymphony.xwork2.ActionSupport;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import org.apache.log4j.Logger;
 import org.yourorg.yourapp.models.EmailData;
 import org.yourorg.yourapp.models.ResponseObject;
@@ -22,6 +13,7 @@ public class NoActionController extends CommonActionSupport {
 
     // These variables are automatically filled in from web request jsp page.
     private EmailData emailData;
+    List<Object> emailDataList;
     private String bestFriend;
     private String progLang;
     private String email;
@@ -29,6 +21,7 @@ public class NoActionController extends CommonActionSupport {
 
     public NoActionController() {
         super();
+        this.emailDataList = new ArrayList<>();
     }
 
 //    @Override
@@ -63,7 +56,6 @@ public class NoActionController extends CommonActionSupport {
      */
     @Override
     public String index() {
-        List<Object> emailDataList = new ArrayList<>();
 
         EmailData obj = new EmailData();
         obj.setEmail("ftrujillo@micron.com");
@@ -72,7 +64,7 @@ public class NoActionController extends CommonActionSupport {
         obj.setPhone("208-555-5555");
         obj.setAge(51);
 
-        emailDataList.add(obj);
+        this.emailDataList.add(obj);
 
         EmailData obj2 = new EmailData();
         obj2.setEmail("ftrujillojr@gmail.com");
@@ -81,10 +73,9 @@ public class NoActionController extends CommonActionSupport {
         obj2.setPhone("208-555-4321");
         obj2.setAge(52);
 
-        //this.jsonResponse.addToDataList(obj2);
-        emailDataList.add(obj2);
+        this.emailDataList.add(obj2);
 
-        String response = this.successResponse(emailDataList);
+        String response = this.successResponse(this.emailDataList);
 
         return response;
     }
