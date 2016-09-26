@@ -5,7 +5,7 @@
     <div class="form-group">
         <div class="col-xs-12">
             <s:if test='emailDataList != null && emailDataList.size() > 0'>
-                <table class = "table table-striped">
+                <table id="emailDataListTable" class = "table table-striped">
                     <caption>Striped Table Layout</caption>
                     <thead>
                         <tr>
@@ -48,6 +48,9 @@
             event.preventDefault();
             homeJson_POST_EXAMPLE("${pageContext.request.contextPath}");
         }); // end onClick
+        
+        
+        $('#emailDataListTable').DataTable();
 
     }); // end ready
 

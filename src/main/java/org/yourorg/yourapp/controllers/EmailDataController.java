@@ -46,7 +46,7 @@ public class EmailDataController extends CommonActionSupport {
     public String index() {
 
         EmailData obj = new EmailData();
-        obj.setEmail("ftrujillo@micron.com");
+        obj.setEmail("ftrujillojr@gmail.com");
         obj.setFirstName("Francis");
         obj.setLastName("Trujillo");
         obj.setPhone("208-555-5555");
@@ -55,11 +55,11 @@ public class EmailDataController extends CommonActionSupport {
         this.emailDataList.add(obj);
 
         EmailData obj2 = new EmailData();
-        obj2.setEmail("ftrujillojr@gmail.com");
-        obj2.setFirstName("Francis");
+        obj2.setEmail("n/a");
+        obj2.setFirstName("Brisia");
         obj2.setLastName("Trujillo");
-        obj2.setPhone("208-555-4321");
-        obj2.setAge(52);
+        obj2.setPhone("208-123-4567");
+        obj2.setAge(8);
 
         this.emailDataList.add(obj2);
 
