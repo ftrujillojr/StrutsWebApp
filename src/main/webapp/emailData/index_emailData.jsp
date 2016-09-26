@@ -5,38 +5,35 @@
 <form class="form-horizontal" method="POST" action="${pageContext.request.contextPath}/ns2/home">
     <div class="form-group">
         <div class="col-xs-10 col-xs-offset-1">
-            <table class = "table table-striped">
-                <caption>Striped Table Layout</caption>
+            <s:if test='emailDataList != null && emailDataList.size() > 0'>
 
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>City</th>
-                        <th>Pincode</th>
-                    </tr>
-                </thead>
+                <table class = "table table-striped">
+                    <caption>Striped Table Layout</caption>
 
-                <tbody>
-                    <tr>
-                        <td>Tanmay</td>
-                        <td>Bangalore</td>
-                        <td>560001</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>FirstName</th>
+                            <th>LastName</th>
+                            <th>Phone</th>
+                            <th>Age</th>
+                        </tr>
+                    </thead>
 
-                    <tr>
-                        <td>Sachin</td>
-                        <td>Mumbai</td>
-                        <td>400003</td>
-                    </tr>
-
-                    <tr>
-                        <td>Uma</td>
-                        <td>Pune</td>
-                        <td>411027</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                    <tbody>
+                        <s:iterator value="emailDataList" status="emailDataStatus">
+                            <tr>
+                                <td><s:property value="email"></s:property></td>
+                                <td><s:property value="firstName"></s:property></td>
+                                <td><s:property value="lastName"></s:property></td>
+                                <td><s:property value="phone"></s:property></td>
+                                <td><s:property value="age"></s:property></td>
+                            </tr>
+                        </s:iterator> 
+                    </tbody>
+                </table>
+            </div>
+        </s:if>
 
         <div class="col-xs-4 col-xs-offset-1">
             <button id="testJqueryAjax" type="button" class="btn btn-secondary">Test jQuery Ajax</button>

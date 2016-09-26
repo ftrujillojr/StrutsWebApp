@@ -13,7 +13,7 @@ public class EmailDataController extends CommonActionSupport {
 
     // These variables are automatically filled in from web request jsp page.
     private EmailData emailData;
-    List<Object> emailDataList;
+    List<EmailData> emailDataList;
     private String bestFriend;
     private String progLang;
     private String email;
@@ -137,6 +137,14 @@ public class EmailDataController extends CommonActionSupport {
 
     public void setEmailData(EmailData emailData) {
         this.emailData = emailData;
+    }
+
+    public List<EmailData> getEmailDataList() {
+        return emailDataList;
+    }
+
+    public void setEmailDataList(List<EmailData> emailDataList) {
+        this.emailDataList = emailDataList;
     }
 
     public ResponseObject getResponseObject() {
