@@ -43,29 +43,33 @@
 #         #   #      #     #        #    ##  #     #  #        #     #  
 #######  #     #     #     #######  #     #  ######   #######  ######   
     -->
-   
+
+    <definition name="emailData_index" extends="classicLayout">
+        <put-attribute name="title"       value="Home"/>
+        <put-attribute name="header"      value="/tiles/sampleContent.jsp"/>
+        <put-attribute name="leftSidebar" value="/partials/leftSideBar.jsp"/>
+        <put-attribute name="content"     value="/emailData/index_emailData.jsp"/>
+    </definition>
+    
+         
     <definition name="home" extends="classicLayout">
         <put-attribute name="title"       value="Home"/>
         <put-attribute name="header"      value="/tiles/sampleContent.jsp"/>
         <put-attribute name="leftSidebar" value="/partials/leftSideBar.jsp"/>
         <put-attribute name="content"     value="/home.jsp"/>
-        <!--<put-attribute name="footer"      value="/tiles/sampleContent.jsp"/>-->
     </definition>
-   
      
-    <definition name="/ns2/home" extends="headerContentLayout">
+    <definition name="ns2.home" extends="headerContentLayout">
         <put-attribute name="title"  value="Home (ns2)"/>
         <put-attribute name="header"      value="/tiles/sampleContent.jsp"/>
         <put-attribute name="content"   value="/ns2/home.jsp"/>
     </definition>
     
-    
-    <definition name="/ns2/dude" extends="classicLayout">
+    <definition name="ns2.dude" extends="classicLayout">
         <put-attribute name="title"  value="Dude (ns2)"/>
         <put-attribute name="header"      value="/tiles/sampleContent.jsp"/>
         <put-attribute name="leftSidebar"   value="/partials/leftSideBar.jsp"/>
         <put-attribute name="content"   value="/ns2/dude.jsp"/>
-        <!--<put-attribute name="footer"      value="/tiles/sampleContent.jsp"/>-->
     </definition>
    
 </tiles-definitions>

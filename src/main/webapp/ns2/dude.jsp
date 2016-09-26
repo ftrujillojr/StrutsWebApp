@@ -2,7 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <h1>/ns2/dude (tiles)</h1>
 
-<form class="form-horizontal" method="POST" action="${pageContext.request.contextPath}/home">
+<form class="form-horizontal" method="POST" action="${pageContext.request.contextPath}/emailData">
 
     <div class="form-group">
         <label for="email" class="control-label col-xs-2 text-right">Email address:</label>

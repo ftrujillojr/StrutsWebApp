@@ -17,11 +17,11 @@ chain, freemarker, dispatcher, httpheader, redirect, redirectAction, stream, xsl
     <package name="sample-pkg" namespace="/ns2" extends="my-common-default">
         
         <action name="dude" method="noAction" class="org.yourorg.yourapp.controllers.NoActionController">
-            <result name="success" type="tiles">/ns2/dude</result>
+            <result name="success" type="tiles">ns2.dude</result>
         </action>
         
         <action name="home" method="noAction" class="org.yourorg.yourapp.controllers.NoActionController">
-            <result name="success" type="tiles">/ns2/home</result>
+            <result name="success" type="tiles">ns2.home</result>
         </action>
         
     </package>

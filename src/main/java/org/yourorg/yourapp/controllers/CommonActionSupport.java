@@ -42,6 +42,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
     private String queryString = null;
     private String uri = null;
     private String url = null;
+    private String restMethod = null;
 
     public CommonActionSupport() {
         System.out.println("JsonResponse initialized.");
@@ -117,23 +118,31 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         switch (this.currentMethod) {
             case ("GET"):
                 if (this.uri.matches(".+/new$")) {
+                    this.restMethod = "new";
                     result = this._new();
                 } else if (this.uri.matches(".+/[0-9]+$")) {
+                    this.restMethod = "show";
                     result = this.show();
                 } else if (this.uri.matches(".+/[0-9]+/edit$")) {
+                    this.restMethod = "edit";
                     result = this.edit();
                 } else {
+                    this.restMethod = "index";
                     result = this.index();
                 }
                 break;
             case ("POST"):
+                this.restMethod = "create";
                 result = this.create();
                 break;
-            case ("PUT"):
             case ("PATCH"):
+                // PATCH will be the same as PUT.
+            case ("PUT"):
+                this.restMethod = "put";
                 result = this.update();
                 break;
             case ("DELETE"):
+                this.restMethod = "delete";
                 result = this.delete();
                 break;
             default:
@@ -266,7 +275,13 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
             int status = this.httpServletResponse.getStatus();
 
             if (status >= 200 && status < 300) {
+                System.out.println("SUCCESS!!");
                 responseType = ActionSupport.SUCCESS;
+                if(this.restMethod != null) {
+                    System.out.println("Adding restMethod " + this.restMethod);
+                    responseType += "_" + this.restMethod;
+                    System.out.println("responseType == " + responseType);
+                }
             } else {
                 responseType = ActionSupport.ERROR;
             }
