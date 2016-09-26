@@ -21,7 +21,7 @@ function homeJson_POST_EXAMPLE(webContext) {
         async: true, // defaults to true
         cache: false, //defaults to true
         method: "POST", // GET, POST, PUT, PATCH, DELETE
-        url: webContext + "/homeJson", // Struts2 route
+        url: webContext + "/emailData", // Struts2 route
         contentType: "application/json", // payload type
         dataType: 'json', // Accept <=  json, xml, script, jsonp, html, or text
         data: JSON.stringify(jsonDataObj), // string version of Json object

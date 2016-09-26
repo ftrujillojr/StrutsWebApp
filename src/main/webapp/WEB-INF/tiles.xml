@@ -45,12 +45,15 @@
     -->
 
     <definition name="emailData_*" extends="classicLayout">
-        <put-attribute name="title"       value="Home"/>
+        <put-attribute name="title"       value="EmailData {1}"/>
         <put-attribute name="header"      value="/tiles/sampleContent.jsp"/>
         <put-attribute name="leftSidebar" value="/partials/leftSideBar.jsp"/>
         <put-attribute name="content"     value="/emailData/{1}_emailData.jsp"/>
     </definition>
+
     
+        
+                
          
     <definition name="home" extends="classicLayout">
         <put-attribute name="title"       value="Home"/>

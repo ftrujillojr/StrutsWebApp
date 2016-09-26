@@ -8,29 +8,33 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
+import org.apache.struts2.util.ServletContextAware;
 import org.yourorg.yourapp.interfaces.RestConvention; // This is my Rest Convention
 import org.yourorg.yourapp.models.ResponseObject;
 import org.yourorg.yourapp.support.RegExp;
 
-public abstract class CommonActionSupport extends ActionSupport implements SessionAware, ServletRequestAware, ServletResponseAware, RestConvention {
+public abstract class CommonActionSupport extends ActionSupport implements SessionAware, ServletContextAware, ServletRequestAware, ServletResponseAware, RestConvention {
 
     private static final Logger LOGGER = Logger.getLogger(CommonActionSupport.class.getName());
     private static final long serialVersionUID = 123L;
     protected ResponseObject responseObject;
     protected InputStream inputStream;
 
-    // Variables for request/response/session.
+    // Variables for request/response/session/servletContext
     private HttpServletRequest httpServletRequest = null;
     private HttpServletResponse httpServletResponse = null;
+    private ServletContext servletContext = null;
     private Map<String, Object> sessionAttrs = null;
 
     // Variables for business logic.
@@ -93,7 +97,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
                 this.methodOverride = this.httpServletRequest.getHeader("X-HTTP-Method-Override").trim().toUpperCase();
             }
             this.currentMethod = (methodOverride != null) ? this.methodOverride : this.method;
-
+            
             StringBuilder sb = new StringBuilder();
             sb.append("\n");
             sb.append("        accept: ").append(this.accept).append("\n");
@@ -103,8 +107,13 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
             sb.append("           uri: ").append(this.uri).append("\n");
             sb.append("           url: ").append(this.url).append("\n");
             sb.append("methodOverride: ").append(this.methodOverride).append("\n");
-            sb.append(" currentMethod: ").append(this.currentMethod).append("\n");
-
+            sb.append(" currentMethod: ").append(this.currentMethod).append("\n\n");
+            
+//            Map<String, Object> appContextMap = ServletActionContext.getContext().getApplication();
+//            for(String key : appContextMap.keySet()) {
+//                sb.append("*").append(key).append("*").append("\n");
+//            }
+            
             LOGGER.debug(sb.toString());
         }
     }
@@ -154,6 +163,20 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         return result;
     }
 
+    public ServletContext getServletContext() {
+        return this.servletContext;
+    }
+
+    /**
+     *
+     * @param servletContext
+     */
+    @Override
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
+
+    
     @Override
     public void setSession(Map<String, Object> map) {
         this.sessionAttrs = map;
