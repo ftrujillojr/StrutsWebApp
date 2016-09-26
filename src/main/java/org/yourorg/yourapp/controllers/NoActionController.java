@@ -10,6 +10,7 @@ public class NoActionController extends CommonActionSupport {
 
     // These variables are automatically filled in from web request jsp page.
     private Integer id;
+    private Integer emailDataListTable_length;
 
     public NoActionController() {
         super();
@@ -92,6 +93,16 @@ public class NoActionController extends CommonActionSupport {
 #     #  #           #        #     #        #    #   
  #####   #######     #        #     #######  #     #  
      */
+
+    public Integer getEmailDataListTable_length() {
+        return emailDataListTable_length;
+    }
+
+    public void setEmailDataListTable_length(Integer emailDataListTable_length) {
+        this.emailDataListTable_length = emailDataListTable_length;
+    }
+    
+    
 
     public ResponseObject getResponseObject() {
         return responseObject;

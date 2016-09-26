@@ -18,6 +18,7 @@ public class EmailDataController extends CommonActionSupport {
     private String progLang;
     private String email;
     private String password;
+    private Integer emailDataListTable_length;
 
     public EmailDataController() {
         super();
@@ -63,7 +64,7 @@ public class EmailDataController extends CommonActionSupport {
 
         this.emailDataList.add(obj2);
 
-        this.addActionError("This is a forced Action Error!!  I will take out later.");
+        //this.addActionError("This is a forced Action Error!!  I will take out later.");
         
         String response = this.successResponse(this.emailDataList);
 
@@ -133,6 +134,15 @@ public class EmailDataController extends CommonActionSupport {
 #     #  #           #        #     #        #    #   
  #####   #######     #        #     #######  #     #  
      */
+
+    public Integer getEmailDataListTable_length() {
+        return emailDataListTable_length;
+    }
+
+    public void setEmailDataListTable_length(Integer emailDataListTable_length) {
+        this.emailDataListTable_length = emailDataListTable_length;
+    }
+    
     public EmailData getEmailData() {
         return emailData;
     }
