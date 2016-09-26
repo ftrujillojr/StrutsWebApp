@@ -19,20 +19,11 @@
 
 -->
 
-    <definition name="classicLayout" template="/tiles/classicLayoutTemplate.jsp">
+    <definition name="basicLayout" template="/tiles/basicLayoutTemplate.jsp">
         <put-attribute name="title"       value="Template"/>
-        <put-attribute name="header"      value="/tiles/empty.jsp"/>
-        <put-attribute name="leftSideBar" value="/tiles/empty.jsp"/>
         <put-attribute name="content"     value="/tiles/empty.jsp"/>
-        <put-attribute name="footer"      value="/tiles/empty.jsp"/>
     </definition>
     
-    <definition name="headerContentLayout" template="/tiles/headerContentTemplate.jsp">
-        <put-attribute name="title"   value="Template"/>
-        <put-attribute name="header"  value="/tiles/empty.jsp"/>
-        <put-attribute name="content" value="/tiles/empty.jsp"/>
-        <put-attribute name="footer"      value="/tiles/empty.jsp"/>
-    </definition>
    
     <!--
 #######  #     #  #######  #######  #     #  ######   #######  ######   
@@ -44,34 +35,18 @@
 #######  #     #     #     #######  #     #  ######   #######  ######   
     -->
 
-    <definition name="emailData_*" extends="classicLayout">
+    <definition name="emailData_*" extends="basicLayout">
         <put-attribute name="title"       value="EmailData {1}"/>
-        <put-attribute name="header"      value="/tiles/sampleContent.jsp"/>
-        <put-attribute name="leftSidebar" value="/partials/leftSideBar.jsp"/>
         <put-attribute name="content"     value="/emailData/{1}_emailData.jsp"/>
     </definition>
-
-    
         
-                
-         
-    <definition name="home" extends="classicLayout">
-        <put-attribute name="title"       value="Home"/>
-        <put-attribute name="header"      value="/tiles/sampleContent.jsp"/>
-        <put-attribute name="leftSidebar" value="/partials/leftSideBar.jsp"/>
-        <put-attribute name="content"     value="/home.jsp"/>
-    </definition>
-     
-    <definition name="ns2.home" extends="headerContentLayout">
+    <definition name="ns2.home" extends="basicLayout">
         <put-attribute name="title"  value="Home (ns2)"/>
-        <put-attribute name="header"      value="/tiles/sampleContent.jsp"/>
         <put-attribute name="content"   value="/ns2/home.jsp"/>
     </definition>
-    
-    <definition name="ns2.dude" extends="classicLayout">
+        
+    <definition name="ns2.dude" extends="basicLayout">
         <put-attribute name="title"  value="Dude (ns2)"/>
-        <put-attribute name="header"      value="/tiles/sampleContent.jsp"/>
-        <put-attribute name="leftSidebar"   value="/partials/leftSideBar.jsp"/>
         <put-attribute name="content"   value="/ns2/dude.jsp"/>
     </definition>
    

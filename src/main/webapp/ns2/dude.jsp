@@ -5,22 +5,22 @@
 <form class="form-horizontal" method="POST" action="${pageContext.request.contextPath}/emailData">
 
     <div class="form-group">
-        <label for="email" class="control-label col-xs-2 text-right">Email address:</label>
-        <div class="col-xs-4">
+        <label for="email" class="control-label col-xs-12 col-sm-3 text-left">Email address:</label>
+        <div class="col-xs-3 col-sm-4">
             <input type="email" name="email" class="form-control" id="email">
         </div>
     </div>
     
     <div class="form-group">
-        <label for="pwd" class="control-label col-xs-2 text-right">Password:</label>
-        <div class="col-xs-4">
+        <label for="pwd" class="control-label col-xs-12 col-sm-3 text-left">Password:</label>
+        <div class="col-xs-3 col-sm-4">
             <input type="password" name="password" class="form-control" id="password">
         </div>
     </div>
 
     <div class="form-group">
-        <label for="select_lang" class="control-label col-xs-2 text-right">Software Language:</label>
-        <div class="col-xs-4">
+        <label for="select_lang" class="control-label col-xs-12 col-sm-3 text-left">Software Language:</label>
+        <div class="col-xs-3 col-sm-4">
             <select id="select_lang" name="progLang" class="form-control">
                 <option value="">-- Choose Language --</option>
                 <option value="java">Java</option>
@@ -37,9 +37,9 @@
     </div>
 
     <div class="form-group">
-        <label class="col-sm-2 control-label text-right">Best Friend<i class="glyphicon glyphicon-info-sign s2b_tooltip" title="Choose your Best Friend"></i>
+        <label class="col-xs-12 col-sm-3 control-label text-left">Best Friend<i class="glyphicon glyphicon-info-sign s2b_tooltip" title="Choose your Best Friend"></i>
         </label>    
-        <div class="col-sm-4 controls">
+        <div class="col-xs-3 col-sm-4 controls">
             <div class="radio">
                 <label for="bestFriend-1" class="">
                     <input type="radio" name="bestFriend" id="bestFriend-1" value="Wes"/>Wes</label>
@@ -68,7 +68,7 @@
     </div>
     
     <div class="form-group">
-        <div class="col-xs-4 col-xs-offset-2">
+        <div class="col-xs-12 col-sm-9 col-sm-offset-3">
             <div class="checkbox">
                 <label><input id="debug" type="checkbox">Debug?</label>
             </div>
@@ -76,10 +76,9 @@
     </div>
 
     <div class="form-group">
-        <div class="col-xs-4 col-xs-offset-2">
+        <div class="col-xs-12 col-sm-9 col-sm-offset-3">
             <button id="reset" type="reset" class="btn btn-secondary">Reset</button>
             <button id="submit" type="submit" class="btn btn-primary">Submit</button>
         </div>
     </div>
-    
 </form>

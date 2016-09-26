@@ -1,15 +1,12 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <h1>EmailData index</h1>
 <form class="form-horizontal" method="POST" action="${pageContext.request.contextPath}/ns2/home">
     <div class="form-group">
-        <div class="col-xs-10 col-xs-offset-1">
+        <div class="col-xs-12">
             <s:if test='emailDataList != null && emailDataList.size() > 0'>
-
                 <table class = "table table-striped">
                     <caption>Striped Table Layout</caption>
-
                     <thead>
                         <tr>
                             <th>Email</th>
@@ -19,7 +16,6 @@
                             <th>Age</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <s:iterator value="emailDataList" status="emailDataStatus">
                             <tr>
@@ -34,8 +30,7 @@
                 </table>
             </div>
         </s:if>
-
-        <div class="col-xs-4 col-xs-offset-1">
+        <div class="col-xs-12">
             <button id="testJqueryAjax" type="button" class="btn btn-secondary">Test jQuery Ajax</button>
             <button id="reset" type="reset" class="btn btn-secondary">Reset</button>
             <button id="submit" type="submit" class="btn btn-primary">Submit</button>

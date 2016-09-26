@@ -63,6 +63,8 @@ public class EmailDataController extends CommonActionSupport {
 
         this.emailDataList.add(obj2);
 
+        this.addActionError("This is a forced Action Error!!  I will take out later.");
+        
         String response = this.successResponse(this.emailDataList);
 
         return response;
