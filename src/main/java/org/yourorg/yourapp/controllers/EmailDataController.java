@@ -59,11 +59,11 @@ public class EmailDataController extends CommonActionSupport {
         this.emailDataList.add(obj);
 
         EmailData obj2 = new EmailData();
-        obj2.setEmail("n/a");
-        obj2.setFirstName("Brisia");
+        obj2.setEmail("bennyTheDog@bowwow.org");
+        obj2.setFirstName("Benny");
         obj2.setLastName("Trujillo");
         obj2.setPhone("208-123-4567");
-        obj2.setAge(8);
+        obj2.setAge(20);
 
         this.emailDataList.add(obj2);
 
