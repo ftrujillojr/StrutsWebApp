@@ -15,7 +15,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import org.apache.log4j.Logger;
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
@@ -28,7 +27,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
 
     private static final Logger LOGGER = Logger.getLogger(CommonActionSupport.class.getName());
     private static final long serialVersionUID = 123L;
-    protected ResponseObject responseObject;
+    protected ResponseObject responseObject = null;
     protected InputStream inputStream;
 
     // Variables for request/response/session/servletContext
@@ -38,6 +37,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
     private Map<String, Object> sessionAttrs = null;
 
     // Variables for business logic.
+    protected String responseType = null;
     private String accept = null;
     private String contextPath = null;
     private String method = null;         // Original method, e.g.  POST
@@ -47,6 +47,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
     private String uri = null;
     private String url = null;
     private String restMethod = null;
+    
 
     public CommonActionSupport() {
         System.out.println("JsonResponse initialized.");
@@ -192,14 +193,6 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         this.httpServletResponse = httpServletResponse;
     }
 
-    public InputStream getInputStream() {
-        return inputStream;
-    }
-
-    public void setInputStream(InputStream inputStream) {
-        this.inputStream = inputStream;
-    }
-
     // Getters ONLY
     public String getCurrentMethod() {
         return this.currentMethod;
@@ -233,6 +226,14 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         return this.accept;
     }
 
+    public InputStream getInputStream() {
+        return inputStream;
+    }
+
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
+
     /*
 ######   #######   #####   ######   #######  #     #   #####   #######  
 #     #  #        #     #  #     #  #     #  ##    #  #     #  #        
@@ -242,6 +243,23 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
 #    #   #        #     #  #        #     #  #    ##  #     #  #        
 #     #  #######   #####   #        #######  #     #   #####   #######  
      */
+    
+    private void marshallResponseObject2InputStream() {
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            JAXBContext jaxbContext = JAXBContext.newInstance(ResponseObject.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.marshal(this.responseObject, outputStream);
+            outputStream.flush();
+            this.inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+        } catch (JAXBException ex) {
+            java.util.logging.Logger.getLogger(NoActionController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(CommonActionSupport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private void initSuccess() {
         if (this.currentMethod.equals("POST")) {
             this.httpServletResponse.setStatus(HttpServletResponse.SC_CREATED);
@@ -263,54 +281,40 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         this.responseObject.setUri(this.uri);
     }
 
-    private void marshallResponseObject2InputStream() {
-        try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            JAXBContext jaxbContext = JAXBContext.newInstance(ResponseObject.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbMarshaller.marshal(this.responseObject, outputStream);
-            outputStream.flush();
-            this.inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-        } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(NoActionController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(CommonActionSupport.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     private String getResponseType() {
-        String responseType = null;
-        String accept = this.getAccept();
+        String l_responseType = null;
+        String l_accept = this.getAccept();
 
-        if (accept.matches(".*text/html.*")) {
-            responseType = "html";
-        } else if (accept.matches(".*application/xml.*")) {
-            this.marshallResponseObject2InputStream();
-            responseType = "xml";
-        } else if (accept.matches(".*application/json.*")) {
-            responseType = "json";
+        if (l_accept.matches(".*text/html.*")) {
+            l_responseType = "html";
+        } else if (l_accept.matches(".*application/xml.*")) {
+            //this.marshallResponseObject2InputStream();
+            l_responseType = "xml";
+        } else if (l_accept.matches(".*application/json.*")) {
+            l_responseType = "json";
         } else {
-            responseType = "html";
+            l_responseType = "html";
         }
 
-        if (responseType.equals("html")) {
+        if (l_responseType.equals("html")) {
             int status = this.httpServletResponse.getStatus();
 
             if (status >= 200 && status < 300) {
                 System.out.println("SUCCESS!!");
-                responseType = ActionSupport.SUCCESS;
+                l_responseType = ActionSupport.SUCCESS;
                 if(this.restMethod != null) {
                     System.out.println("Adding restMethod " + this.restMethod);
-                    responseType += "_" + this.restMethod;
-                    System.out.println("responseType == " + responseType);
+                    l_responseType += "_" + this.restMethod;
+                    System.out.println("responseType == " + l_responseType);
                 }
             } else {
-                responseType = ActionSupport.ERROR;
+                l_responseType = ActionSupport.ERROR;
             }
         }
+        
+        this.responseType = l_responseType;
 
-        return responseType;
+        return l_responseType;
     }
 
     protected String errorResponse(String message) {
@@ -321,12 +325,6 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
 
     protected String errorResponse(Object obj) {
         this.responseObject.setData(obj);
-        this.initError();
-        return this.getResponseType();
-    }
-
-    protected String errorResponse(List<Object> objList) {
-        this.responseObject.setDataList(objList);
         this.initError();
         return this.getResponseType();
     }
@@ -343,9 +341,6 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         return this.getResponseType();
     }
 
-    protected String successResponse(List<Object> objList) {
-        this.responseObject.setDataList(objList);
-        this.initSuccess();
-        return this.getResponseType();
-    }
+
+
 }

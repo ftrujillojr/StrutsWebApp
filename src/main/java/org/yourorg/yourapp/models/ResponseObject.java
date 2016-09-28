@@ -1,19 +1,22 @@
 package org.yourorg.yourapp.models;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class ResponseObject {
+
     private int status;
     private String message;
     private Object data;
     private String method;
     private String uri;
-    private List<Object> dataList;
-
-    public ResponseObject() { }
+    /* 
+        Do NOT add any List<***>'s here.  JAXb does not like.
+        There is a work around, but clunky.
+    */
+    
+    public ResponseObject() {
+    }
 
     public String getMethod() {
         return method;
@@ -46,30 +49,12 @@ public class ResponseObject {
     public void setMessage(String message) {
         this.message = message;
     }
-
+    
     public Object getData() {
         return data;
     }
 
-    public void addToDataList(Object data) {
-        if(this.dataList == null) {
-            this.dataList = new ArrayList<>();
-        }
-        this.dataList.add(data);
-    }
-    
     public void setData(Object data) {
         this.data = data;
     }
-
-    public List<Object> getDataList() {
-        return dataList;
-    }
-
-    public void setDataList(List<Object> dataList) {
-        this.dataList = dataList;
-    }
-    
-    
-    
 }

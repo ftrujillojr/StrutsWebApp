@@ -1,10 +1,15 @@
 package org.yourorg.yourapp.controllers;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import org.apache.log4j.Logger;
+import org.yourorg.yourapp.exceptions.Json2XmlException;
 import org.yourorg.yourapp.models.EmailData;
 import org.yourorg.yourapp.models.ResponseObject;
+import org.yourorg.yourapp.support.Json2Xml;
+import org.yourorg.yourapp.support.JsonUtils;
 
 public class EmailDataController extends CommonActionSupport {
 
@@ -32,8 +37,6 @@ public class EmailDataController extends CommonActionSupport {
 //            this.initVars();
 //        }
 //    }
-
-
     /*
 ######   #######   #####   #######  
 #     #  #        #     #     #     
@@ -65,8 +68,21 @@ public class EmailDataController extends CommonActionSupport {
         this.emailDataList.add(obj2);
 
         //this.addActionError("This is a forced Action Error!!  I will take out later.");
-        
         String response = this.successResponse(this.emailDataList);
+
+        if (this.responseType.equals("xml")) {
+            String jsonStr = JsonUtils.objectToJsonPrettyNoNulls(this.responseObject);
+            System.out.println(jsonStr);
+            
+            Json2Xml json2xml = new Json2Xml();
+            try {
+                String xmlStr = json2xml.toXML(jsonStr);
+                System.out.println(xmlStr);
+                this.inputStream = new ByteArrayInputStream(xmlStr.getBytes());
+            } catch (Json2XmlException ex) {
+                java.util.logging.Logger.getLogger(EmailDataController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
         return response;
     }
@@ -82,7 +98,7 @@ public class EmailDataController extends CommonActionSupport {
     @Override
     public String create() {
         String response;
-        
+
         if (emailData == null) {
             response = this.errorResponse("Did you forget to POST a json payload?  emailData was null.");
         } else {
@@ -134,7 +150,6 @@ public class EmailDataController extends CommonActionSupport {
 #     #  #           #        #     #        #    #   
  #####   #######     #        #     #######  #     #  
      */
-
     public Integer getEmailDataListTable_length() {
         return emailDataListTable_length;
     }
@@ -142,7 +157,7 @@ public class EmailDataController extends CommonActionSupport {
     public void setEmailDataListTable_length(Integer emailDataListTable_length) {
         this.emailDataListTable_length = emailDataListTable_length;
     }
-    
+
     public EmailData getEmailData() {
         return emailData;
     }
