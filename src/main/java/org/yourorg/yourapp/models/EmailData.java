@@ -1,9 +1,6 @@
 package org.yourorg.yourapp.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class EmailData implements Serializable {
     private static final long serialVersionUID = 123L;

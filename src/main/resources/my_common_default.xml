@@ -37,7 +37,7 @@
         </interceptors>
 
         
-        <default-interceptor-ref name="myStack"></default-interceptor-ref>
+        <default-interceptor-ref name="myJsonStack"></default-interceptor-ref>
         <!--    
                 <default-interceptor-ref name="defaultStack"></default-interceptor-ref>
                 <default-interceptor-ref name="loginStack"></default-interceptor-ref>

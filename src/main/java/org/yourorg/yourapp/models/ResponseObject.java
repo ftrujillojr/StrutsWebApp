@@ -1,8 +1,5 @@
 package org.yourorg.yourapp.models;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class ResponseObject {
 
     private int status;

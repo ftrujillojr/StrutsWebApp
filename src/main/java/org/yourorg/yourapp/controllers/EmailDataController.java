@@ -1,15 +1,10 @@
 package org.yourorg.yourapp.controllers;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
-import org.yourorg.yourapp.exceptions.Json2XmlException;
 import org.yourorg.yourapp.models.EmailData;
 import org.yourorg.yourapp.models.ResponseObject;
-import org.yourorg.yourapp.support.Json2Xml;
-import org.yourorg.yourapp.support.JsonUtils;
 
 public class EmailDataController extends CommonActionSupport {
 
@@ -70,19 +65,7 @@ public class EmailDataController extends CommonActionSupport {
         //this.addActionError("This is a forced Action Error!!  I will take out later.");
         String response = this.successResponse(this.emailDataList);
 
-        if (this.responseType.equals("xml")) {
-            String jsonStr = JsonUtils.objectToJsonPrettyNoNulls(this.responseObject);
-            System.out.println(jsonStr);
-            
-            Json2Xml json2xml = new Json2Xml();
-            try {
-                String xmlStr = json2xml.toXML(jsonStr);
-                System.out.println(xmlStr);
-                this.inputStream = new ByteArrayInputStream(xmlStr.getBytes());
-            } catch (Json2XmlException ex) {
-                java.util.logging.Logger.getLogger(EmailDataController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+
 
         return response;
     }
@@ -92,14 +75,12 @@ public class EmailDataController extends CommonActionSupport {
         throw new UnsupportedOperationException("_new() Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    // curl -ss -i -H "Accept: application/json" -H "Content-Type: application/json" \
-    //       --data {"emailData":{"email":"ftrujillojr@gmail.com","firstName":"Francis","lastName":"Trujillo"}} \
-    //       --request POST http://nsglnxdev1.micron.com:8080/StrutsWebApp/homeJson
     @Override
     public String create() {
         String response;
 
         if (emailData == null) {
+            LOGGER.debug("NULL dude");
             response = this.errorResponse("Did you forget to POST a json payload?  emailData was null.");
         } else {
             // Showing emailData was populated from POST payload.

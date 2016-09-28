@@ -20,7 +20,7 @@ chain, freemarker, dispatcher, httpheader, redirect, redirectAction, stream, xsl
             <result name="success" type="tiles">ns2.dude</result>
         </action>
         
-        <action name="home" method="noAction" class="org.yourorg.yourapp.controllers.NoActionController">
+        <action name="home**" method="noAction" class="org.yourorg.yourapp.controllers.NoActionController">
             <result name="success" type="tiles">ns2.home</result>
         </action>
         

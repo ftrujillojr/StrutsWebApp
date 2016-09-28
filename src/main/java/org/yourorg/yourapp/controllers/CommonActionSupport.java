@@ -2,8 +2,6 @@ package org.yourorg.yourapp.controllers;
 
 import com.opensymphony.xwork2.ActionSupport;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -11,16 +9,16 @@ import java.util.logging.Level;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
+import org.yourorg.yourapp.exceptions.Json2XmlException;
 import org.yourorg.yourapp.interfaces.RestConvention; // This is my Rest Convention
 import org.yourorg.yourapp.models.ResponseObject;
+import org.yourorg.yourapp.support.Json2Xml;
+import org.yourorg.yourapp.support.JsonUtils;
 import org.yourorg.yourapp.support.RegExp;
 
 public abstract class CommonActionSupport extends ActionSupport implements SessionAware, ServletContextAware, ServletRequestAware, ServletResponseAware, RestConvention {
@@ -47,7 +45,6 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
     private String uri = null;
     private String url = null;
     private String restMethod = null;
-    
 
     public CommonActionSupport() {
         System.out.println("JsonResponse initialized.");
@@ -98,7 +95,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
                 this.methodOverride = this.httpServletRequest.getHeader("X-HTTP-Method-Override").trim().toUpperCase();
             }
             this.currentMethod = (methodOverride != null) ? this.methodOverride : this.method;
-            
+
             StringBuilder sb = new StringBuilder();
             sb.append("\n");
             sb.append("        accept: ").append(this.accept).append("\n");
@@ -109,12 +106,11 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
             sb.append("           url: ").append(this.url).append("\n");
             sb.append("methodOverride: ").append(this.methodOverride).append("\n");
             sb.append(" currentMethod: ").append(this.currentMethod).append("\n\n");
-            
+
 //            Map<String, Object> appContextMap = ServletActionContext.getContext().getApplication();
 //            for(String key : appContextMap.keySet()) {
 //                sb.append("*").append(key).append("*").append("\n");
 //            }
-            
             LOGGER.debug(sb.toString());
         }
     }
@@ -146,7 +142,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
                 result = this.create();
                 break;
             case ("PATCH"):
-                // PATCH will be the same as PUT.
+            // PATCH will be the same as PUT.
             case ("PUT"):
                 this.restMethod = "put";
                 result = this.update();
@@ -177,7 +173,6 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         this.servletContext = servletContext;
     }
 
-    
     @Override
     public void setSession(Map<String, Object> map) {
         this.sessionAttrs = map;
@@ -243,23 +238,20 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
 #    #   #        #     #  #        #     #  #    ##  #     #  #        
 #     #  #######   #####   #        #######  #     #   #####   #######  
      */
-    
     private void marshallResponseObject2InputStream() {
+        String jsonStr = JsonUtils.objectToJsonPrettyNoNulls(this.responseObject);
+        //System.out.println(jsonStr);
+
+        Json2Xml json2xml = new Json2Xml();
         try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            JAXBContext jaxbContext = JAXBContext.newInstance(ResponseObject.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbMarshaller.marshal(this.responseObject, outputStream);
-            outputStream.flush();
-            this.inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-        } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(NoActionController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(CommonActionSupport.class.getName()).log(Level.SEVERE, null, ex);
+            String xmlStr = json2xml.toXML(jsonStr);
+            //System.out.println(xmlStr);
+            this.inputStream = new ByteArrayInputStream(xmlStr.getBytes());
+        } catch (Json2XmlException ex) {
+            java.util.logging.Logger.getLogger(EmailDataController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void initSuccess() {
         if (this.currentMethod.equals("POST")) {
             this.httpServletResponse.setStatus(HttpServletResponse.SC_CREATED);
@@ -288,7 +280,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         if (l_accept.matches(".*text/html.*")) {
             l_responseType = "html";
         } else if (l_accept.matches(".*application/xml.*")) {
-            //this.marshallResponseObject2InputStream();
+            this.marshallResponseObject2InputStream();
             l_responseType = "xml";
         } else if (l_accept.matches(".*application/json.*")) {
             l_responseType = "json";
@@ -302,7 +294,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
             if (status >= 200 && status < 300) {
                 System.out.println("SUCCESS!!");
                 l_responseType = ActionSupport.SUCCESS;
-                if(this.restMethod != null) {
+                if (this.restMethod != null) {
                     System.out.println("Adding restMethod " + this.restMethod);
                     l_responseType += "_" + this.restMethod;
                     System.out.println("responseType == " + l_responseType);
@@ -311,7 +303,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
                 l_responseType = ActionSupport.ERROR;
             }
         }
-        
+
         this.responseType = l_responseType;
 
         return l_responseType;
@@ -340,7 +332,5 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         this.initSuccess();
         return this.getResponseType();
     }
-
-
 
 }
