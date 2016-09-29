@@ -73,6 +73,14 @@ public class EmailDataController extends CommonActionSupport {
         throw new UnsupportedOperationException("_new() Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /*
+
+curl -ss -i -H "Accept: application/json" -H "Content-Type: application/json" \
+--data '{"emailData":{"email":"ftrujillojr@gmail.com","firstName":"Francis","lastName":"Trujillo"}}' \
+--request POST \
+http://nsglnxdev1:8085/StrutsWebApp/emailData/
+    
+     */
     @Override
     public String create() {
         String response;
