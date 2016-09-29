@@ -5,41 +5,21 @@
    "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-<!--    
-          Make sure template jsp file has SAME attribute names your put-attribute names.
-          All template and values MUST be relative to namespace '/'.  
-
-#######  #######  #     #  ######   #           #     #######  #######   #####   
-   #     #        ##   ##  #     #  #          # #       #     #        #     #  
-   #     #        # # # #  #     #  #         #   #      #     #        #        
-   #     #####    #  #  #  ######   #        #     #     #     #####     #####   
-   #     #        #     #  #        #        #######     #     #              #  
-   #     #        #     #  #        #        #     #     #     #        #     #  
-   #     #######  #     #  #        #######  #     #     #     #######   #####   
-
--->
 
     <definition name="basicLayout" template="/tiles/basicLayoutTemplate.jsp">
         <put-attribute name="title"       value="Template"/>
         <put-attribute name="content"     value="/tiles/empty.jsp"/>
     </definition>
-    
-   
-    <!--
-#######  #     #  #######  #######  #     #  ######   #######  ######   
-#         #   #      #     #        ##    #  #     #  #        #     #  
-#          # #       #     #        # #   #  #     #  #        #     #  
-#####       #        #     #####    #  #  #  #     #  #####    #     #  
-#          # #       #     #        #   # #  #     #  #        #     #  
-#         #   #      #     #        #    ##  #     #  #        #     #  
-#######  #     #     #     #######  #     #  ######   #######  ######   
-    -->
+
+
 
     <definition name="emailData_*" extends="basicLayout">
         <put-attribute name="title"       value="EmailData {1}"/>
         <put-attribute name="content"     value="/emailData/{1}_emailData.jsp"/>
     </definition>
+
         
+                        
     <definition name="ns2.home" extends="basicLayout">
         <put-attribute name="title"  value="Home (ns2)"/>
         <put-attribute name="content"   value="/ns2/home.jsp"/>

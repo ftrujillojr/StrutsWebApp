@@ -21,12 +21,12 @@ function emailData_POST_EXAMPLE(webContext) {
         async: true, // defaults to true
         cache: false, //defaults to true
         method: "POST", // GET, POST
-        url: webContext + "/emailData/", // Struts2 route
+        url: webContext + "/emailData/",
         contentType: "application/json", // payload type
         dataType: 'json', // Accept <=  json, xml, script, jsonp, html, or text
         data: JSON.stringify(jsonDataObj), // string version of Json object
         beforeSend: function (jqXHR, settings) {
-            //jqXHR.setRequestHeader("X-HTTP-Method-Override", "PUT"); // On POST, override method for PUT, DELETE
+            //jqXHR.setRequestHeader("X-HTTP-Method-Override", "PUT"); // On POST, override method with PUT, DELETE
             jqXHR.url = settings.url; // SAVE URL for these methods => done,fail, always.
             jqXHR.method = settings.method; // same for method.
         },
@@ -59,8 +59,6 @@ function emailData_POST_EXAMPLE(webContext) {
     }).always(function (jqXHR, textStatus) {      // Pre jQuery 1.9, this was .complete()
         // run after done() or fail()
     });
-
-
 }
 
 function setAjaxGlobals() {

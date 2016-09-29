@@ -43,6 +43,7 @@
 
     $(document).ready(function ($) {
         // your code here.
+        window.history.pushState("","", location.href);
 
         $('#testJqueryAjax').on('click', function (event) {
             event.preventDefault();

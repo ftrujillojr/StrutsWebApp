@@ -17,14 +17,25 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
     <include file="my_common_default.xml"></include>
     
     <package name="my-top-pkg" namespace="/emailData" extends="my-common-default">
+                
         <action name="**" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
-            <result name="success_index" type="tiles">emailData_index</result>
             
+            <!-- Accept: text/html -->
+            <result name="success_index" type="tiles">emailData_index</result>
+            <result name="success_new" type="tiles">emailData_new</result>
+            <result name="success_create" type="tiles">emailData_create</result>
+            <result name="success_edit" type="tiles">emailData_edit</result>
+            <result name="success_show" type="tiles">emailData_show</result>
+            <result name="success_update" type="tiles">emailData_update</result>
+            <result name="success_delete" type="tiles">emailData_delete</result>
+            
+            <!-- Accept: application/xml -->
             <result name="xml" type="stream">
                 <param name="inputName">inputStream</param>  
                 <param name="contentType">application/xml</param> 
             </result>
             
+            <!-- Accept: application/json -->
             <result name="json" type="json">
                 <param name="root">responseObject</param>
                 <param name="excludeNullProperties">true</param>  
