@@ -46,7 +46,7 @@
 
         $('#testJqueryAjax').on('click', function (event) {
             event.preventDefault();
-            homeJson_POST_EXAMPLE("${pageContext.request.contextPath}");
+            emailData_POST_EXAMPLE("${pageContext.request.contextPath}");
         }); // end onClick
         
         

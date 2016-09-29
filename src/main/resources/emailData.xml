@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+ <!--
+https://struts.apache.org/docs/result-types.html
+
+chain, freemarker, dispatcher, httpheader, redirect, redirectAction, stream, xslt, tiles, json    
+
+<action name="home" method="noAction" class="org.yourorg.yourapp.controllers.NoAction">
+
+SUCCESS   NONE  ERROR  INPUT  LOGIN
+-->
+ 
+<struts>
+    <include file="my_common_default.xml"></include>
+    
+    <package name="my-top-pkg" namespace="/emailData" extends="my-common-default">
+        <action name="**" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
+            <result name="success_index" type="tiles">emailData_index</result>
+            
+            <result name="xml" type="stream">
+                <param name="inputName">inputStream</param>  
+                <param name="contentType">application/xml</param> 
+            </result>
+            
+            <result name="json" type="json">
+                <param name="root">responseObject</param>
+                <param name="excludeNullProperties">true</param>  
+                <param name="contentType">application/json</param> 
+            </result>
+        </action>
+    </package>
+</struts>        
+    

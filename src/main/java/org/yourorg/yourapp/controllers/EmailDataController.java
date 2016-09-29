@@ -65,8 +65,6 @@ public class EmailDataController extends CommonActionSupport {
         //this.addActionError("This is a forced Action Error!!  I will take out later.");
         String response = this.successResponse(this.emailDataList);
 
-
-
         return response;
     }
 
@@ -80,12 +78,8 @@ public class EmailDataController extends CommonActionSupport {
         String response;
 
         if (emailData == null) {
-            LOGGER.debug("NULL dude");
             response = this.errorResponse("Did you forget to POST a json payload?  emailData was null.");
         } else {
-            // Showing emailData was populated from POST payload.
-            LOGGER.debug("\n********   DATA: \n" + emailData.toString());
-
             // Just sending back data inside jsonResponse object.
             // The jsonResponse object will be serialized to json by struts2. (see struts.xml)
             response = this.successResponse(this.emailData);
@@ -95,22 +89,50 @@ public class EmailDataController extends CommonActionSupport {
 
     @Override
     public String show() {
-        throw new UnsupportedOperationException("show() Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String response;
+
+        if (emailData == null) {
+            response = this.errorResponse("Did you forget to SHOW a json payload or a /ID on the end?  emailData was null.");
+        } else {
+            // Just sending back data inside jsonResponse object.
+            // The jsonResponse object will be serialized to json by struts2. (see struts.xml)
+            response = this.successResponse(this.emailData);
+        }
+        return response;
     }
 
     @Override
     public String edit() {
-        throw new UnsupportedOperationException("edit() Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String response;
+
+        if (emailData == null) {
+            response = this.errorResponse("Did you forget to EDIT a json payload or a /ID/edit on the end?  emailData was null.");
+        } else {
+            // Just sending back data inside jsonResponse object.
+            // The jsonResponse object will be serialized to json by struts2. (see struts.xml)
+            response = this.successResponse(this.emailData);
+        }
+        return response;
     }
 
     @Override
     public String update() {
-        throw new UnsupportedOperationException("update() Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String response;
+
+        if (emailData == null) {
+            response = this.errorResponse("Did you forget to PUT a json payload or a /ID on the end?  emailData was null.");
+        } else {
+            // Just sending back data inside jsonResponse object.
+            // The jsonResponse object will be serialized to json by struts2. (see struts.xml)
+            response = this.successResponse(this.emailData);
+        }
+        return response;
     }
 
     @Override
     public String delete() {
-        throw new UnsupportedOperationException("delete() Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String response = this.successResponse("DELETE was successful.");
+        return response;
     }
 
     /*    

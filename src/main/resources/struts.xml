@@ -15,30 +15,13 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
  
 <struts>
     <include file="my_common_default.xml"></include>
+    <include file="emailData.xml"></include>
     <include file="ns2.xml"></include>
     
     <package name="my-top-pkg" namespace="/" extends="my-common-default">
-        
-        <action name="emailData**" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
-            <result name="success" type="tiles">home</result>
-            <result name="success_index" type="tiles">emailData_index</result>
-            
-            <result name="xml" type="stream">
-                <param name="inputName">inputStream</param>  
-                <param name="contentType">application/xml</param> 
-            </result>
-            
-            <result name="json" type="json">
-                <param name="root">responseObject</param>
-                <param name="excludeNullProperties">true</param>  
-                <param name="contentType">application/json</param> 
-            </result>
-        </action>
-        
         <action name="">
             <result name="success" type="redirect">/emailData</result>
         </action>
-        
     </package>
 </struts>        
     
