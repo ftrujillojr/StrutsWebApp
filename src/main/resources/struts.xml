@@ -11,6 +11,9 @@ chain, freemarker, dispatcher, httpheader, redirect, redirectAction, stream, xsl
 <action name="home" method="noAction" class="org.yourorg.yourapp.controllers.NoAction">
 
 SUCCESS   NONE  ERROR  INPUT  LOGIN
+
+These are the options I used on Apache Tomcat 8.0 startup:
+-Xms512m -Xmx1024m -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC
 -->
  
 <struts>

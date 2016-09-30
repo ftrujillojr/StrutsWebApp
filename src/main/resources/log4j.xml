@@ -4,6 +4,7 @@
     <appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
         <param name="Target" value="System.out"/> 
         <layout class="org.apache.log4j.PatternLayout">
+            <!--2016-09-30 18:27:25,953 DEBUG com.mchange.v2.c3p0.impl.C3P0PooledConnectionPool.finerLoggingTestPooledConnection:452 - Test of PooledConnection [com.mchange.v2.c3p0.impl.NewPooledConnection@55a3b378] on IDLE CHECK has SUCCEEDED.-->
             <param name="ConversionPattern" value="%d %-5p %c.%M:%L - %m%n"/>
         </layout>
     </appender>
@@ -17,14 +18,58 @@
             <param name="ConversionPattern" value="%p %t %c - %m%n"/> 
         </layout> 
     </appender> 
+
+
+<!--SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST or ALL-->
+    <logger name="org.apache.catalina.core">
+        <level value="WARN" />
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="rollingFileAppender" />
+    </logger>
+    <logger name="org.apache.catalina.session">
+        <level value="WARN" />
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="rollingFileAppender" />
+    </logger>
+
 <!-- ALL < DEBUG < INFO < WARN < ERROR < FATAL < OFF -->  
     <logger name="com.opensymphony">
-        <level value="DEBUG" />
+        <level value="WARN" />
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="rollingFileAppender" />
+    </logger>
+    <logger name="com.opensymphony.xwork2">
+        <level value="INFO" />  
         <appender-ref ref="consoleAppender" />
         <appender-ref ref="rollingFileAppender" />
     </logger>
     <logger name="org.apache.struts2">
-        <level value="DEBUG" />
+        <level value="WARN" />
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="rollingFileAppender" />
+    </logger>
+    <logger name="org.hibernate">
+        <level value="INFO" />
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="rollingFileAppender" />
+    </logger>
+    <logger name="com.mchange">
+        <level value="INFO" />
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="rollingFileAppender" />
+    </logger>
+    <logger name="com.mchange.v2.c3p0">
+        <level value="INFO" />
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="rollingFileAppender" />
+    </logger>
+    <logger name="freemarker.cache">
+        <level value="INFO" />
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="rollingFileAppender" />
+    </logger>
+    <logger name="freemarker.beans">
+        <level value="INFO" />
         <appender-ref ref="consoleAppender" />
         <appender-ref ref="rollingFileAppender" />
     </logger>

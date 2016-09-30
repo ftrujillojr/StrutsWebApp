@@ -64,6 +64,19 @@ public class EmailDataController extends CommonActionSupport {
 
         //this.addActionError("This is a forced Action Error!!  I will take out later.");
         String response = this.successResponse(this.emailDataList);
+        
+        try {
+            this.beginTransaction(10);
+
+            System.out.println("Doing something.....!!!");
+
+            this.commitTransaction();
+        } catch (Exception ex) {
+            this.rollbackTransaction();
+            throw ex;
+        } finally {
+            this.closeSession();
+        }
 
         return response;
     }

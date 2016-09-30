@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory> 
+        <property name ="hibernate.mapping.precedence property">class</property>
+<!--        <property name ="hibernate.dialect">org.hibernate.dialect.SQLServer2012Dialect</property> 
+        <property name ="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property> 
+        <property name ="hibernate.connection.url">jdbc:sqlserver://NTSQLTST10.somehost.com\BOMSSTEST123:65460;databaseName=wormhole</property>
+        <property name ="hibernate.connection.username">USERNAME</property> 
+        <property name ="hibernate.connection.password">PASSWORD</property>-->
+        <property name ="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property> 
+        <property name ="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property> 
+        <property name ="hibernate.connection.url">jdbc:mysql://nsglnxdev1.micron.com:3306/ExampleDB</property>
+        <property name ="hibernate.connection.username">dbwrite</property> 
+        <property name ="hibernate.connection.password">dbwrite</property>
+        <property name ="hibernate.connection.autocommit" >false</property> 
+        <!--        
+                The Hibernate session is bound to the current "thread".   
+                Therefore, when the transaction is committed, the session is 
+                closed also. 
+        -->
+        <property name ="hibernate.current_session_context_class">thread</property>
+        
+        <property name ="hibernate.show_sql">true</property >
+        <property name ="hibernate.format_sql">true</property> 
+        <property name ="hibernate.jdbc.batch_size">50</property> 
+        <property name ="hibernate.cache.use_second_level_cache">false</property> 
+
+        <!-- 
+                A real connection pool. This is a MUST for production.
+                
+                https://developer.jboss.org/wiki/HowToConfigureTheC3P0ConnectionPool
+                
+                https://docs.jboss.org/hibernate/orm/4.3/devguide/en-US/html_single/#d5e154
+        -->
+        <property name="hibernate.c3p0.min_size">1</property>
+        <property name="hibernate.c3p0.max_size">10</property>
+        <property name="hibernate.c3p0.acquire_increment">1</property>
+        <property name="hibernate.c3p0.idle_test_period">10</property>
+        <property name="hibernate.c3p0.max_statements">10</property>
+        <property name="hibernate.c3p0.timeout">20</property>
+        <!--
+                Now, map the Hibernate Annotated Objects
+               <mapping class="fully.qualified.package.Class"/>
+        -->
+        <!--<mapping class="fully.qualified.package.Class"/>-->
+    </session-factory>
+</hibernate-configuration>
+
+

@@ -14,19 +14,28 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.yourorg.yourapp.exceptions.Json2XmlException;
 import org.yourorg.yourapp.interfaces.RestConvention; // This is my Rest Convention
 import org.yourorg.yourapp.models.ResponseObject;
+import org.yourorg.yourapp.support.HibernateUtil4;
 import org.yourorg.yourapp.support.Json2Xml;
 import org.yourorg.yourapp.support.JsonUtils;
 import org.yourorg.yourapp.support.RegExp;
 
 public abstract class CommonActionSupport extends ActionSupport implements SessionAware, ServletContextAware, ServletRequestAware, ServletResponseAware, RestConvention {
 
+    private static boolean debug = true;
     private static final Logger LOGGER = Logger.getLogger(CommonActionSupport.class.getName());
     private static final long serialVersionUID = 123L;
     protected ResponseObject responseObject = null;
     protected InputStream inputStream;
+
+    // Hibernate
+    private Transaction tx = null;
+    protected Session session = null;
 
     // Variables for request/response/session/servletContext
     private HttpServletRequest httpServletRequest = null;
@@ -51,6 +60,71 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         this.responseObject = new ResponseObject();
     }
 
+protected void beginTransaction(int timeout) {
+        if (debug) {
+            HibernateUtil4.setDebug(true);
+        } else {
+            HibernateUtil4.setDebug(false);
+        }
+
+        // TODO: new JPA 2.0 way ... no time to integrate yet.
+//        this.entityManager = ServletContext.getEntityManager();
+//        this.session = this.entityManager.unwrap(Session.class);
+        SessionFactory sessionFactory = HibernateUtil4.getSessionFactory();
+        // http://docs.jboss.org/hibernate/orm/4.3/devguide/en-US/html_single/#session-per-request
+        // http://stackoverflow.com/questions/33005348/hibernate-5-org-hibernate-mappingexception-unknown-entity
+        session = sessionFactory.getCurrentSession();
+
+        if (session != null && session.isOpen()) {
+            tx = session.getTransaction();
+            tx.setTimeout(timeout);
+            tx.begin();
+        }
+    }
+
+    protected void commitTransaction() {
+        System.out.println("\n SESSION " + session.toString() + " \n");
+        if (session != null && session.isOpen()) {
+            session.flush();
+            session.clear();
+        }
+        if (tx != null && tx.isActive()) {
+            tx.commit();
+            if (debug) {
+                System.out.println("\n*** COMMIT !!!\n");
+            }
+        }
+    }    
+    protected void rollbackTransaction() {
+        if (debug) {
+            System.out.println("\n*** ROLLBACK ***");
+        }
+        if (tx != null && tx.isActive()) {
+            tx.rollback();
+        }
+    }
+
+    protected void closeSession() {
+        if (debug) {
+            System.out.println("\n*** Calling closeSession()\n");
+            if (session != null) {
+                System.out.println("\n SESSION " + session.toString() + " \n");
+            }
+        }
+
+//        The Hibernate session is bound to the current "thread".   
+//        Therefore, when the transaction is committed, the session is closed also.  
+//                
+//        The next block will not execute if you used sessionFactory.getCurrentSession();
+        if (session != null && session.isOpen()) {
+            session.close();
+            if (debug) {
+                System.out.println("\n*** CLOSE session\n");
+            }
+        }
+    }    
+    
+    
     /**
      * This method can be overridden in sub class.
      */
