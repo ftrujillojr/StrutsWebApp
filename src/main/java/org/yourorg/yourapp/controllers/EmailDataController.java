@@ -3,6 +3,8 @@ package org.yourorg.yourapp.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.yourorg.yourapp.models.EmailData;
 import org.yourorg.yourapp.models.ResponseObject;
 
@@ -22,7 +24,6 @@ public class EmailDataController extends CommonActionSupport {
 
     public EmailDataController() {
         super();
-        this.emailDataList = new ArrayList<>();
     }
 
 //    @Override
@@ -43,32 +44,21 @@ public class EmailDataController extends CommonActionSupport {
      */
     @Override
     public String index() {
+        String response = this.errorResponse("Unable to retrieve EmailData index()");
 
-        EmailData obj = new EmailData();
-        obj.setEmail("ftrujillojr@gmail.com");
-        obj.setFirstName("Francis");
-        obj.setLastName("Trujillo");
-        obj.setPhone("208-555-5555");
-        obj.setAge(51);
-
-        this.emailDataList.add(obj);
-
-        EmailData obj2 = new EmailData();
-        obj2.setEmail("bennyTheDog@bowwow.org");
-        obj2.setFirstName("Benny");
-        obj2.setLastName("Trujillo");
-        obj2.setPhone("208-123-4567");
-        obj2.setAge(20);
-
-        this.emailDataList.add(obj2);
-
-        //this.addActionError("This is a forced Action Error!!  I will take out later.");
-        String response = this.successResponse(this.emailDataList);
-        
         try {
             this.beginTransaction(10);
 
-            System.out.println("Doing something.....!!!");
+//            @SuppressWarnings("unchecked") 
+            Criteria cr = this.session.createCriteria(EmailData.class);
+            cr.addOrder(Order.asc("id"));
+            this.emailDataList = cr.list();
+
+            if (this.emailDataList == null) {
+                this.emailDataList = new ArrayList<>();
+            }
+            
+            response = this.successResponse(this.emailDataList.size());
 
             this.commitTransaction();
         } catch (Exception ex) {

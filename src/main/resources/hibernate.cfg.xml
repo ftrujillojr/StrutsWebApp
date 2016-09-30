@@ -45,7 +45,8 @@
                 Now, map the Hibernate Annotated Objects
                <mapping class="fully.qualified.package.Class"/>
         -->
-        <!--<mapping class="fully.qualified.package.Class"/>-->
+        <mapping class="org.yourorg.yourapp.models.EmailData"/>
+        
     </session-factory>
 </hibernate-configuration>
 

@@ -9,16 +9,18 @@
                     <caption>Striped Table Layout</caption>
                     <thead>
                         <tr>
-                            <th>Email</th>
-                            <th>FirstName</th>
-                            <th>LastName</th>
-                            <th>Phone</th>
-                            <th>Age</th>
+                            <th>id</th>
+                            <th>email</th>
+                            <th>firstName</th>
+                            <th>lastName</th>
+                            <th>phone</th>
+                            <th>age</th>
                         </tr>
                     </thead>
                     <tbody>
                         <s:iterator value="emailDataList" status="emailDataStatus">
                             <tr>
+                                <td><s:property value="id"></s:property></td>
                                 <td><s:property value="email"></s:property></td>
                                 <td><s:property value="firstName"></s:property></td>
                                 <td><s:property value="lastName"></s:property></td>

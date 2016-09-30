@@ -21,7 +21,7 @@ import org.hibernate.service.ServiceRegistry;
 public class HibernateUtil4 {
 
     private static SessionFactory sessionFactory;
-    private static boolean debug = false;
+    private static boolean debug = true;
 
     public HibernateUtil4() {
     }
