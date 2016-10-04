@@ -11,14 +11,11 @@
         <put-attribute name="content"     value="/tiles/empty.jsp"/>
     </definition>
 
-
-
+    <!--    Extend layouts   -->
     <definition name="emailData_*" extends="basicLayout">
         <put-attribute name="title"       value="EmailData {1}"/>
         <put-attribute name="content"     value="/emailData/{1}_emailData.jsp"/>
     </definition>
-
-        
                         
     <definition name="ns2.home" extends="basicLayout">
         <put-attribute name="title"  value="Home (ns2)"/>

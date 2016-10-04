@@ -27,11 +27,12 @@ import org.yourorg.yourapp.support.RegExp;
 
 public abstract class CommonActionSupport extends ActionSupport implements SessionAware, ServletContextAware, ServletRequestAware, ServletResponseAware, RestConvention {
 
-    private static boolean debug = true;
+    private static boolean debug = false;
     private static final Logger LOGGER = Logger.getLogger(CommonActionSupport.class.getName());
     private static final long serialVersionUID = 123L;
     protected ResponseObject responseObject = null;
     protected InputStream inputStream;
+    protected String hidden_override_method = null;
 
     // Hibernate
     private Transaction tx = null;
@@ -56,23 +57,17 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
     private String restMethod = null;
 
     public CommonActionSupport() {
-        System.out.println("JsonResponse initialized.");
         this.responseObject = new ResponseObject();
     }
 
-protected void beginTransaction(int timeout) {
+    protected final void beginTransaction(int timeout) {
         if (debug) {
             HibernateUtil4.setDebug(true);
         } else {
             HibernateUtil4.setDebug(false);
         }
 
-        // TODO: new JPA 2.0 way ... no time to integrate yet.
-//        this.entityManager = ServletContext.getEntityManager();
-//        this.session = this.entityManager.unwrap(Session.class);
         SessionFactory sessionFactory = HibernateUtil4.getSessionFactory();
-        // http://docs.jboss.org/hibernate/orm/4.3/devguide/en-US/html_single/#session-per-request
-        // http://stackoverflow.com/questions/33005348/hibernate-5-org-hibernate-mappingexception-unknown-entity
         session = sessionFactory.getCurrentSession();
 
         if (session != null && session.isOpen()) {
@@ -82,7 +77,7 @@ protected void beginTransaction(int timeout) {
         }
     }
 
-    protected void commitTransaction() {
+    protected final void commitTransaction() {
         System.out.println("\n SESSION " + session.toString() + " \n");
         if (session != null && session.isOpen()) {
             session.flush();
@@ -94,17 +89,25 @@ protected void beginTransaction(int timeout) {
                 System.out.println("\n*** COMMIT !!!\n");
             }
         }
-    }    
-    protected void rollbackTransaction() {
+    }
+
+    protected final String rollbackTransaction(Exception ex) {
+
+        String className = ex.getStackTrace()[2].getClassName();
+        String methodName = ex.getStackTrace()[2].getMethodName();
+
         if (debug) {
             System.out.println("\n*** ROLLBACK ***");
         }
         if (tx != null && tx.isActive()) {
             tx.rollback();
         }
+
+        String response = this.errorResponse("ERROR: className:" + className + " methodName:" + methodName + "\n" + ex.getMessage());
+        return response;
     }
 
-    protected void closeSession() {
+    protected final void closeSession() {
         if (debug) {
             System.out.println("\n*** Calling closeSession()\n");
             if (session != null) {
@@ -112,21 +115,17 @@ protected void beginTransaction(int timeout) {
             }
         }
 
-//        The Hibernate session is bound to the current "thread".   
-//        Therefore, when the transaction is committed, the session is closed also.  
-//                
-//        The next block will not execute if you used sessionFactory.getCurrentSession();
         if (session != null && session.isOpen()) {
             session.close();
             if (debug) {
                 System.out.println("\n*** CLOSE session\n");
             }
         }
-    }    
-    
-    
+    }
+
     /**
      * This method can be overridden in sub class.
+     * Please take the if statement with you as you define in Action controller.
      */
     @Override
     public void validate() {
@@ -168,7 +167,14 @@ protected void beginTransaction(int timeout) {
             if (this.httpServletRequest.getHeader("X-HTTP-Method-Override") != null) {
                 this.methodOverride = this.httpServletRequest.getHeader("X-HTTP-Method-Override").trim().toUpperCase();
             }
-            this.currentMethod = (methodOverride != null) ? this.methodOverride : this.method;
+
+            if (this.methodOverride != null) {
+                this.currentMethod = this.methodOverride;
+            } else if (this.hidden_override_method != null) {
+                this.currentMethod = this.hidden_override_method;
+            } else {
+                this.currentMethod = this.method;
+            }
 
             StringBuilder sb = new StringBuilder();
             sb.append("\n");
@@ -181,15 +187,15 @@ protected void beginTransaction(int timeout) {
             sb.append("methodOverride: ").append(this.methodOverride).append("\n");
             sb.append(" currentMethod: ").append(this.currentMethod).append("\n\n");
 
-//            Map<String, Object> appContextMap = ServletActionContext.getContext().getApplication();
-//            for(String key : appContextMap.keySet()) {
-//                sb.append("*").append(key).append("*").append("\n");
-//            }
             LOGGER.debug(sb.toString());
         }
     }
 
-    public String restDispatch() {
+    /*
+        This MUST remain public.  struts.xml or equivilant will not be able to map
+        action in controller if anything less.
+     */
+    public final String restDispatch() {
         String result = "";
         if (this.contextPath == null) {
             LOGGER.debug("initVars() called from restDispatch()");
@@ -218,7 +224,7 @@ protected void beginTransaction(int timeout) {
             case ("PATCH"):
             // PATCH will be the same as PUT.
             case ("PUT"):
-                this.restMethod = "put";
+                this.restMethod = "update";
                 result = this.update();
                 break;
             case ("DELETE"):
@@ -302,6 +308,14 @@ protected void beginTransaction(int timeout) {
     public void setInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
     }
+    
+    public String getHidden_override_method() {
+        return hidden_override_method;
+    }
+
+    public void setHidden_override_method(String hidden_override_method) {
+        this.hidden_override_method = hidden_override_method;
+    }
 
     /*
 ######   #######   #####   ######   #######  #     #   #####   #######  
@@ -366,15 +380,14 @@ protected void beginTransaction(int timeout) {
             int status = this.httpServletResponse.getStatus();
 
             if (status >= 200 && status < 300) {
-                System.out.println("SUCCESS!!");
                 l_responseType = ActionSupport.SUCCESS;
-                if (this.restMethod != null) {
-                    System.out.println("Adding restMethod " + this.restMethod);
-                    l_responseType += "_" + this.restMethod;
-                    System.out.println("responseType == " + l_responseType);
-                }
             } else {
                 l_responseType = ActionSupport.ERROR;
+            }
+
+            if (this.restMethod != null) {
+                l_responseType += "_" + this.restMethod;
+                System.out.println("responseType == " + l_responseType);
             }
         }
 
@@ -383,28 +396,41 @@ protected void beginTransaction(int timeout) {
         return l_responseType;
     }
 
-    protected String errorResponse(String message) {
+    private void responseObjectToActionError(String response) {
+        if (response.matches("error.*")) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("<pre class=\"bg-danger\">\n").append(JsonUtils.objectToJsonPrettyNoNulls(this.responseObject)).append("</pre>");
+            this.addActionError(sb.toString());
+        }
+    }
+    
+    protected final String errorResponse(String message) {
         this.responseObject.setMessage(message);
+        this.responseObject.setData(null);
         this.initError();
+        this.responseObjectToActionError(this.getResponseType());
         return this.getResponseType();
     }
 
-    protected String errorResponse(Object obj) {
+    protected final String errorResponse(Object obj) {
+        this.responseObject.setMessage(null);
         this.responseObject.setData(obj);
         this.initError();
+        this.responseObjectToActionError(this.getResponseType());
         return this.getResponseType();
     }
 
-    protected String successResponse(String message) {
+    protected final String successResponse(String message) {
         this.responseObject.setMessage(message);
+        this.responseObject.setData(null);
         this.initSuccess();
         return this.getResponseType();
     }
 
-    protected String successResponse(Object obj) {
+    protected final String successResponse(Object obj) {
+        this.responseObject.setMessage(null);
         this.responseObject.setData(obj);
         this.initSuccess();
         return this.getResponseType();
     }
-
 }

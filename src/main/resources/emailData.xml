@@ -16,18 +16,37 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
 <struts>
     <include file="my_common_default.xml"></include>
     
-    <package name="my-top-pkg" namespace="/emailData" extends="my-common-default">
+    <package name="my-email-data-pkg" namespace="/emailData" extends="my-common-default">
                 
         <action name="**" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
             
-            <!-- Accept: text/html -->
+            <!-- GET /emailData -->
             <result name="success_index" type="tiles">emailData_index</result>
+            <result name="error_index" type="tiles">emailData_index</result>
+            
+            <!-- GET /emailData/new -->
             <result name="success_new" type="tiles">emailData_new</result>
-            <result name="success_create" type="tiles">emailData_create</result>
+            <result name="error_new" type="tiles">emailData_new</result>
+            
+            <!-- POST /emailData -->
+            <result name="success_create" type="tiles">emailData_index</result>
+            <result name="error_create" type="tiles">emailData_new</result>
+            
+            <!-- GET /emailData/1/edit -->
             <result name="success_edit" type="tiles">emailData_edit</result>
+            <result name="error_edit" type="tiles">emailData_edit</result>
+            
+            <!-- GET /emailData/1 -->
             <result name="success_show" type="tiles">emailData_show</result>
-            <result name="success_update" type="tiles">emailData_update</result>
-            <result name="success_delete" type="tiles">emailData_delete</result>
+            <result name="error_show" type="tiles">emailData_index</result>
+            
+            <!-- PUT /emailData/1 -->
+            <result name="success_update" type="tiles">emailData_index</result>
+            <result name="error_update" type="tiles">emailData_edit</result>
+            
+            <!-- DELETE /emailData/1 -->
+            <result name="success_delete" type="tiles">emailData_index</result>
+            <result name="error_delete" type="tiles">emailData_delete</result>
             
             <!-- Accept: application/xml -->
             <result name="xml" type="stream">

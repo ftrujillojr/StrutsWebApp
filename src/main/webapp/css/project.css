@@ -20,6 +20,13 @@ body {
     width: auto; 
 }
 
+.action_error_padding {
+    padding: 10px 10px 5px 10px;
+}
+
+.action_message_padding {
+    padding: 10px 10px 5px 10px;
+}
 
 .btn-1em {
     height: 1.0em;

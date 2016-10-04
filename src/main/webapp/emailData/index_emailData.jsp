@@ -1,6 +1,12 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <h1>EmailData index</h1>
+
+<form action="${pageContext.request.contextPath}/emailData/1" method="POST">
+    <input type="hidden" name="hidden_override_method" value="PUT">
+    <button id="new_editData" type="submit" class="btn btn-secondary">New</button>
+</form>
+
 <form class="form-horizontal" method="POST" action="${pageContext.request.contextPath}/ns2/home">
     <div class="form-group">
         <div class="col-xs-12">
@@ -26,7 +32,7 @@
                                 <td><s:property value="lastName"></s:property></td>
                                 <td><s:property value="phone"></s:property></td>
                                 <td><s:property value="age"></s:property></td>
-                            </tr>
+                                </tr>
                         </s:iterator> 
                     </tbody>
                 </table>
@@ -45,14 +51,13 @@
 
     $(document).ready(function ($) {
         // your code here.
-        window.history.pushState("","", location.href);
+        window.history.pushState("", "", location.href);
 
         $('#testJqueryAjax').on('click', function (event) {
             event.preventDefault();
             emailData_POST_EXAMPLE("${pageContext.request.contextPath}");
         }); // end onClick
-        
-        
+
         $('#emailDataListTable').DataTable();
 
     }); // end ready

@@ -15,24 +15,28 @@ public class EmailDataController extends CommonActionSupport {
 
     // These variables are automatically filled in from web request jsp page.
     private EmailData emailData;
-    List<EmailData> emailDataList;
+    private List<EmailData> emailDataList;
     private String bestFriend;
     private String progLang;
     private String email;
     private String password;
-    private Integer emailDataListTable_length;
+    private Integer emailDataListTable_length; // This is on index() page.
 
     public EmailDataController() {
         super();
+        if (this.emailDataList == null) {
+            this.emailDataList = new ArrayList<>();
+        }
     }
 
-//    @Override
-//    public void validate() {
-//        if (this.getContextPath() == null) {
-//            LOGGER.debug("initVars() called from validate() in EmailDataController");
-//            this.initVars();
-//        }
-//    }
+    @Override
+    public void validate() {
+        if (this.getContextPath() == null) {
+            LOGGER.debug("initVars() called from validate() in EmailDataController");
+            this.initVars();
+        }
+    }
+
     /*
 ######   #######   #####   #######  
 #     #  #        #     #     #     
@@ -42,14 +46,18 @@ public class EmailDataController extends CommonActionSupport {
 #    #   #        #     #     #     
 #     #  #######   #####      #     
      */
+    /**
+     *
+     * @return
+     */
+    @SuppressWarnings("unchecked")
     @Override
     public String index() {
-        String response = this.errorResponse("Unable to retrieve EmailData index()");
+        String response;
 
         try {
             this.beginTransaction(10);
 
-//            @SuppressWarnings("unchecked") 
             Criteria cr = this.session.createCriteria(EmailData.class);
             cr.addOrder(Order.asc("id"));
             this.emailDataList = cr.list();
@@ -57,13 +65,11 @@ public class EmailDataController extends CommonActionSupport {
             if (this.emailDataList == null) {
                 this.emailDataList = new ArrayList<>();
             }
-            
-            response = this.successResponse(this.emailDataList.size());
+            response = this.successResponse(this.emailDataList);
 
             this.commitTransaction();
         } catch (Exception ex) {
-            this.rollbackTransaction();
-            throw ex;
+            response = this.rollbackTransaction(ex);
         } finally {
             this.closeSession();
         }
@@ -73,7 +79,19 @@ public class EmailDataController extends CommonActionSupport {
 
     @Override
     public String _new() {
-        throw new UnsupportedOperationException("_new() Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String response = this.successResponse("_new() is just a pass through for HTML MVC side.");
+//        try {
+//            this.beginTransaction(10);
+//            // your code
+//            response = this.successResponse("");
+//            this.commitTransaction();
+//        } catch (Exception ex) {
+//            response = this.rollbackTransaction(ex);
+//        } finally {
+//            this.closeSession();
+//        }
+
+        return response;
     }
 
     /*
@@ -91,10 +109,20 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
         if (emailData == null) {
             response = this.errorResponse("Did you forget to POST a json payload?  emailData was null.");
         } else {
-            // Just sending back data inside jsonResponse object.
-            // The jsonResponse object will be serialized to json by struts2. (see struts.xml)
-            response = this.successResponse(this.emailData);
+            response = this.successResponse(this.emailData);// just pass it back
+
+//            try {
+//                this.beginTransaction(10);
+//                // your code
+//                response = this.successResponse(null);
+//                this.commitTransaction();
+//            } catch (Exception ex) {
+//                response = this.rollbackTransaction(ex);
+//            } finally {
+//                this.closeSession();
+//            }
         }
+
         return response;
     }
 
@@ -109,6 +137,7 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
             // The jsonResponse object will be serialized to json by struts2. (see struts.xml)
             response = this.successResponse(this.emailData);
         }
+
         return response;
     }
 
@@ -137,8 +166,11 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
             // The jsonResponse object will be serialized to json by struts2. (see struts.xml)
             response = this.successResponse(this.emailData);
         }
+        this.addActionError("Hello World");
+        this.addActionMessage("Action message");
         return response;
     }
+
 
     @Override
     public String delete() {

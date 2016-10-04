@@ -27,6 +27,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="${pageContext.request.contextPath}/ns2/home">ns2/home</a></li>
                                 <li><a href="${pageContext.request.contextPath}/ns2/dude">ns2/dude</a></li> 
+                                <li><a href="${pageContext.request.contextPath}/css/project.css">css/project.css</a></li> 
                             </ul>
                         </li>
                     </ul>

@@ -7,6 +7,7 @@
         <title>error.jsp</title>
     </head>
     <body>
+        <h1>error.jsp</h1>
         <%@include file="/partials/actionErrors.jsp" %>
 
         <script type="text/javascript">

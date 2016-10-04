@@ -22,9 +22,11 @@ These are the options I used on Apache Tomcat 8.0 startup:
     <include file="ns2.xml"></include>
     
     <package name="my-top-pkg" namespace="/" extends="my-common-default">
+        
         <action name="">
             <result name="success" type="redirect">/emailData</result>
         </action>
+        
     </package>
 </struts>        
     
