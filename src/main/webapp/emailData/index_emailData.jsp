@@ -2,8 +2,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <h1>EmailData index</h1>
 
-<form action="${pageContext.request.contextPath}/emailData/1" method="POST">
-    <input type="hidden" name="hidden_override_method" value="PUT">
+Last restMethod: <s:property value="restMethod"/>
+
+<form namespace="/emailData/" action="new" method="GET">
     <button id="new_editData" type="submit" class="btn btn-secondary">New</button>
 </form>
 

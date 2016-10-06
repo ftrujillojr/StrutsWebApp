@@ -9,11 +9,10 @@ function getPrettyPrintJsonString(jqXHR) {
 
 function emailData_POST_EXAMPLE(webContext) {
     var jsonDataObj = {
-        emailData: {// This MUST be the same object name in the controller.
+        emailData: {
             email: "ftrujillojr@gmail.com",
             firstName: "Francis",
-            lastName: "Trujillo",
-            dude: "Not funny!" // This is not an attr in Controller object emailData
+            lastName: "Trujillo"
         }
     };
 

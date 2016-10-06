@@ -1,34 +1,33 @@
 package org.yourorg.yourapp.controllers;
 
+import com.opensymphony.xwork2.ModelDriven;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.yourorg.yourapp.models.EmailData;
-import org.yourorg.yourapp.models.ResponseObject;
 
-public class EmailDataController extends CommonActionSupport {
+public class EmailDataController extends CommonActionSupport implements ModelDriven<EmailData> {
 
     private static final long serialVersionUID = 123L;
     private static final Logger LOGGER = Logger.getLogger(EmailDataController.class.getName());
 
     // These variables are automatically filled in from web request jsp page.
-    private EmailData emailData;
-    private List<EmailData> emailDataList;
-    private String bestFriend;
-    private String progLang;
-    private String email;
-    private String password;
+    private EmailData emailData = new EmailData();
+    private List<EmailData> emailDataList = new ArrayList<>();;
     private Integer emailDataListTable_length; // This is on index() page.
 
+    
     public EmailDataController() {
         super();
-        if (this.emailDataList == null) {
-            this.emailDataList = new ArrayList<>();
-        }
     }
-
+    
+    @Override
+    public EmailData getModel() {
+        return this.emailData;
+    }
+    
     @Override
     public void validate() {
         if (this.getContextPath() == null) {
@@ -103,25 +102,28 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
     
      */
     @Override
-    public String create() {
+    public String create() {   // POST  /emailData/
         String response;
 
-        if (emailData == null) {
-            response = this.errorResponse("Did you forget to POST a json payload?  emailData was null.");
-        } else {
-            response = this.successResponse(this.emailData);// just pass it back
-
-//            try {
-//                this.beginTransaction(10);
-//                // your code
-//                response = this.successResponse(null);
-//                this.commitTransaction();
-//            } catch (Exception ex) {
-//                response = this.rollbackTransaction(ex);
-//            } finally {
-//                this.closeSession();
-//            }
-        }
+//        response = this.errorResponse("stop");
+//        if (emailData == null) {
+//            response = this.errorResponse("Did you forget to POST a json payload?  emailData was null.");
+//        } else {
+            System.out.println("emailData => " + this.emailData.toString());
+            response = this.errorResponse(this.emailData);
+            this.addActionMessage("Created emailData");
+//
+////            try {
+////                this.beginTransaction(10);
+////                // your code
+////                response = this.successResponse(null);
+////                this.commitTransaction();
+////            } catch (Exception ex) {
+////                response = this.rollbackTransaction(ex);
+////            } finally {
+////                this.closeSession();
+////            }
+//        }
 
         return response;
     }
@@ -209,6 +211,9 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
     }
 
     public void setEmailData(EmailData emailData) {
+        System.out.println("setEmailData()");
+        System.out.println(emailData.toString());
+        System.out.println("done.");
         this.emailData = emailData;
     }
 
@@ -218,45 +223,5 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
 
     public void setEmailDataList(List<EmailData> emailDataList) {
         this.emailDataList = emailDataList;
-    }
-
-    public ResponseObject getResponseObject() {
-        return responseObject;
-    }
-
-    public void setJsonResponse(ResponseObject responseObject) {
-        this.responseObject = responseObject;
-    }
-
-    public String getBestFriend() {
-        return bestFriend;
-    }
-
-    public void setBestFriend(String bestFriend) {
-        this.bestFriend = bestFriend;
-    }
-
-    public String getProgLang() {
-        return progLang;
-    }
-
-    public void setProgLang(String progLang) {
-        this.progLang = progLang;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

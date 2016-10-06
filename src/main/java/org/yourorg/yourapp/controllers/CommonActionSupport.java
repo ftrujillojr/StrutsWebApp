@@ -240,6 +240,14 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         return result;
     }
 
+    public ResponseObject getResponseObject() {
+        return responseObject;
+    }
+
+    public void setResponseObject(ResponseObject responseObject) {
+        this.responseObject = responseObject;
+    }
+
     public ServletContext getServletContext() {
         return this.servletContext;
     }
@@ -315,6 +323,14 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
 
     public void setHidden_override_method(String hidden_override_method) {
         this.hidden_override_method = hidden_override_method;
+    }
+
+    public String getRestMethod() {
+        return restMethod;
+    }
+
+    public void setRestMethod(String restMethod) {
+        this.restMethod = restMethod;
     }
 
     /*

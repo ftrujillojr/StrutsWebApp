@@ -23,11 +23,13 @@
 
     <listener>
         <listener-class>org.apache.tiles.web.startup.TilesListener</listener-class>
+        <!--<listener-class>org.apache.tiles.extras.complete.CompleteAutoloadTilesListener</listener-class>-->
     </listener>    
     
     <filter>
         <filter-name>struts2</filter-name>
         <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+        <!--<filter-class>org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter</filter-class>-->
     </filter>
  
     <filter-mapping>

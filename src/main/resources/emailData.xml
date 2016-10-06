@@ -29,7 +29,7 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
             <result name="error_new" type="tiles">emailData_new</result>
             
             <!-- POST /emailData -->
-            <result name="success_create" type="tiles">emailData_index</result>
+            <result name="success_create" type="redirect">/emailData</result>
             <result name="error_create" type="tiles">emailData_new</result>
             
             <!-- GET /emailData/1/edit -->
@@ -54,9 +54,19 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
                 <param name="contentType">application/xml</param> 
             </result>
             
-            <!-- Accept: application/json -->
+            <!-- Accept: application/json 
+            Since Struts 2.2.3 the root object is always considered to be the model 
+            if the action is model driven. This means that when creating the JSON 
+            request only the model will get serialized. In some cases one might 
+            use model driven for receiving requests and send something else in 
+            the response. Then the root object has to be changed. This can be 
+            done by setting the root parameter as shown above in the interceptor 
+            or for example in the result type.
+            -->
+            <!--<result name="json" class="org.apache.struts2.json.JSONResult">-->
             <result name="json" type="json">
                 <param name="root">responseObject</param>
+                <param name="noCache">true</param>
                 <param name="excludeNullProperties">true</param>  
                 <param name="contentType">application/json</param> 
             </result>

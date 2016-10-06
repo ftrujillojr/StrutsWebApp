@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.apache.struts2.StrutsStatics;
+import org.yourorg.yourapp.support.CustomHttpServletWrapper;
 
 // http://stackoverflow.com/questions/21820741/jersey-rest-response-in-angular-js
 // http://www.codingpedia.org/ama/how-to-add-cors-support-on-the-server-side-in-java-with-jersey/
@@ -54,7 +55,7 @@ public class NoCacheInterceptor implements Interceptor {
 
     @Override
     public void init() {
-        //LOGGER.debug("========= NoCacheInterceptor.init() ===============");
+        LOGGER.debug("========= NoCacheInterceptor.init() ===============");
     }
 
     @Override
@@ -77,6 +78,13 @@ public class NoCacheInterceptor implements Interceptor {
                     "Content-Type,Access-Control-Allow-Headers,Authorization,X-Requested-With,Cache-Control,Origin,Accept,X-Jersey-Tracing-Accept,X-HTTP-Method-Override");
         }
         
+//        CustomHttpServletWrapper customHttpServletWrapper = new CustomHttpServletWrapper(request);
+//        
+//        if(customHttpServletWrapper.getBody().isEmpty() == false) {
+//            System.out.println("*** BODY  ***");
+//            System.out.println(customHttpServletWrapper.getBody());
+//        }
+        
         this.displayRequestParams(request);
         // ****************************************************************************************
         String result = ai.invoke(); // Invokes the next interceptor (if one exists) or the action
@@ -88,7 +96,7 @@ public class NoCacheInterceptor implements Interceptor {
 
     @Override
     public void destroy() {
-        //LOGGER.debug("========= NoCacheInterceptor.destroy() ===============");
+        LOGGER.debug("========= NoCacheInterceptor.destroy() ===============");
     }
 
     private void displayRequestParams(HttpServletRequest request) {
@@ -103,6 +111,8 @@ public class NoCacheInterceptor implements Interceptor {
             sb.append("\tQueryString: ").append(request.getQueryString()).append("\n");
             sb.append("\t RequestURL: ").append(request.getRequestURL().toString()).append("\n");
 
+            
+            
             sb.append("\t\t-------------- Headers --------------").append("\n");
 
             Enumeration<String> headerNames = request.getHeaderNames();

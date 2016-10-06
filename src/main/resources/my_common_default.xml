@@ -10,10 +10,10 @@
         <result-types>
             <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
         </result-types>
-
     
         <interceptors>
             <interceptor class="org.yourorg.yourapp.interceptors.NoCacheInterceptor" name="noCacheInterceptor"></interceptor>
+            <interceptor class="org.yourorg.yourapp.interceptors.JsonModelDrivenInterceptor" name="jsonModelDrivenInterceptor"></interceptor>
             <!--<interceptor class="org.yourorg.yourapp.interceptors.LoginInterceptor" name="loginInterceptor"></interceptor>-->
            
             <interceptor-stack name="loginStack">
@@ -30,9 +30,8 @@
             <interceptor-stack name="myJsonStack">
                 <interceptor-ref name="defaultStack" />
                 <interceptor-ref name="noCacheInterceptor" />
-                <interceptor-ref name="json" >
-                    <!--<param name="enableSMD">true</param>-->
-                </interceptor-ref>
+                <!--<interceptor-ref name="json" />-->
+                <interceptor-ref name="jsonModelDrivenInterceptor" />
             </interceptor-stack>
         </interceptors>
 
