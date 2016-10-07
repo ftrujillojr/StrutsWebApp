@@ -4,11 +4,11 @@
 
 Last restMethod: <s:property value="restMethod"/>
 
-<form namespace="/emailData/" action="new" method="GET">
-    <button id="new_editData" type="submit" class="btn btn-secondary">New</button>
-</form>
+<s:form namespace="/emailData" action="new" method="GET">
+    <button id="new_emailData" type="submit" class="btn btn-secondary">New</button>
+</s:form>
 
-<form class="form-horizontal" method="POST" action="${pageContext.request.contextPath}/ns2/home">
+<s:form class="form-horizontal" method="POST" namespace="/ns2" action="home">
     <div class="form-group">
         <div class="col-xs-12">
             <s:if test='emailDataList != null && emailDataList.size() > 0'>
@@ -45,7 +45,7 @@ Last restMethod: <s:property value="restMethod"/>
             <button id="submit" type="submit" class="btn btn-primary">Submit</button>
         </div>
     </div>
-</form>
+</s:form>
 
 
 <script type="text/javascript">

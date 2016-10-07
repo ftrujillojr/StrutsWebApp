@@ -13,7 +13,7 @@
     
         <interceptors>
             <interceptor class="org.yourorg.yourapp.interceptors.NoCacheInterceptor" name="noCacheInterceptor"></interceptor>
-            <interceptor class="org.yourorg.yourapp.interceptors.JsonModelDrivenInterceptor" name="jsonModelDrivenInterceptor"></interceptor>
+            <!--<interceptor class="org.yourorg.yourapp.interceptors.JsonModelDrivenInterceptor" name="jsonModelDrivenInterceptor"></interceptor>-->
             <!--<interceptor class="org.yourorg.yourapp.interceptors.LoginInterceptor" name="loginInterceptor"></interceptor>-->
            
             <interceptor-stack name="loginStack">
@@ -30,8 +30,8 @@
             <interceptor-stack name="myJsonStack">
                 <interceptor-ref name="defaultStack" />
                 <interceptor-ref name="noCacheInterceptor" />
-                <!--<interceptor-ref name="json" />-->
-                <interceptor-ref name="jsonModelDrivenInterceptor" />
+                <interceptor-ref name="json" />
+                <!--<interceptor-ref name="jsonModelDrivenInterceptor" />-->
             </interceptor-stack>
         </interceptors>
 
@@ -50,6 +50,20 @@
             <result name="runtime_exception">/error/runtime_exception.jsp</result>
             <result name="error">/error/error.jsp</result>
             <result name="login">/login.jsp</result>
+            
+            <!-- Accept: application/xml -->
+            <result name="xml" type="stream">
+                <param name="inputName">inputStream</param>  
+                <param name="contentType">application/xml</param> 
+            </result>
+            
+            <!-- Accept: application/json -->
+            <result name="json" type="json">
+                <param name="root">responseObject</param>
+                <param name="noCache">true</param>
+                <param name="excludeNullProperties">true</param>  
+                <param name="contentType">application/json</param> 
+            </result>
         </global-results>
  
         <global-exception-mappings>

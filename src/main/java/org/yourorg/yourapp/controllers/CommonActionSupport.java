@@ -416,7 +416,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         if (response.matches("error.*")) {
             StringBuilder sb = new StringBuilder();
             sb.append("<pre class=\"bg-danger\">\n").append(JsonUtils.objectToJsonPrettyNoNulls(this.responseObject)).append("</pre>");
-            this.addActionError(sb.toString());
+//            this.addActionError(sb.toString());
         }
     }
     

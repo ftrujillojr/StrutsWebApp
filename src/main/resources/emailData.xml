@@ -17,60 +17,45 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
     <include file="my_common_default.xml"></include>
     
     <package name="my-email-data-pkg" namespace="/emailData" extends="my-common-default">
-                
-        <action name="**" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
-            
+        <action name="" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
             <!-- GET /emailData -->
             <result name="success_index" type="tiles">emailData_index</result>
             <result name="error_index" type="tiles">emailData_index</result>
             
-            <!-- GET /emailData/new -->
-            <result name="success_new" type="tiles">emailData_new</result>
-            <result name="error_new" type="tiles">emailData_new</result>
-            
-            <!-- POST /emailData -->
+            <!--POST /emailData--> 
             <result name="success_create" type="redirect">/emailData</result>
             <result name="error_create" type="tiles">emailData_new</result>
             
-            <!-- GET /emailData/1/edit -->
-            <result name="success_edit" type="tiles">emailData_edit</result>
+        </action>
+
+        <action name="new" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
+            <!-- GET /emailData/new --> 
+            <result name="success_new" type="tiles">emailData_new</result>
+            <result name="error_new" type="tiles">emailData_new</result>
+        </action>
+        
+        
+                
+        <action name="*" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
+            <!--GET /emailData/1--> 
+            <result name="success_show" type="tiles">emailData_show</result>
+            <result name="error_show" type="tiles">emailData_show</result>
+            
+            <!--GET /emailData/1/edit--> 
+            <result name="success_edit" type="tiles">emailData_show</result>
             <result name="error_edit" type="tiles">emailData_edit</result>
             
-            <!-- GET /emailData/1 -->
-            <result name="success_show" type="tiles">emailData_show</result>
-            <result name="error_show" type="tiles">emailData_index</result>
-            
-            <!-- PUT /emailData/1 -->
-            <result name="success_update" type="tiles">emailData_index</result>
+            <!--PUT /emailData/1--> 
+            <result name="success_update" type="redirect">/emailData</result>
             <result name="error_update" type="tiles">emailData_edit</result>
             
-            <!-- DELETE /emailData/1 -->
-            <result name="success_delete" type="tiles">emailData_index</result>
+            <!--DELETE /emailData/1--> 
+            <result name="success_delete" type="redirect">/emailData</result>
             <result name="error_delete" type="tiles">emailData_delete</result>
-            
-            <!-- Accept: application/xml -->
-            <result name="xml" type="stream">
-                <param name="inputName">inputStream</param>  
-                <param name="contentType">application/xml</param> 
-            </result>
-            
-            <!-- Accept: application/json 
-            Since Struts 2.2.3 the root object is always considered to be the model 
-            if the action is model driven. This means that when creating the JSON 
-            request only the model will get serialized. In some cases one might 
-            use model driven for receiving requests and send something else in 
-            the response. Then the root object has to be changed. This can be 
-            done by setting the root parameter as shown above in the interceptor 
-            or for example in the result type.
-            -->
-            <!--<result name="json" class="org.apache.struts2.json.JSONResult">-->
-            <result name="json" type="json">
-                <param name="root">responseObject</param>
-                <param name="noCache">true</param>
-                <param name="excludeNullProperties">true</param>  
-                <param name="contentType">application/json</param> 
-            </result>
         </action>
+                
+
+                
     </package>
 </struts>        
     

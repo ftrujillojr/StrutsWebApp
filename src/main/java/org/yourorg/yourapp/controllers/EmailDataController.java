@@ -1,33 +1,34 @@
 package org.yourorg.yourapp.controllers;
 
-import com.opensymphony.xwork2.ModelDriven;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.yourorg.yourapp.models.EmailData;
 
-public class EmailDataController extends CommonActionSupport implements ModelDriven<EmailData> {
+//public class EmailDataController extends CommonActionSupport implements ModelDriven<EmailData> {
+public class EmailDataController extends CommonActionSupport {
 
     private static final long serialVersionUID = 123L;
     private static final Logger LOGGER = Logger.getLogger(EmailDataController.class.getName());
 
     // These variables are automatically filled in from web request jsp page.
     private EmailData emailData = new EmailData();
-    private List<EmailData> emailDataList = new ArrayList<>();;
+    private List<EmailData> emailDataList = new ArrayList<>();
     private Integer emailDataListTable_length; // This is on index() page.
 
+    private String email;
+    private String firstName;
+    private String lastName;
+    
     
     public EmailDataController() {
         super();
     }
-    
-    @Override
-    public EmailData getModel() {
-        return this.emailData;
-    }
-    
+
     @Override
     public void validate() {
         if (this.getContextPath() == null) {
@@ -103,27 +104,32 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
      */
     @Override
     public String create() {   // POST  /emailData/
-        String response;
+        String response = this.errorResponse("Unable to create() for emailData.");
 
-//        response = this.errorResponse("stop");
-//        if (emailData == null) {
-//            response = this.errorResponse("Did you forget to POST a json payload?  emailData was null.");
-//        } else {
-            System.out.println("emailData => " + this.emailData.toString());
+        System.out.println("emailData => " + this.emailData.toString());
+        System.out.println("accept => " + this.getAccept());
+        
+        int errorCount = 0;
+        
+        if (this.hasActionErrors()) {
+            errorCount++;
+        } else if (this.hasActionMessages()) {
+            Collection<String> actionMessages = this.getActionMessages();
+            Iterator<String> itr = actionMessages.iterator();
+            while (itr.hasNext()) {
+                String message = itr.next();
+                if (message.matches(".*[Ee][Rr][Rr][Oo][Rr].*")) {
+                    errorCount++;
+                }
+            }
+        } 
+        
+        if(errorCount > 0) {
             response = this.errorResponse(this.emailData);
-            this.addActionMessage("Created emailData");
-//
-////            try {
-////                this.beginTransaction(10);
-////                // your code
-////                response = this.successResponse(null);
-////                this.commitTransaction();
-////            } catch (Exception ex) {
-////                response = this.rollbackTransaction(ex);
-////            } finally {
-////                this.closeSession();
-////            }
-//        }
+        } else {
+            response = this.successResponse(this.emailData);
+        }
+        
 
         return response;
     }
@@ -172,7 +178,6 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
         this.addActionMessage("Action message");
         return response;
     }
-
 
     @Override
     public String delete() {
@@ -224,4 +229,29 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
     public void setEmailDataList(List<EmailData> emailDataList) {
         this.emailDataList = emailDataList;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    
 }

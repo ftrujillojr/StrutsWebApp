@@ -23,7 +23,7 @@ public class CustomHttpServletWrapper extends HttpServletRequestWrapper {
         StringBuilder sb1 = new StringBuilder();
         String line;
 
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(this.getInputStream()))) {
             while ((line = br.readLine()) != null) {
                 sb1.append(line);
             }

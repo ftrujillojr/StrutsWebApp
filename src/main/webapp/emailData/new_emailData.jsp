@@ -1,11 +1,11 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <h1>EmailData New</h1>
-<form action="${pageContext.request.contextPath}/emailData" method="GET">
+<s:form namespace="/emailData" action="" method="GET">
     <button id="cancel_new_emailData" type="submit" class="btn btn-secondary">Cancel New</button>
-</form>
+</s:form>
 
-<form class="form-horizontal" method="POST" namespace="/emailData/" action="">
+<s:form class="form-horizontal" method="POST" namespace="/emailData" action="">
     <div class="form-group">
         <label for="email" class="control-label col-xs-12 col-sm-3 text-left">Email:</label>
         <div class="col-xs-3 col-sm-4">
@@ -30,7 +30,7 @@
             <button id="submit" type="submit" class="btn btn-primary">Create Email Submit</button>
         </div>
     </div>
-</form>
+</s:form>
 
 
 
