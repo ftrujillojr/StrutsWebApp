@@ -31,7 +31,7 @@ public class EmailData implements Serializable {
 
     public EmailData() {
     }
-    
+
     public EmailData(EmailData rhs) {
         this.id = rhs.getId();
         this.email = rhs.getEmail();
@@ -39,7 +39,7 @@ public class EmailData implements Serializable {
         this.lastName = rhs.getLastName();
         this.phone = rhs.getPhone();
         this.age = rhs.getAge();
-        
+
     }
 
     @Override
@@ -61,7 +61,7 @@ public class EmailData implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     public String getEmail() {
         return email;
     }

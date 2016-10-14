@@ -16,44 +16,40 @@ public class EmailDataController extends CommonActionSupport {
     private static final Logger LOGGER = Logger.getLogger(EmailDataController.class.getName());
 
     // These variables are automatically filled in from web request jsp page.
-    private EmailData emailData = new EmailData();
+    private EmailData emailData = null;
     private EmailData savedEmailData = null;
-    private List<EmailData> emailDataList = new ArrayList<>();
+    private List<EmailData> emailDataList = null;
     private Integer emailDataListTable_length; // This is on index() page.
 
     public EmailDataController() {
         super();
+        this.emailData = new EmailData();
+        this.emailDataList = new ArrayList<>();
     }
-    
+
     @Override
     public void validate() {
         this.savedEmailData = new EmailData(this.emailData);
         System.out.println(this.savedEmailData.toString());
-        
+
         if (this.getContextPath() == null) {
             LOGGER.debug("initVars() called from validate() in EmailDataController");
             this.initVars();
         }
 
-        if (this.getCurrentMethod().equals("POST")) {
-            if (this.emailData.getEmail().isEmpty()) {
-                addFieldError("emailData.email", "Testing validation for field 'email'");
-            }
-            if (this.emailData.getFirstName().isEmpty()) {
-                addFieldError("emailData.firstName", "Testing validation for field 'firstName'");
-            }
-            if (this.emailData.getLastName().isEmpty()) {
-                addFieldError("emailData.lastName", "Testing validation for field 'lastName'");
-            } else {
-                System.out.println("lastName => " + this.emailData.getLastName());
+        if (this.getAccept().equals("text/html")) {
+            if (this.getCurrentMethod().equals("POST")) {
+                if (this.emailData.getEmail().isEmpty()) {
+                    addFieldError("emailData.email", "Field 'email' must not be null or empty.");
+                }
+                if (this.emailData.getFirstName().isEmpty()) {
+                    addFieldError("emailData.firstName", "Field 'firstName' must not be null or empty.");
+                }
+                if (this.emailData.getLastName().isEmpty()) {
+                    addFieldError("emailData.lastName", "Field 'lastName' must not be null or empty.");
+                }
             }
         }
-        
-        if(this.hasFieldErrors()) {
-            //this.setEmailData(this.savedEmailData);
-//            this.emailData.setLastName("hello world");
-        }
-
     }
 
     /*
@@ -234,9 +230,7 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
     }
 
     public void setEmailData(EmailData emailData) {
-        System.out.println("setEmailData()");
         System.out.println(emailData.toString());
-        System.out.println("done.");
         this.emailData = emailData;
     }
 
@@ -247,28 +241,4 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
     public void setEmailDataList(List<EmailData> emailDataList) {
         this.emailDataList = emailDataList;
     }
-
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
-//
-//    public String getFirstName() {
-//        return firstName;
-//    }
-//
-//    public void setFirstName(String firstName) {
-//        this.firstName = firstName;
-//    }
-//
-//    public String getLastName() {
-//        return lastName;
-//    }
-//
-//    public void setLastName(String lastName) {
-//        this.lastName = lastName;
-//    }
 }

@@ -27,12 +27,20 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
             <result name="input" type="tiles">emailData_new</result>
             <result name="error_create" type="tiles">emailData_new</result>
             
+            <!-- Accept: application/xml my_common_default.xml -->
+             
+            <!-- Accept: application/json  my_common_default.xml -->
+            
         </action>
 
         <action name="new" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
             <!-- GET /emailData/new --> 
             <result name="success_new" type="tiles">emailData_new</result>
             <result name="error_new" type="tiles">emailData_new</result>
+            
+            <!-- Accept: application/xml my_common_default.xml -->
+             
+            <!-- Accept: application/json  my_common_default.xml -->
         </action>
         
         
@@ -53,9 +61,15 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
             <!--DELETE /emailData/1--> 
             <result name="success_delete" type="redirect">/emailData</result>
             <result name="error_delete" type="tiles">emailData_delete</result>
+            
+            
+            <!-- Accept: application/xml my_common_default.xml -->
+             
+            <!-- Accept: application/json  my_common_default.xml -->
+            
         </action>
-                
-
+        
+        
                 
     </package>
 </struts>        
