@@ -24,6 +24,7 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
             
             <!--POST /emailData--> 
             <result name="success_create" type="redirect">/emailData</result>
+            <result name="input" type="tiles">emailData_new</result>
             <result name="error_create" type="tiles">emailData_new</result>
             
         </action>

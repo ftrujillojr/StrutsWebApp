@@ -15,7 +15,7 @@ public class NoActionController extends CommonActionSupport {
     public NoActionController() {
         super();
     }
-
+    
 //    @Override
 //    public void validate() {
 //        if (this.getContextPath() == null) {

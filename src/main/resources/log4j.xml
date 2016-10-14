@@ -26,6 +26,11 @@
         <appender-ref ref="consoleAppender" />
         <appender-ref ref="rollingFileAppender" />
     </logger>
+    <logger name="org.apache.catalina.loader">
+        <level value="WARN" />
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="rollingFileAppender" />
+    </logger>
     <logger name="org.apache.catalina.session">
         <level value="WARN" />
         <appender-ref ref="consoleAppender" />
@@ -54,12 +59,12 @@
         <appender-ref ref="rollingFileAppender" />
     </logger>
     <logger name="com.mchange">
-        <level value="INFO" />
+        <level value="WARN" />
         <appender-ref ref="consoleAppender" />
         <appender-ref ref="rollingFileAppender" />
     </logger>
     <logger name="com.mchange.v2.c3p0">
-        <level value="INFO" />
+        <level value="WARN" />
         <appender-ref ref="consoleAppender" />
         <appender-ref ref="rollingFileAppender" />
     </logger>

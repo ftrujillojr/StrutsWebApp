@@ -31,6 +31,16 @@ public class EmailData implements Serializable {
 
     public EmailData() {
     }
+    
+    public EmailData(EmailData rhs) {
+        this.id = rhs.getId();
+        this.email = rhs.getEmail();
+        this.firstName = rhs.getFirstName();
+        this.lastName = rhs.getLastName();
+        this.phone = rhs.getPhone();
+        this.age = rhs.getAge();
+        
+    }
 
     @Override
     public String toString() {
@@ -39,7 +49,8 @@ public class EmailData implements Serializable {
         sb.append("       email:").append(this.email).append("\n");
         sb.append("   firstName:").append(this.firstName).append("\n");
         sb.append("    lastName:").append(this.lastName).append("\n");
-        sb.append("       phone:").append(this.phone).append("\n\n");
+        sb.append("       phone:").append(this.phone).append("\n");
+        sb.append("         age:").append(this.age).append("\n\n");
         return sb.toString();
     }
 

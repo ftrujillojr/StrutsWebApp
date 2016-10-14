@@ -1,8 +1,11 @@
 package org.yourorg.yourapp.controllers;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ValidationAware;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -25,7 +28,7 @@ import org.yourorg.yourapp.support.Json2Xml;
 import org.yourorg.yourapp.support.JsonUtils;
 import org.yourorg.yourapp.support.RegExp;
 
-public abstract class CommonActionSupport extends ActionSupport implements SessionAware, ServletContextAware, ServletRequestAware, ServletResponseAware, RestConvention {
+public abstract class CommonActionSupport extends ActionSupport implements ValidationAware, SessionAware, ServletContextAware, ServletRequestAware, ServletResponseAware, RestConvention {
 
     private static boolean debug = false;
     private static final Logger LOGGER = Logger.getLogger(CommonActionSupport.class.getName());
@@ -448,5 +451,33 @@ public abstract class CommonActionSupport extends ActionSupport implements Sessi
         this.responseObject.setData(obj);
         this.initSuccess();
         return this.getResponseType();
+    }
+
+    public static void pushContextToStack(Map<String, Object> context) {
+        ActionContext a = ActionContext.getContext();
+        a.getValueStack().push(context);
+    }
+    
+    public static void pushKeyValToStack(String key, Object obj) {
+        Map<String, Object> context = new HashMap<>();
+        CommonActionSupport.pushContextToStack(context);
+    }
+    
+    public static Object findOnValueStack(String expr) {
+        ActionContext a = ActionContext.getContext();
+        Object value = a.getValueStack().findValue(expr);
+        return value;
+    }
+ 
+    public static Object getTopOfValueStack() {
+        ActionContext a = ActionContext.getContext();
+        Object value = a.getValueStack().peek();
+        return value;
+    }
+ 
+    public static Object getActionName() {
+        ActionContext a = ActionContext.getContext();
+        Object value = a.getName();
+        return value;
     }
 }
