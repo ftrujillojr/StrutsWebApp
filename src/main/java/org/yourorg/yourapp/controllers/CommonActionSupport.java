@@ -127,8 +127,8 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
     }
 
     /**
-     * This method can be overridden in sub class.
-     * Please take the if statement with you as you define in Action controller.
+     * This method can be overridden in sub class. Please take the if statement
+     * with you as you define in Action controller.
      */
     @Override
     public void validate() {
@@ -204,33 +204,42 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
             LOGGER.debug("initVars() called from restDispatch()");
             this.initVars();
         }
+
         switch (this.currentMethod) {
             case ("GET"):
-                if (this.uri.matches(".+/new$")) {
+                System.out.println("URL (GET) => " + this.uri);
+                
+                if (this.uri.matches(".+/new.*")) {
                     this.restMethod = "new";
                     result = this._new();
-                } else if (this.uri.matches(".+/[0-9]+$")) {
-                    this.restMethod = "show";
-                    result = this.show();
-                } else if (this.uri.matches(".+/[0-9]+/edit$")) {
+                } else if (this.uri.matches(".+/[0-9]+/edit[;/]?.*")) {
                     this.restMethod = "edit";
                     result = this.edit();
-                } else {
+                } else if (this.uri.matches(".+/[0-9]+.*")) {
+                    this.restMethod = "show";
+                    result = this.show();
+                }  else if (this.uri.matches(".+")) {
                     this.restMethod = "index";
                     result = this.index();
+                } else {
+                    this.restMethod = "invalid";
+                    result = this.invalid();
                 }
                 break;
             case ("POST"):
+                System.out.println("URL (POST) => " + this.uri);
                 this.restMethod = "create";
                 result = this.create();
                 break;
             case ("PATCH"):
             // PATCH will be the same as PUT.
             case ("PUT"):
+                System.out.println("URL (PUT) => " + this.uri);
                 this.restMethod = "update";
                 result = this.update();
                 break;
             case ("DELETE"):
+                System.out.println("URL (DELETE) => " + this.uri);
                 this.restMethod = "delete";
                 result = this.delete();
                 break;
@@ -319,7 +328,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
     public void setInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
     }
-    
+
     public String getHidden_override_method() {
         return hidden_override_method;
     }
@@ -422,7 +431,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
 //            this.addActionError(sb.toString());
         }
     }
-    
+
     protected final String errorResponse(String message) {
         this.responseObject.setMessage(message);
         this.responseObject.setData(null);
@@ -457,24 +466,24 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
         ActionContext a = ActionContext.getContext();
         a.getValueStack().push(context);
     }
-    
+
     public static void pushKeyValToStack(String key, Object obj) {
         Map<String, Object> context = new HashMap<>();
         CommonActionSupport.pushContextToStack(context);
     }
-    
+
     public static Object findOnValueStack(String expr) {
         ActionContext a = ActionContext.getContext();
         Object value = a.getValueStack().findValue(expr);
         return value;
     }
- 
+
     public static Object getTopOfValueStack() {
         ActionContext a = ActionContext.getContext();
         Object value = a.getValueStack().peek();
         return value;
     }
- 
+
     public static Object getActionName() {
         ActionContext a = ActionContext.getContext();
         Object value = a.getName();

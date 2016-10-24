@@ -165,15 +165,13 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
 
     @Override
     public String edit() {
-        String response;
-
-        if (emailData == null) {
-            response = this.errorResponse("Did you forget to EDIT a json payload or a /ID/edit on the end?  emailData was null.");
-        } else {
-            // Just sending back data inside jsonResponse object.
-            // The jsonResponse object will be serialized to json by struts2. (see struts.xml)
-            response = this.successResponse(this.emailData);
-        }
+        String response = this.successResponse("edit() is just a pass through for HTML MVC side.");
+        return response;
+    }
+    
+    @Override
+    public String invalid() {
+        String response = this.errorResponse("invalid()  METHOD / URL");
         return response;
     }
 

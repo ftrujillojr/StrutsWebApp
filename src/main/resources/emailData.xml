@@ -22,7 +22,7 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
             <result name="success_index" type="tiles">emailData_index</result>
             <result name="error_index" type="tiles">emailData_index</result>
             
-            <!--POST /emailData--> 
+            <!--POST /emailData  or /emailData/ --> 
             <result name="success_create" type="redirect">/emailData</result>
             <result name="input" type="tiles">emailData_new</result>
             <result name="error_create" type="tiles">emailData_new</result>
@@ -34,7 +34,7 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
         </action>
 
         <action name="new" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
-            <!-- GET /emailData/new --> 
+            <!-- GET /emailData/new    PASSTHROUGH --> 
             <result name="success_new" type="tiles">emailData_new</result>
             <result name="error_new" type="tiles">emailData_new</result>
             
@@ -46,12 +46,13 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
         
                 
         <action name="*" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
+            
             <!--GET /emailData/1--> 
             <result name="success_show" type="tiles">emailData_show</result>
             <result name="error_show" type="tiles">emailData_show</result>
             
-            <!--GET /emailData/1/edit--> 
-            <result name="success_edit" type="tiles">emailData_show</result>
+            <!--GET /emailData/1/edit     PASSTHROUGH --> 
+            <result name="success_edit" type="tiles">emailData_edit</result>
             <result name="error_edit" type="tiles">emailData_edit</result>
             
             <!--PUT /emailData/1--> 

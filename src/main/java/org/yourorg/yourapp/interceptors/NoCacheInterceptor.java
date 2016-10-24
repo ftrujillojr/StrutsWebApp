@@ -113,7 +113,7 @@ public class NoCacheInterceptor implements Interceptor {
 
             
             
-            sb.append("\t\t-------------- Headers --------------").append("\n");
+            sb.append("\t\t-------------- REQUEST Headers --------------").append("\n");
 
             Enumeration<String> headerNames = request.getHeaderNames();
             while (headerNames.hasMoreElements()) {
@@ -121,7 +121,7 @@ public class NoCacheInterceptor implements Interceptor {
                 if (headerName.equals("cookie")) {
                     String cookie = request.getHeader("cookie");
                     if (cookie != null) {
-                        sb.append("\t\t\t------------cookies---------------").append("\n");
+                        sb.append("\t\t\t------------REQUEST cookies---------------").append("\n");
                         String[] cookies = cookie.split(";");
                         for (int ii = 0; ii < cookies.length; ii++) {
                             if (cookies[ii] != null) {
@@ -144,13 +144,26 @@ public class NoCacheInterceptor implements Interceptor {
             sb.append("\nRESPONSE:").append("\n");
             sb.append("\t Status: ").append(response.getStatus()).append("\n");
 
-            sb.append("\t\t-------------- Headers --------------").append("\n");
+            sb.append("\t\t-------------- RESPONSE Headers --------------").append("\n");
 
             Collection<String> headerNames = response.getHeaderNames();
             Iterator<String> itr = headerNames.iterator();
             while (itr.hasNext()) {
                 String headerName = itr.next();
-                sb.append("\t\t").append(headerName).append(": ").append(response.getHeader(headerName)).append("\n");
+                if (headerName.equals("Set-Cookie")) {
+                    String cookie = response.getHeader("Set-Cookie");
+                    if (cookie != null) {
+                        sb.append("\t\t\t------------RESPONSE cookies---------------").append("\n");
+                        String[] cookies = cookie.split(";");
+                        for (int ii = 0; ii < cookies.length; ii++) {
+                            if (cookies[ii] != null) {
+                                sb.append("\t\t\t").append(cookies[ii].trim()).append("\n");
+                            }
+                        }
+                    }
+                } else {
+                    sb.append("\t\t").append(headerName).append(": ").append(response.getHeader(headerName)).append("\n");
+                }
             }
             LOGGER.debug(sb.toString());
         }

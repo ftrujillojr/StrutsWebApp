@@ -64,6 +64,9 @@
                 <param name="excludeNullProperties">true</param>  
                 <param name="contentType">application/json</param> 
             </result>
+            
+            <result name="error_invalid">/error/error.jsp</result>
+
         </global-results>
  
         <global-exception-mappings>

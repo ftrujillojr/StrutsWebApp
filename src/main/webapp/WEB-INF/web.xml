@@ -5,9 +5,9 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
  
     <session-config>
-        <session-timeout>
-            600
-        </session-timeout>
+        <session-timeout>600</session-timeout>
+<!--        tracking mode keeps TomCat, Glassfish, JBoss from rewriting URL with ;jsessionid=some_value-->
+        <tracking-mode>COOKIE</tracking-mode>
     </session-config>
     
     <display-name>StrutsWebApp</display-name>

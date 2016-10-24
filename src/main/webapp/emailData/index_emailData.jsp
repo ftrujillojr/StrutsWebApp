@@ -7,6 +7,12 @@ Last restMethod: <s:property value="restMethod"/>
 <s:form namespace="/emailData" action="new" method="GET">
     <button id="new_emailData" type="submit" class="btn btn-secondary">New</button>
 </s:form>
+<s:form namespace="/emailData" action="1" method="GET">
+    <button id="show_emailData" type="submit" class="btn btn-secondary">Show (tmp)</button>
+</s:form>
+<s:form namespace="/emailData" action="1/edit" method="GET">
+    <button id="show_emailData" type="submit" class="btn btn-secondary">Edit (tmp)</button>
+</s:form>
 
 <s:form class="form-horizontal" method="POST" namespace="/ns2" action="home">
     <div class="form-group">

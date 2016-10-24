@@ -64,6 +64,11 @@ public class NoActionController extends CommonActionSupport {
     public String edit() {
         throw new UnsupportedOperationException("edit() Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    @Override
+    public String invalid() {
+        throw new UnsupportedOperationException("invalid() Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public String update() {

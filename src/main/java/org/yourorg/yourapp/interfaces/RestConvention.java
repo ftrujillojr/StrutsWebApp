@@ -8,15 +8,6 @@ public interface RestConvention {
     public String edit();   // GET    /resource/{id}/edit
     public String update(); // PUT    /resource/{id}
     public String delete(); // DELETE /resource/{id}
+    public String invalid(); // any invalid METHOD URL request
 }
 
-
-/*
-    URI              method           responseString     tilesDef        views
-    /resource        GET              success_index      Resource_index   /resource/indexResource.jsp
-    /resource/new    GET              success_new        Resource_new     /resource/newResource.jsp
-
-    VIEWS
-    index     button /resource/new  GET 
-
-*/
