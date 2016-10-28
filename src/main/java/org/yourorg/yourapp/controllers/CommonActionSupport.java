@@ -58,6 +58,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
     private String uri = null;
     private String url = null;
     private String restMethod = null;
+    private Integer id1 = null;
 
     public CommonActionSupport() {
         this.responseObject = new ResponseObject();
@@ -171,6 +172,10 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
                 this.methodOverride = this.httpServletRequest.getHeader("X-HTTP-Method-Override").trim().toUpperCase();
             }
 
+            if (RegExp.isMatch(".+/[a-zA-Z][a-zA-Z0-9_]+/([0-9]+).*", this.uri)) {
+                this.id1 = Integer.parseInt(RegExp.getSubExps().get(1));
+            }
+
             if (this.methodOverride != null) {
                 this.currentMethod = this.methodOverride;
             } else if (this.hidden_override_method != null) {
@@ -189,6 +194,9 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
             sb.append("           url: ").append(this.url).append("\n");
             sb.append("methodOverride: ").append(this.methodOverride).append("\n");
             sb.append(" currentMethod: ").append(this.currentMethod).append("\n\n");
+            if (this.id1 != null) {
+                sb.append("           id1: ").append(this.id1).append("\n\n");
+            }
 
             LOGGER.debug(sb.toString());
         }
@@ -208,17 +216,17 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
         switch (this.currentMethod) {
             case ("GET"):
                 System.out.println("URL (GET) => " + this.uri);
-                
-                if (this.uri.matches(".+/new.*")) {
+
+                if (this.uri.matches(".+/new$")) {
                     this.restMethod = "new";
                     result = this._new();
-                } else if (this.uri.matches(".+/[0-9]+/edit[;/]?.*")) {
+                } else if (this.uri.matches(".+/[0-9]+/edit$")) {
                     this.restMethod = "edit";
                     result = this.edit();
-                } else if (this.uri.matches(".+/[0-9]+.*")) {
+                } else if (this.uri.matches(".+/[0-9]+$")) {
                     this.restMethod = "show";
                     result = this.show();
-                }  else if (this.uri.matches(".+")) {
+                } else if (this.uri.matches(this.contextPath + "/[a-zA-Z]+[a-zA-Z0-9_]*[/]?$")) {
                     this.restMethod = "index";
                     result = this.index();
                 } else {
@@ -228,20 +236,35 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
                 break;
             case ("POST"):
                 System.out.println("URL (POST) => " + this.uri);
-                this.restMethod = "create";
-                result = this.create();
+                if (this.uri.matches(this.contextPath + "/[a-zA-Z]+[a-zA-Z0-9_]*[/]?$")) {
+                    this.restMethod = "create";
+                    result = this.create();
+                } else {
+                    this.restMethod = "invalid";
+                    result = this.invalid();
+                }
                 break;
             case ("PATCH"):
             // PATCH will be the same as PUT.
             case ("PUT"):
                 System.out.println("URL (PUT) => " + this.uri);
-                this.restMethod = "update";
-                result = this.update();
+                if (this.uri.matches(".+/[0-9]+$")) {
+                    this.restMethod = "update";
+                    result = this.update();
+                } else {
+                    this.restMethod = "invalid";
+                    result = this.invalid();
+                }
                 break;
             case ("DELETE"):
                 System.out.println("URL (DELETE) => " + this.uri);
-                this.restMethod = "delete";
-                result = this.delete();
+                if (this.uri.matches(".+/[0-9]+$")) {
+                    this.restMethod = "delete";
+                    result = this.delete();
+                } else {
+                    this.restMethod = "invalid";
+                    result = this.invalid();
+                }
                 break;
             default:
                 String msg = "ERROR: restDispatch() had incorrect METHOD or override => " + this.currentMethod;
@@ -345,6 +368,10 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
         this.restMethod = restMethod;
     }
 
+    public Integer getId1() {
+        return id1;
+    }
+
     /*
 ######   #######   #####   ######   #######  #     #   #####   #######  
 #     #  #        #     #  #     #  #     #  ##    #  #     #  #        
@@ -424,19 +451,10 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
         return l_responseType;
     }
 
-    private void responseObjectToActionError(String response) {
-        if (response.matches("error.*")) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("<pre class=\"bg-danger\">\n").append(JsonUtils.objectToJsonPrettyNoNulls(this.responseObject)).append("</pre>");
-//            this.addActionError(sb.toString());
-        }
-    }
-
     protected final String errorResponse(String message) {
         this.responseObject.setMessage(message);
         this.responseObject.setData(null);
         this.initError();
-        this.responseObjectToActionError(this.getResponseType());
         return this.getResponseType();
     }
 
@@ -444,7 +462,6 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
         this.responseObject.setMessage(null);
         this.responseObject.setData(obj);
         this.initError();
-        this.responseObjectToActionError(this.getResponseType());
         return this.getResponseType();
     }
 
@@ -460,6 +477,21 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
         this.responseObject.setData(obj);
         this.initSuccess();
         return this.getResponseType();
+    }
+
+    public final void displayResponseObjectToJSPIfHTML() {
+        StringBuilder sb = new StringBuilder();
+
+        if (this.responseObject != null && this.getAccept().matches(".*text/html.*")) {
+            if ((this.responseObject.getStatus() < 200 || this.responseObject.getStatus() >= 300)) {
+                sb.append("<pre class=\"bg-danger\">\n").append(JsonUtils.objectToJsonPrettyNoNulls(this.responseObject)).append("</pre>");
+                this.addActionError(sb.toString());
+            } else if ((this.responseObject.getStatus() >= 200 && this.responseObject.getStatus() < 300)) {
+                sb.append("<pre class=\"bg-success\">\n").append(JsonUtils.objectToJsonPrettyNoNulls(this.responseObject)).append("</pre>");
+                this.addActionMessage(sb.toString());
+            }
+        }
+
     }
 
     public static void pushContextToStack(Map<String, Object> context) {

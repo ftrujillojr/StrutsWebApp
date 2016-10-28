@@ -17,36 +17,28 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
     <include file="my_common_default.xml"></include>
     
     <package name="my-email-data-pkg" namespace="/emailData" extends="my-common-default">
-        <action name="" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
+        
+        <!-- restDispatch() in CommonActionSupport.java will route RESTful URLs to methods. -->
+        <action name="**" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
+            <!-- <result name="xml" type="stream">                      DEFINED in  my_common_default.xml -->
+            <!-- <result name="json" type="json">                       DEFINED in  my_common_default.xml -->
+            <!-- <result name="error_invalid">/error/error.jsp</result> DEFINED in  my_common_default.xml  -->
+            
             <!-- GET /emailData -->
             <result name="success_index" type="tiles">emailData_index</result>
             <result name="error_index" type="tiles">emailData_index</result>
             
-            <!--POST /emailData  or /emailData/ --> 
-            <result name="success_create" type="redirect">/emailData</result>
-            <result name="input" type="tiles">emailData_new</result>
-            <result name="error_create" type="tiles">emailData_new</result>
-            
-            <!-- Accept: application/xml my_common_default.xml -->
-             
-            <!-- Accept: application/json  my_common_default.xml -->
-            
-        </action>
-
-        <action name="new" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
             <!-- GET /emailData/new    PASSTHROUGH --> 
             <result name="success_new" type="tiles">emailData_new</result>
             <result name="error_new" type="tiles">emailData_new</result>
             
-            <!-- Accept: application/xml my_common_default.xml -->
-             
-            <!-- Accept: application/json  my_common_default.xml -->
-        </action>
-        
-        
-                
-        <action name="*" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
+            <!--POST /emailData  or /emailData/ --> 
+            <result name="success_create" type="tiles">emailData_index</result>
+            <result name="input" type="tiles">emailData_new</result>
+            <result name="error_create" type="tiles">emailData_new</result>
+
             
+                                    
             <!--GET /emailData/1--> 
             <result name="success_show" type="tiles">emailData_show</result>
             <result name="error_show" type="tiles">emailData_show</result>
@@ -56,17 +48,14 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
             <result name="error_edit" type="tiles">emailData_edit</result>
             
             <!--PUT /emailData/1--> 
-            <result name="success_update" type="redirect">/emailData</result>
+            <result name="success_update" type="tiles">emailData_show</result>
+            <result name="input" type="tiles">emailData_edit</result>
             <result name="error_update" type="tiles">emailData_edit</result>
             
             <!--DELETE /emailData/1--> 
-            <result name="success_delete" type="redirect">/emailData</result>
-            <result name="error_delete" type="tiles">emailData_delete</result>
+            <result name="success_delete" type="tiles">emailData_show</result>
+            <result name="error_delete" type="tiles">emailData_show</result>
             
-            
-            <!-- Accept: application/xml my_common_default.xml -->
-             
-            <!-- Accept: application/json  my_common_default.xml -->
             
         </action>
         

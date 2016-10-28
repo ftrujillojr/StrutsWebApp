@@ -2,16 +2,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <h1>EmailData index</h1>
 
-Last restMethod: <s:property value="restMethod"/>
-
 <s:form namespace="/emailData" action="new" method="GET">
     <button id="new_emailData" type="submit" class="btn btn-secondary">New</button>
 </s:form>
-<s:form namespace="/emailData" action="1" method="GET">
-    <button id="show_emailData" type="submit" class="btn btn-secondary">Show (tmp)</button>
-</s:form>
-<s:form namespace="/emailData" action="1/edit" method="GET">
-    <button id="show_emailData" type="submit" class="btn btn-secondary">Edit (tmp)</button>
+    
+<s:form namespace="/emailData" action="1/afu" method="GET">
+    <button id="afu_emailData" type="submit" class="btn btn-secondary">AFU (tmp)</button>
 </s:form>
 
 <s:form class="form-horizontal" method="POST" namespace="/ns2" action="home">
@@ -33,7 +29,7 @@ Last restMethod: <s:property value="restMethod"/>
                     <tbody>
                         <s:iterator value="emailDataList" status="emailDataStatus">
                             <tr>
-                                <td><s:property value="id"></s:property></td>
+                                <td><s:a namespace="/emailData" action="%{id}"><s:property value="id"></s:property></s:a></td>
                                 <td><s:property value="email"></s:property></td>
                                 <td><s:property value="firstName"></s:property></td>
                                 <td><s:property value="lastName"></s:property></td>

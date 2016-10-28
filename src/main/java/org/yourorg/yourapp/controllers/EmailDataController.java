@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.yourorg.yourapp.models.EmailData;
 
 //public class EmailDataController extends CommonActionSupport implements ModelDriven<EmailData> {
@@ -95,17 +96,6 @@ public class EmailDataController extends CommonActionSupport {
     @Override
     public String _new() {
         String response = this.successResponse("_new() is just a pass through for HTML MVC side.");
-//        try {
-//            this.beginTransaction(10);
-//            // your code
-//            response = this.successResponse("");
-//            this.commitTransaction();
-//        } catch (Exception ex) {
-//            response = this.rollbackTransaction(ex);
-//        } finally {
-//            this.closeSession();
-//        }
-
         return response;
     }
 
@@ -123,7 +113,7 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
 
         System.out.println("emailData => " + this.emailData.toString());
         System.out.println("accept => " + this.getAccept());
-
+        
         int errorCount = 0;
 
         if (this.hasActionErrors()) {
@@ -150,14 +140,19 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
 
     @Override
     public String show() {
-        String response;
+        String response = this.errorResponse("Unable to show() id => " + this.getId1());
 
-        if (emailData == null) {
-            response = this.errorResponse("Did you forget to SHOW a json payload or a /ID on the end?  emailData was null.");
-        } else {
-            // Just sending back data inside jsonResponse object.
-            // The jsonResponse object will be serialized to json by struts2. (see struts.xml)
+        try {
+            this.beginTransaction(10);
+            Criteria cr = this.session.createCriteria(EmailData.class);
+            cr.add(Restrictions.eq("id", this.getId1()));
+            this.emailData = (EmailData)cr.uniqueResult();
             response = this.successResponse(this.emailData);
+            this.commitTransaction();
+        } catch (Exception ex) {
+            response = this.rollbackTransaction(ex);
+        } finally {
+            this.closeSession();
         }
 
         return response;
@@ -165,7 +160,21 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
 
     @Override
     public String edit() {
-        String response = this.successResponse("edit() is just a pass through for HTML MVC side.");
+        String response = this.errorResponse("Unable to edit() id => " + this.getId1());
+
+        try {
+            this.beginTransaction(10);
+            Criteria cr = this.session.createCriteria(EmailData.class);
+            cr.add(Restrictions.eq("id", this.getId1()));
+            this.emailData = (EmailData)cr.uniqueResult();
+            response = this.successResponse(this.emailData);
+            this.commitTransaction();
+        } catch (Exception ex) {
+            response = this.rollbackTransaction(ex);
+        } finally {
+            this.closeSession();
+        }
+        
         return response;
     }
     
@@ -180,20 +189,25 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
         String response;
 
         if (emailData == null) {
-            response = this.errorResponse("Did you forget to PUT a json payload or a /ID on the end?  emailData was null.");
+            response = this.errorResponse("Did you forget to PUT a json payload?  emailData was null.");
         } else {
             // Just sending back data inside jsonResponse object.
             // The jsonResponse object will be serialized to json by struts2. (see struts.xml)
             response = this.successResponse(this.emailData);
         }
-        this.addActionError("Hello World");
-        this.addActionMessage("Action message");
+        
+        this.displayResponseObjectToJSPIfHTML();
+        
         return response;
     }
 
     @Override
     public String delete() {
-        String response = this.successResponse("DELETE was successful.");
+        String response = this.errorResponse("DELETE was NOT successful!!! ***  !!!");
+        
+        
+        this.displayResponseObjectToJSPIfHTML();
+        
         return response;
     }
 
