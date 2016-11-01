@@ -6,6 +6,7 @@ public class ResponseObject {
     private String message;
     private Object data;
     private String method;
+    private String restMethod;
     private String uri;
     /* 
         Do NOT add any List<***>'s here.  JAXb does not like.
@@ -53,5 +54,13 @@ public class ResponseObject {
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    public String getRestMethod() {
+        return restMethod;
+    }
+
+    public void setRestMethod(String restMethod) {
+        this.restMethod = restMethod;
     }
 }

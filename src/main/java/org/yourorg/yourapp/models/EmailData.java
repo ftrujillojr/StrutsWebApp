@@ -46,6 +46,7 @@ public class EmailData implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("EmailData").append("\n");
+        sb.append("          id:").append(this.id).append("\n");
         sb.append("       email:").append(this.email).append("\n");
         sb.append("   firstName:").append(this.firstName).append("\n");
         sb.append("    lastName:").append(this.lastName).append("\n");

@@ -1,11 +1,10 @@
 package org.yourorg.yourapp.controllers;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.yourorg.yourapp.models.EmailData;
@@ -90,6 +89,7 @@ public class EmailDataController extends CommonActionSupport {
             this.closeSession();
         }
 
+        this.displayErrorResponseObjectToJSPIfHTML();
         return response;
     }
 
@@ -111,43 +111,31 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
     public String create() {   // POST  /emailData/
         String response = this.errorResponse("Unable to create() for emailData.");
 
-        System.out.println("emailData => " + this.emailData.toString());
-        System.out.println("accept => " + this.getAccept());
-        
-        int errorCount = 0;
-
-        if (this.hasActionErrors()) {
-            errorCount++;
-        } else if (this.hasActionMessages()) {
-            Collection<String> actionMessages = this.getActionMessages();
-            Iterator<String> itr = actionMessages.iterator();
-            while (itr.hasNext()) {
-                String message = itr.next();
-                if (message.matches(".*[Ee][Rr][Rr][Oo][Rr].*")) {
-                    errorCount++;
-                }
-            }
-        }
-
-        if (errorCount > 0) {
-            response = this.errorResponse(this.emailData);
-        } else {
-            response = this.successResponse(this.emailData);
-        }
-
-        return response;
-    }
-
-    @Override
-    public String show() {
-        String response = this.errorResponse("Unable to show() id => " + this.getId1());
-
         try {
             this.beginTransaction(10);
-            Criteria cr = this.session.createCriteria(EmailData.class);
-            cr.add(Restrictions.eq("id", this.getId1()));
-            this.emailData = (EmailData)cr.uniqueResult();
-            response = this.successResponse(this.emailData);
+            
+            Query query = this.session.createQuery("SELECT count(*) FROM EmailData WHERE email=:EMAIL");
+            query.setString("EMAIL", this.emailData.getEmail());
+            Long numRows = (Long) query.uniqueResult();
+
+            // Insert new row only if no rows exist for EMAIL.
+            if (numRows != null && numRows == 0) {
+                this.emailData.setId(null);        // ensure ID is null.
+                this.session.save(this.emailData); // persist data
+
+                Criteria cr = this.session.createCriteria(EmailData.class);
+                cr.add(Restrictions.eq("email", this.savedEmailData.getEmail()));
+                this.emailData = (EmailData) cr.uniqueResult();
+
+                if (this.emailData != null) {
+                    response = this.successResponse(this.emailData);
+                } else {
+                    response = this.errorResponse("Unable to read back record after create()", this.savedEmailData);
+                }
+            } else {
+                response = this.errorResponse("Row has been inserted for EMAIL already", this.emailData);
+            }
+
             this.commitTransaction();
         } catch (Exception ex) {
             response = this.rollbackTransaction(ex);
@@ -155,6 +143,37 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
             this.closeSession();
         }
 
+        this.displayErrorResponseObjectToJSPIfHTML();
+        return response;
+    }
+
+    @Override
+    public String show() {   // GET /emailData/12
+        String response = this.errorResponse("Unable to show() id => " + this.getId1());
+
+        try {
+            this.beginTransaction(10);
+            Query query = this.session.createQuery("SELECT count(*) FROM EmailData WHERE id=:ID1");
+            query.setInteger("ID1", this.getId1());
+            Long numRows = (Long) query.uniqueResult();
+
+            if (numRows != null && numRows == 1) {
+                Criteria cr = this.session.createCriteria(EmailData.class);
+                cr.add(Restrictions.eq("id", this.getId1()));
+                this.emailData = (EmailData) cr.uniqueResult();
+                response = this.successResponse(this.emailData);
+            } else {
+                response = this.errorResponse("Could not find row with ID " + this.getId1());
+            }
+
+            this.commitTransaction();
+        } catch (Exception ex) {
+            response = this.rollbackTransaction(ex);
+        } finally {
+            this.closeSession();
+        }
+
+        this.displayErrorResponseObjectToJSPIfHTML();
         return response;
     }
 
@@ -164,50 +183,96 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
 
         try {
             this.beginTransaction(10);
-            Criteria cr = this.session.createCriteria(EmailData.class);
-            cr.add(Restrictions.eq("id", this.getId1()));
-            this.emailData = (EmailData)cr.uniqueResult();
-            response = this.successResponse(this.emailData);
+            Query query = this.session.createQuery("SELECT count(*) FROM EmailData WHERE id=:ID1");
+            query.setInteger("ID1", this.getId1());
+            Long numRows = (Long) query.uniqueResult();
+
+            if (numRows != null && numRows == 1) {
+                Criteria cr = this.session.createCriteria(EmailData.class);
+                cr.add(Restrictions.eq("id", this.getId1()));
+                this.emailData = (EmailData) cr.uniqueResult();
+                response = this.successResponse(this.emailData);
+            } else {
+                response = this.errorResponse("Could not find row with ID " + this.getId1());
+            }
+
             this.commitTransaction();
         } catch (Exception ex) {
             response = this.rollbackTransaction(ex);
         } finally {
             this.closeSession();
         }
-        
+
+        this.displayErrorResponseObjectToJSPIfHTML();
         return response;
     }
-    
+
     @Override
     public String invalid() {
-        String response = this.errorResponse("invalid()  METHOD / URL");
+        String response = this.errorResponse("invalid()  METHOD / URL", this.emailData);
+        this.displayErrorResponseObjectToJSPIfHTML();
         return response;
     }
 
     @Override
     public String update() {
-        String response;
+        String response = this.errorResponse("Unable to update() emailData.", this.emailData);
 
-        if (emailData == null) {
-            response = this.errorResponse("Did you forget to PUT a json payload?  emailData was null.");
-        } else {
-            // Just sending back data inside jsonResponse object.
-            // The jsonResponse object will be serialized to json by struts2. (see struts.xml)
-            response = this.successResponse(this.emailData);
+        try {
+            this.beginTransaction(10);
+            Criteria cr = this.session.createCriteria(EmailData.class);
+            cr.add(Restrictions.eq("id", this.getId1()));
+            EmailData recordToUpdate = (EmailData) cr.uniqueResult();
+
+            if (recordToUpdate != null) {
+                recordToUpdate.setEmail(this.emailData.getEmail());
+                recordToUpdate.setFirstName(this.emailData.getFirstName());
+                recordToUpdate.setLastName(this.emailData.getLastName());
+                recordToUpdate.setPhone(this.emailData.getPhone());
+                recordToUpdate.setAge(this.emailData.getAge());
+
+                this.session.update(recordToUpdate);
+                this.emailData = new EmailData(recordToUpdate);
+                response = this.successResponse("Record update() SUCCESS.", this.emailData);
+            } else {
+                response = this.errorResponse("ERROR: There is no record to update().", this.emailData);
+            }
+
+            this.commitTransaction();
+        } catch (Exception ex) {
+            response = this.rollbackTransaction(ex);
+        } finally {
+            this.closeSession();
         }
-        
+
         this.displayResponseObjectToJSPIfHTML();
-        
         return response;
     }
 
     @Override
     public String delete() {
-        String response = this.errorResponse("DELETE was NOT successful!!! ***  !!!");
-        
-        
+        String response = this.errorResponse("delete() FAILED", this.emailData);
+        try {
+            this.beginTransaction(10);
+            Criteria cr = this.session.createCriteria(EmailData.class);
+            cr.add(Restrictions.eq("id", this.getId1()));
+            EmailData recordToDelete = (EmailData) cr.uniqueResult();
+
+            if (recordToDelete != null) {
+                this.session.delete(recordToDelete);
+                response = this.successResponse("delete() SUCCESS for ID " + this.getId1());
+            } else {
+                response = this.errorResponse("There is no record to delete() for ID " + this.getId1());
+            }
+
+            this.commitTransaction();
+        } catch (Exception ex) {
+            response = this.rollbackTransaction(ex);
+        } finally {
+            this.closeSession();
+        }
+
         this.displayResponseObjectToJSPIfHTML();
-        
         return response;
     }
 

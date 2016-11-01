@@ -33,7 +33,7 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
             <result name="error_new" type="tiles">emailData_new</result>
             
             <!--POST /emailData  or /emailData/ --> 
-            <result name="success_create" type="tiles">emailData_index</result>
+            <result name="success_create" type="tiles">emailData_show</result>
             <result name="input" type="tiles">emailData_new</result>
             <result name="error_create" type="tiles">emailData_new</result>
 
@@ -53,7 +53,7 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
             <result name="error_update" type="tiles">emailData_edit</result>
             
             <!--DELETE /emailData/1--> 
-            <result name="success_delete" type="tiles">emailData_show</result>
+            <result name="success_delete" type="tiles">emailData_home</result>
             <result name="error_delete" type="tiles">emailData_show</result>
             
             

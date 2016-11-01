@@ -406,6 +406,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
         }
 
         this.responseObject.setMethod(this.currentMethod);
+        this.responseObject.setRestMethod(this.restMethod);
         this.responseObject.setUri(this.uri);
     }
 
@@ -413,6 +414,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
         this.httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         this.responseObject.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         this.responseObject.setMethod(this.currentMethod);
+        this.responseObject.setRestMethod(this.restMethod);
         this.responseObject.setUri(this.uri);
     }
 
@@ -451,6 +453,13 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
         return l_responseType;
     }
 
+    protected final String errorResponse(String message, Object obj) {
+        this.responseObject.setMessage(message);
+        this.responseObject.setData(obj);
+        this.initError();
+        return this.getResponseType();
+    }
+    
     protected final String errorResponse(String message) {
         this.responseObject.setMessage(message);
         this.responseObject.setData(null);
@@ -468,6 +477,13 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
     protected final String successResponse(String message) {
         this.responseObject.setMessage(message);
         this.responseObject.setData(null);
+        this.initSuccess();
+        return this.getResponseType();
+    }
+    
+    protected final String successResponse(String message, Object obj) {
+        this.responseObject.setMessage(message);
+        this.responseObject.setData(obj);
         this.initSuccess();
         return this.getResponseType();
     }
@@ -493,6 +509,17 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
         }
 
     }
+    
+    public final void displayErrorResponseObjectToJSPIfHTML() {
+        StringBuilder sb = new StringBuilder();
+
+        if (this.responseObject != null && this.getAccept().matches(".*text/html.*")) {
+            if ((this.responseObject.getStatus() < 200 || this.responseObject.getStatus() >= 300)) {
+                sb.append("<pre class=\"bg-danger\">\n").append(JsonUtils.objectToJsonPrettyNoNulls(this.responseObject)).append("</pre>");
+                this.addActionError(sb.toString());
+            } 
+        }
+   }
 
     public static void pushContextToStack(Map<String, Object> context) {
         ActionContext a = ActionContext.getContext();

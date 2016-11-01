@@ -1,9 +1,6 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <s:if test="hasActionErrors()">
-<!--    <div class="bg-danger">
-        <s:actionerror/>
-    </div>-->
     <table id="actionErrorTable" align="center" width="100%">
         <s:iterator value="actionErrors">
             <tr>
@@ -15,9 +12,6 @@
     </table>
 </s:if>
 <s:if test="hasActionMessages()">
-<!--    <div class="bg-warning">
-        <s:actionmessage/>
-    </div>-->
     <table id="actionMessageTable" align="center" width="100%">
         <s:iterator value="actionMessages">
             <tr>
