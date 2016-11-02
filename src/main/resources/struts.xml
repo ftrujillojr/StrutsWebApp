@@ -8,8 +8,6 @@ https://struts.apache.org/docs/result-types.html
 
 chain, freemarker, dispatcher, httpheader, redirect, redirectAction, stream, xslt, tiles, json    
 
-<action name="home" method="noAction" class="org.yourorg.yourapp.controllers.NoAction">
-
 SUCCESS   NONE  ERROR  INPUT  LOGIN
 
 These are the options I used on Apache Tomcat 8.0 startup:
@@ -19,14 +17,11 @@ These are the options I used on Apache Tomcat 8.0 startup:
 <struts>
     <include file="my_common_default.xml"></include>
     <include file="emailData.xml"></include>
-    <include file="ns2.xml"></include>
     
     <package name="my-top-pkg" namespace="/" extends="my-common-default">
-        
         <action name="">
-            <result name="success" type="redirect">/emailData</result>
+            <result name="success" type="redirect">/emailData/home</result>
         </action>
-        
     </package>
 </struts>        
     

@@ -25,9 +25,9 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other pages
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="${pageContext.request.contextPath}/ns2/home">ns2/home</a></li>
-                                <li><a href="${pageContext.request.contextPath}/ns2/dude">ns2/dude</a></li> 
-                                <li><a href="${pageContext.request.contextPath}/css/project.css">css/project.css</a></li> 
+                                <li><a href="${pageContext.request.contextPath}/emailData/home">emailData (Home)</a></li>
+                                <li><a href="${pageContext.request.contextPath}/emailData">emailData (Index)</a></li>
+                                <li><a href="${pageContext.request.contextPath}/css/project.css">project.css</a></li> 
                             </ul>
                         </li>
                     </ul>

@@ -1,13 +1,17 @@
 package org.yourorg.yourapp.controllers;
 
+import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ValidationAware;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -57,11 +61,16 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
     private String queryString = null;
     private String uri = null;
     private String url = null;
-    private String restMethod = null;
+    private String restMethod = "";
     private Integer id1 = null;
+    protected Map<String, String> valFieldErrors = null;
+    protected List<String> valErrors = null;
 
     public CommonActionSupport() {
         this.responseObject = new ResponseObject();
+        this.valFieldErrors = new LinkedHashMap<>();
+        this.valErrors = new ArrayList<>();
+        TimeZone.setDefault(TimeZone.getTimeZone("Etc/UTC"));
     }
 
     protected final void beginTransaction(int timeout) {
@@ -459,7 +468,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
         this.initError();
         return this.getResponseType();
     }
-    
+
     protected final String errorResponse(String message) {
         this.responseObject.setMessage(message);
         this.responseObject.setData(null);
@@ -480,7 +489,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
         this.initSuccess();
         return this.getResponseType();
     }
-    
+
     protected final String successResponse(String message, Object obj) {
         this.responseObject.setMessage(message);
         this.responseObject.setData(obj);
@@ -509,7 +518,7 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
         }
 
     }
-    
+
     public final void displayErrorResponseObjectToJSPIfHTML() {
         StringBuilder sb = new StringBuilder();
 
@@ -517,9 +526,14 @@ public abstract class CommonActionSupport extends ActionSupport implements Valid
             if ((this.responseObject.getStatus() < 200 || this.responseObject.getStatus() >= 300)) {
                 sb.append("<pre class=\"bg-danger\">\n").append(JsonUtils.objectToJsonPrettyNoNulls(this.responseObject)).append("</pre>");
                 this.addActionError(sb.toString());
-            } 
+            }
         }
-   }
+    }
+
+    public final String noAction() {
+        this.initVars();
+        return Action.SUCCESS;
+    }
 
     public static void pushContextToStack(Map<String, Object> context) {
         ActionContext a = ActionContext.getContext();

@@ -8,8 +8,6 @@ https://struts.apache.org/docs/result-types.html
 
 chain, freemarker, dispatcher, httpheader, redirect, redirectAction, stream, xslt, tiles, json    
 
-<action name="home" method="noAction" class="org.yourorg.yourapp.controllers.NoAction">
-
 SUCCESS   NONE  ERROR  INPUT  LOGIN
 -->
  
@@ -18,6 +16,10 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
     
     <package name="my-email-data-pkg" namespace="/emailData" extends="my-common-default">
         
+        <action name="home" method="noAction" class="org.yourorg.yourapp.controllers.EmailDataController">
+            <result name="success" type="tiles">emailData_home</result>
+        </action>
+                
         <!-- restDispatch() in CommonActionSupport.java will route RESTful URLs to methods. -->
         <action name="**" method="restDispatch" class="org.yourorg.yourapp.controllers.EmailDataController">
             <!-- <result name="xml" type="stream">                      DEFINED in  my_common_default.xml -->
@@ -34,10 +36,10 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
             
             <!--POST /emailData  or /emailData/ --> 
             <result name="success_create" type="tiles">emailData_show</result>
-            <result name="input" type="tiles">emailData_new</result>
+            <result name="input_create" type="tiles">emailData_new</result>
             <result name="error_create" type="tiles">emailData_new</result>
 
-            
+            <result name="input" type="tiles">emailData_home</result>
                                     
             <!--GET /emailData/1--> 
             <result name="success_show" type="tiles">emailData_show</result>
@@ -49,18 +51,13 @@ SUCCESS   NONE  ERROR  INPUT  LOGIN
             
             <!--PUT /emailData/1--> 
             <result name="success_update" type="tiles">emailData_show</result>
-            <result name="input" type="tiles">emailData_edit</result>
+            <result name="input_update" type="tiles">emailData_edit</result>
             <result name="error_update" type="tiles">emailData_edit</result>
             
             <!--DELETE /emailData/1--> 
             <result name="success_delete" type="tiles">emailData_home</result>
             <result name="error_delete" type="tiles">emailData_show</result>
-            
-            
         </action>
-        
-        
-                
     </package>
 </struts>        
     

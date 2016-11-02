@@ -1,6 +1,6 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<h1>EmailData Show</h1>
+<h1>EmailData Show!</h1>
 <h2><s:property value="%{restMethod}"></s:property></h2>
 <s:form class="form-horizontal" namespace="/emailData" action="%{emailData.id}/edit" method="GET">
     <%@include file="/emailData/common_emailData.jsp" %>

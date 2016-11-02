@@ -50,3 +50,19 @@
         <s:fielderror class="bg-danger" fieldName="emailData.age"/>
     </div>
 </div>
+<s:if test="%{restMethod.equals('new')==false}">
+<div class="form-group">
+    <label for="modifiedDateTime" class="control-label col-xs-12 col-sm-3 text-left">ModifiedDateTime:</label>
+    <div class="col-xs-3 col-sm-4">
+        <s:textfield name="emailData.modifiedDateTimeString" type="text" class="form-control" id="modifiedDateTime" readonly="true"/>
+        <s:fielderror class="bg-danger" fieldName="emailData.modifiedDateTimeString"/>
+    </div>
+</div>
+<div class="form-group">
+    <label for="createdDateTime" class="control-label col-xs-12 col-sm-3 text-left">CreatedDateTime:</label>
+    <div class="col-xs-3 col-sm-4">
+        <s:textfield name="emailData.createdDateTimeString" type="text" class="form-control" id="createdDateTime" readonly="true"/>
+        <s:fielderror class="bg-danger" fieldName="emailData.createdDateTimeString"/>
+    </div>
+</div>
+</s:if>

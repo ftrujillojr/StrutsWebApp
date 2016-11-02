@@ -1,12 +1,18 @@
 package org.yourorg.yourapp.models;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import org.yourorg.yourapp.exceptions.DateUtilsException;
+import org.yourorg.yourapp.support.DateUtils;
 
 @Entity
 @Table(name = "EmailData")
@@ -28,6 +34,13 @@ public class EmailData implements Serializable {
     private String phone;
     @Column(name = "age", nullable = true)
     private Integer age;
+    @Column(name = "modifiedDateTime", nullable = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date modifiedDateTime;
+    @Column(name = "createdDateTime", nullable = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDateTime;
+    
 
     public EmailData() {
     }
@@ -39,19 +52,22 @@ public class EmailData implements Serializable {
         this.lastName = rhs.getLastName();
         this.phone = rhs.getPhone();
         this.age = rhs.getAge();
-
+        this.modifiedDateTime = rhs.getModifiedDateTime();
+        this.createdDateTime = rhs.getCreatedDateTime();
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("EmailData").append("\n");
-        sb.append("          id:").append(this.id).append("\n");
-        sb.append("       email:").append(this.email).append("\n");
-        sb.append("   firstName:").append(this.firstName).append("\n");
-        sb.append("    lastName:").append(this.lastName).append("\n");
-        sb.append("       phone:").append(this.phone).append("\n");
-        sb.append("         age:").append(this.age).append("\n\n");
+        sb.append("              id:").append(this.id).append("\n");
+        sb.append("           email:").append(this.email).append("\n");
+        sb.append("       firstName:").append(this.firstName).append("\n");
+        sb.append("        lastName:").append(this.lastName).append("\n");
+        sb.append("           phone:").append(this.phone).append("\n");
+        sb.append("             age:").append(this.age).append("\n");
+        sb.append("modifiedDateTime:").append(this.getModifiedDateTimeString()).append("\n");
+        sb.append(" createdDatetime:").append(this.getCreatedDateTimeString()).append("\n\n");
         return sb.toString();
     }
 
@@ -101,5 +117,37 @@ public class EmailData implements Serializable {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Date getModifiedDateTime() {
+        return modifiedDateTime;
+    }
+
+    public void setModifiedDateTime(Date modifiedDateTime) {
+        this.modifiedDateTime = modifiedDateTime;
+    }
+
+    public Date getCreatedDateTime() {
+        return createdDateTime;
+    }
+
+    public void setCreatedDateTime(Date createdDateTime) {
+        this.createdDateTime = createdDateTime;
+    }
+    
+    public String getCreatedDateTimeString() {
+        return DateUtils.getProjectDateString(createdDateTime);
+    }
+
+    public void setCreatedDateTimeString(String createdDateTime) throws ParseException, DateUtilsException {
+        this.createdDateTime = DateUtils.parse(createdDateTime);
+    }
+    
+    public String getModifiedDateTimeString() {
+        return DateUtils.getProjectDateString(modifiedDateTime);
+    }
+    
+    public void setModifiedDateTimeString(String modifiedDateTime) throws ParseException, DateUtilsException {
+        this.modifiedDateTime = DateUtils.parse(modifiedDateTime);
     }
 }

@@ -46,8 +46,8 @@
         
         <global-results>
             <result name="jsonException">/error/JSONException.jsp</result>
-            <result name="exception">/error/exception.jsp</result>
-            <result name="runtime_exception">/error/runtime_exception.jsp</result>
+<!--            <result name="exception">/error/exception.jsp</result>
+            <result name="runtime_exception">/error/runtime_exception.jsp</result>-->
             <result name="error">/error/error.jsp</result>
             <result name="login">/login.jsp</result>
             
@@ -77,7 +77,7 @@
         </global-exception-mappings>
 
         <!--  See default-action-ref ABOVE -->
-        <action name="noAction">
+        <action name="noAction" method="noAction" class="org.yourorg.yourapp.controllers.EmailDataController">
             <interceptor-ref name="defaultStack" />
             <result name="success">/error/no_action.jsp</result>
         </action>

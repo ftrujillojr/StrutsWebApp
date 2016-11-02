@@ -1,6 +1,7 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<h1>EmailData Edit</h1>
+<h1>EmailData Edit!</h1>
+<h2><s:property value="%{restMethod}"></s:property></h2>
 <s:form namespace="/emailData" action="%{emailData.id}" method="GET">
     <button id="cancelButton" type="submit" class="btn btn-secondary">Cancel Edit</button>
 </s:form>

@@ -1,6 +1,8 @@
 package org.yourorg.yourapp.controllers;
 
+import com.opensymphony.xwork2.Action;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -8,6 +10,7 @@ import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.yourorg.yourapp.models.EmailData;
+import org.yourorg.yourapp.support.DateUtils;
 
 //public class EmailDataController extends CommonActionSupport implements ModelDriven<EmailData> {
 public class EmailDataController extends CommonActionSupport {
@@ -27,28 +30,33 @@ public class EmailDataController extends CommonActionSupport {
         this.emailDataList = new ArrayList<>();
     }
 
+    // http://struts.apache.org/docs/validation.html
     @Override
     public void validate() {
         this.savedEmailData = new EmailData(this.emailData);
         System.out.println(this.savedEmailData.toString());
 
         if (this.getContextPath() == null) {
-            LOGGER.debug("initVars() called from validate() in EmailDataController");
+            LOGGER.debug("initVars() called from validate_create() in EmailDataController");
             this.initVars();
         }
 
         if (this.getAccept().equals("text/html")) {
-            if (this.getCurrentMethod().equals("POST")) {
+            if (this.getCurrentMethod().equals("POST") || this.getCurrentMethod().equals("PUT")) {
                 if (this.emailData.getEmail().isEmpty()) {
-                    addFieldError("emailData.email", "Field 'email' must not be null or empty.");
+                    this.valFieldErrors.put("emailData.email", "Field 'email' must not be null or empty.");
                 }
                 if (this.emailData.getFirstName().isEmpty()) {
-                    addFieldError("emailData.firstName", "Field 'firstName' must not be null or empty.");
+                    this.valFieldErrors.put("emailData.firstName", "Field 'firstName' must not be null or empty.");
                 }
                 if (this.emailData.getLastName().isEmpty()) {
-                    addFieldError("emailData.lastName", "Field 'lastName' must not be null or empty.");
+                    this.valFieldErrors.put("emailData.lastName", "Field 'lastName' must not be null or empty.");
                 }
             }
+        }
+
+        if (this.valFieldErrors.size() > 0) {
+            this.valErrors.add("Please fix and resubmit.");
         }
     }
 
@@ -111,9 +119,22 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
     public String create() {   // POST  /emailData/
         String response = this.errorResponse("Unable to create() for emailData.");
 
+        if (this.valFieldErrors.size() > 0 || this.valErrors.size() > 0) {
+            for (String key : this.valFieldErrors.keySet()) {
+                String val = this.valFieldErrors.get(key);
+                addFieldError(key, val);
+            }
+
+            for (String val : this.valErrors) {
+                addActionError(val);
+            }
+            this.setRestMethod("new"); // display page as a "new" page
+            return Action.INPUT + "_create";  // this is for emailData.xml routes
+        }
+
         try {
             this.beginTransaction(10);
-            
+
             Query query = this.session.createQuery("SELECT count(*) FROM EmailData WHERE email=:EMAIL");
             query.setString("EMAIL", this.emailData.getEmail());
             Long numRows = (Long) query.uniqueResult();
@@ -121,6 +142,8 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
             // Insert new row only if no rows exist for EMAIL.
             if (numRows != null && numRows == 0) {
                 this.emailData.setId(null);        // ensure ID is null.
+                this.emailData.setCreatedDateTime(new Date());
+                this.emailData.setModifiedDateTime(new Date());
                 this.session.save(this.emailData); // persist data
 
                 Criteria cr = this.session.createCriteria(EmailData.class);
@@ -218,6 +241,19 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
     public String update() {
         String response = this.errorResponse("Unable to update() emailData.", this.emailData);
 
+        if (this.valFieldErrors.size() > 0 || this.valErrors.size() > 0) {
+            for (String key : this.valFieldErrors.keySet()) {
+                String val = this.valFieldErrors.get(key);
+                addFieldError(key, val);
+            }
+
+            for (String val : this.valErrors) {
+                addActionError(val);
+            }
+            this.setRestMethod("edit"); // display page as an "edit" page.
+            return Action.INPUT + "_update";  // this is for emailData.xml routes
+        }
+
         try {
             this.beginTransaction(10);
             Criteria cr = this.session.createCriteria(EmailData.class);
@@ -225,15 +261,24 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
             EmailData recordToUpdate = (EmailData) cr.uniqueResult();
 
             if (recordToUpdate != null) {
-                recordToUpdate.setEmail(this.emailData.getEmail());
-                recordToUpdate.setFirstName(this.emailData.getFirstName());
-                recordToUpdate.setLastName(this.emailData.getLastName());
-                recordToUpdate.setPhone(this.emailData.getPhone());
-                recordToUpdate.setAge(this.emailData.getAge());
-
-                this.session.update(recordToUpdate);
-                this.emailData = new EmailData(recordToUpdate);
-                response = this.successResponse("Record update() SUCCESS.", this.emailData);
+                if (DateUtils.areDatesEqualToMillisecond(this.emailData.getModifiedDateTime(), recordToUpdate.getModifiedDateTime())) {
+                    recordToUpdate.setEmail(this.emailData.getEmail());
+                    recordToUpdate.setFirstName(this.emailData.getFirstName());
+                    recordToUpdate.setLastName(this.emailData.getLastName());
+                    recordToUpdate.setPhone(this.emailData.getPhone());
+                    recordToUpdate.setAge(this.emailData.getAge());
+                    recordToUpdate.setModifiedDateTime(new Date());
+                    this.session.update(recordToUpdate);  // persist data
+                    this.emailData = new EmailData(recordToUpdate);  // make MODIFIED row available to web page
+                    response = this.successResponse("Record update() SUCCESS.", this.emailData);
+                } else {
+                    this.emailData = new EmailData(recordToUpdate); // make UN-MODIFIED row available to web page.
+                    response = this.errorResponse("Row has been updated since your last read", this.emailData);
+                    addActionError("Re-submit your changes now that record has been re-read.");
+                    addFieldError("emailData.modifiedDateTime", this.responseObject.getMessage());
+                    this.setRestMethod("edit"); // display page as an "edit" page.
+                    return Action.INPUT + "_update";  // this is for emailData.xml routes
+                }
             } else {
                 response = this.errorResponse("ERROR: There is no record to update().", this.emailData);
             }
@@ -254,7 +299,8 @@ http://nsglnxdev1:8085/StrutsWebApp/emailData/
         String response = this.errorResponse("delete() FAILED", this.emailData);
         try {
             this.beginTransaction(10);
-            Criteria cr = this.session.createCriteria(EmailData.class);
+            Criteria cr = this.session.createCriteria(EmailData.class
+            );
             cr.add(Restrictions.eq("id", this.getId1()));
             EmailData recordToDelete = (EmailData) cr.uniqueResult();
 

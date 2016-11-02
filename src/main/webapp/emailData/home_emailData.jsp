@@ -1,6 +1,7 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<h1>EmailData Home</h1>
+<h1>EmailData Home!</h1>
+<h2><s:property value="%{restMethod}"></s:property></h2>
 <s:form id="indexForm" namespace="/emailData" action="" method="GET">
     <div class="form-group">
         <div class="col-xs-12 col-sm-9 col-sm-offset-0">

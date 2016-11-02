@@ -1,7 +1,7 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <h1>EmailData index</h1>
-
+<h2><s:property value="%{restMethod}"></s:property></h2>
 <s:form namespace="/emailData" action="new" method="GET">
     <button id="new_emailData" type="submit" class="btn btn-secondary">New</button>
 </s:form>
@@ -15,7 +15,7 @@
         <div class="col-xs-12">
             <s:if test='emailDataList != null && emailDataList.size() > 0'>
                 <table id="emailDataListTable" class = "table table-striped">
-                    <caption>Striped Table Layout</caption>
+<!--                    <caption>Striped Table Layout</caption>-->
                     <thead>
                         <tr>
                             <th>id</th>
@@ -24,6 +24,8 @@
                             <th>lastName</th>
                             <th>phone</th>
                             <th>age</th>
+                            <th>modifiedDateTime</th>
+                            <th>createdDateTime</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,6 +37,8 @@
                                 <td><s:property value="lastName"></s:property></td>
                                 <td><s:property value="phone"></s:property></td>
                                 <td><s:property value="age"></s:property></td>
+                                <td><s:property value="modifiedDateTimeString"></s:property></td>
+                                <td><s:property value="createdDateTimeString"></s:property></td>
                                 </tr>
                         </s:iterator> 
                     </tbody>

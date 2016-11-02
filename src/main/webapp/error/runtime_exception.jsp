@@ -19,6 +19,7 @@
             $(document).ready(function ($) {
                 // your code here.
                 // alert("javscript works!!");
+                $("body").css({"padding-top": "5px"});
             });
 
             $(window).load(function () {
@@ -27,4 +28,3 @@
         </script>
     </body>
 </html>
-    

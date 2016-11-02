@@ -1,11 +1,10 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<h1>EmailData New</h1>
+<h1>EmailData New!</h1>
+<h2><s:property value="%{restMethod}"></s:property></h2>
 <s:form namespace="/emailData" action="" method="GET">
     <button id="cancel_new_emailData" type="submit" class="btn btn-secondary">Cancel New</button>
 </s:form>
-
-<!--<h2><s:property value="restMethod"></s:property></h2>-->
 
 <s:form class="form-horizontal" method="POST" namespace="/emailData" action="">
 
